@@ -118,7 +118,7 @@
                                                     <td>
                                                         <form action="MilestoneListServlet?go=updateStatus" method="Post">
                                                             <input type="hidden" name="mileId" value="${o.milestone_id}">
-                                                            <select id ="status" name="status" onchange="this.form.submit()">
+                                                            <select class="form-control form-control-user" id ="status" name="status" onchange="this.form.submit()">
                                                                 <option value="1" ${o.status == 1 ? "selected" : ""}>Open</option>
                                                                 <option value="2" ${o.status == 2 ? "selected" : ""}>Closed</option>
                                                                 <option value="3" ${o.status == 3 ? "selected" : ""}>Cancelled</option>

@@ -54,17 +54,17 @@
                             <h1 style="font-weight: bold" class="h3 mb-2 text-gray-800"> Criteria List</h1>
                             <ul class="spbw" id="filtera" >  
 
-                                <li>  <form action="CriteriaSearch" method="POST">
+                                <form action="CriteriaSearch" method="POST" style="display: flex; flex-direction: row" >
 
                                         <label for="subject_id"></label>
-                                        <select class="SelectDrop" name="subject" id="subject">
+                                        <select class="form-control form-control-user" class="SelectDrop" name="subject" id="subject">
                                             <option value="all">All Subject</option>
                                         <c:forEach var="o" items="${subjectList}">
                                             <option value="${o.subject_id}" ${Id==o.subject_id ? "selected" : ""}>${o.subject_name}</option>
                                         </c:forEach>
 
                                     </select>
-                                    <input  type="text" name="searchName"  placeholder="Search Iteration and Loc" value="${txtSearch}">
+                                    <input  class="form-control form-control-user" type="text" name="searchName"  placeholder="Search Iteration and Loc" value="${txtSearch}">
                                     <input type="submit" value="Search" name="submit"  style="
                                            background: #0073ca;
                                            border-radius: .35rem;
@@ -77,8 +77,7 @@
 
                             <div class="card-body">
                                 <div class="table-responsive">
-
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <table class="table table-bordered sentable" id="dataTable" width="100%" cellspacing="0">
 
                                         <thead>
                                             <tr>

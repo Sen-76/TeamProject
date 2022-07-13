@@ -31,7 +31,7 @@
 
         <!-- Custom styles for this page -->
         <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-        <link href="css/CaiNayCuaThanh.css" rel="stylesheet">
+        <link href="css/SenCss.css" rel="stylesheet">
 
     </head>
     <body id="page-top">
@@ -88,7 +88,7 @@
                                                 <th>Setting Value</th>
                                                 <th>Display Order</th>
                                                 <th>Status</th>
-                                                <th>Options</th>
+                                                <th colspan="2">Options</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
@@ -100,7 +100,7 @@
                                                 <th>Setting Value</th>
                                                 <th>Display Order</th>
                                                 <th>Status</th>
-                                                <th>Options</th>
+                                                <th colspan="2">Options</th>
                                             </tr>
                                         </tfoot>
                                         <tbody>

@@ -1,0 +1,205 @@
+package DAO;
+
+import ConnectDB.ConnectJDBC;
+import Enitiy.Iteration;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author Admin
+ */
+public class DAOIteration extends ConnectJDBC {
+
+    Connection conn = ConnectJDBC.getConnection();
+
+    ResultSet rs = null;
+    PreparedStatement ps = null;
+
+    public int addIteration(Iteration it) {
+        int n = 0;
+        String sql = "insert into iteration(subject_id, iteration_name, duration, status)\n"
+                + "values(?, ?, ?, ? )";
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, it.getSubject_id());
+            ps.setString(2, it.getIteration_name());
+            ps.setString(3, it.getDuration());
+            ps.setInt(4, it.getStatus());
+            n = ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return n;
+    }
+
+    public List<Iteration> viewIteration(String pt) {
+        List<Iteration> list = new ArrayList<>();
+        String sql = "SELECT * FROM iteration it inner join subject sub \n"
+                + "on it.subject_id = sub.subject_id\n"
+                + "order by it.iteration_id\n"
+                + "LIMIT 10 OFFSET " + pt;
+        ResultSet rs = getData(sql);
+        try {
+            while (rs.next()) {
+                list.add(new Iteration(rs.getInt(1), rs.getInt(2), rs.getString(7), rs.getString(3), rs.getString(4), rs.getInt(5)));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
+    public int updateIteration(Iteration it) {
+        int n = 0;
+        String sql = "update iteration \n"
+                + "set iteration_name = ?, duration = ?, status = ?\n"
+                + "where iteration_id = ? and subject_id = ?";
+        try {
+            ps = conn.prepareStatement(sql);
+
+            ps.setString(1, it.getIteration_name());
+            ps.setString(2, it.getDuration());
+            ps.setInt(3, it.getStatus());
+            ps.setInt(4, it.getIteration_id());
+            ps.setInt(5, it.getSubject_id());
+
+            n = ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return n;
+    }
+
+    public List<Iteration> searchByID() {
+        List<Iteration> list = new ArrayList<>();
+        String sql = "SELECT distinct it.subject_id, sub.subject_code FROM iteration it\n"
+                + "inner join subject sub \n"
+                + "on it.subject_id = sub.subject_id\n"
+                + "order by subject_id ";
+        ResultSet rs = getData(sql);
+        try {
+            while (rs.next()) {
+                list.add(new Iteration(rs.getInt(1), rs.getString(2)));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Iteration> searchByID1(String id) {
+        List<Iteration> list = new ArrayList<>();
+        String sql = "SELECT * FROM iteration it inner join subject sub\n"
+                + "on it.subject_id = sub.subject_id\n"
+                + "where it.subject_id = "+id+"\n"
+                + "order by it.subject_id";
+        ResultSet rs = getData(sql);
+        try {
+            while (rs.next()) {
+                list.add(new Iteration(rs.getInt(1),rs.getInt(2) ,rs.getString(7), rs.getString(3), rs.getString(4), rs.getInt(5)));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Iteration> searchByIteName(String name) {
+        List<Iteration> list = new ArrayList<>();
+        String sql = "SELECT * FROM iteration it inner join subject sub \n"
+                + "on it.subject_id = sub.subject_id\n"
+                + "where iteration_name like '%" + name + "%'"
+                + "order by it.iteration_id\n";
+        ResultSet rs = getData(sql);
+        try {
+            while (rs.next()) {
+                list.add(new Iteration(rs.getInt(1), rs.getString(7), rs.getString(3), rs.getString(4), rs.getInt(5)));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Iteration> viewSubCode() {
+        List<Iteration> list = new ArrayList<>();
+        String sql = "SELECT distinct it.subject_id, subject_code FROM subject sub inner join iteration it on sub.subject_id = it.subject_id";
+        ResultSet rs = getData(sql);
+        try {
+            while (rs.next()) {
+                list.add(new Iteration(rs.getInt(1), rs.getString(2)));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Iteration> searchIteration(String subId, String name) {
+        List<Iteration> list = new ArrayList<>();
+        String sql = "SELECT * FROM iteration it inner join subject sub \n"
+                + "on it.subject_id = sub.subject_id\n"
+                + "where it.subject_id = " + subId + " and it.iteration_name like '%" + name + "%'"
+                + "order by it.iteration_id\n";
+        ResultSet rs = getData(sql);
+        try {
+            while (rs.next()) {
+                list.add(new Iteration(rs.getInt(1), rs.getInt(2), rs.getString(7), rs.getString(3), rs.getString(4), rs.getInt(5)));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
+    public Iteration updateByIteIdAndSubId(String iteId, String subId) {
+        String sql = "SELECT  * FROM iteration i inner join subject s on i.subject_id = s.subject_id\n"
+                + "where i.iteration_id = " + iteId + " and s.subject_id = " + subId;
+        ResultSet rs = getData(sql);
+        try {
+            if (rs.next()) {
+                return new Iteration(rs.getInt(1), rs.getInt(2), rs.getString(7), rs.getString(3), rs.getString(4), rs.getInt(5));
+
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    public int countIte() {
+        String sql = "SELECT count(*) FROM iteration";
+        ResultSet rs = getData(sql);
+        try {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static void main(String[] args) {
+        DAOIteration dao = new DAOIteration();
+//        Iteration ite = dao.updateByIteIdAndSubId("3", "1");
+//        System.out.println(ite);
+//        int n = dao.updateIteration(new Iteration(1, 1, "11", "11", 2));
+//        if (n > 0) {
+//            System.out.println("chay dc");
+//        }
+        List<Iteration> list = dao.searchIteration("1","a");
+        for (Iteration temp : list) {
+            System.out.println(temp);
+        }
+    }
+}

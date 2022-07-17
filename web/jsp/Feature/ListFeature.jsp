@@ -21,6 +21,8 @@
         <link href="css/sb-admin-2.min.css" rel="stylesheet">
         <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
         <link rel="icon" href="img/cai nay hoi la.png" type="image/gif" sizes="16x16">
+        <link href="css/SenCss.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
         <link href="css/PhanhCss.css" rel="stylesheet">
         <!-- Need copy for use alert-->
         <link rel="stylesheet" href="fnon.min.css">
@@ -48,130 +50,146 @@
                         <!-- End of Topbar -->
                         <!-- Begin Page Content -->
                         <div class="container-fluid">          
+                            <h1 style="font-weight: bold" class="h3 mb-2 text-gray-800"> Feature List</h1>
+                            <ul class="spbw" id="filtera" > 
 
-                            <h1 style="font-weight: bold;margin-left: 25px" class="h3 mb-2 text-gray-800"> Feature List</h1>
-                            <div>   
-                                <form action="FeatureSearch" method="POST">                  
-                                    
-                                    <input style ="margin-left: 600px" type="text" name="searchName"  placeholder="Search feature name" value="${txtSearch}">
-                                    <input type="submit" value="Search" name="submit" >
-                                    </form>
-                                    </div>
-                                    <div style="color:lime;margin-left: 20px">${msg}</div>
-                                    <!-- DataTales Example -->
-                                    <div class="card shadow mb-4">
+                                <li>  <form action="FeatureSearch" method="POST">  
 
-                                        <div class="card-body">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                                    <form action ="FeatureDetail" method="post">
-                                                        <a style=""class="AddHere" href="FeatureDetail?go=add">Add New Here</a>
-                                                    </form>                           
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Feature</th>
-                                                            <th>Team</th>
-                                                            <th>Class</th>                                                     
-                                                            <th>Status</th>
-                                                            <th>Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <c:forEach var="o" items="${FeatureList}">
+                                        <li> <form action="FeatureSearch" method="POST">  
+
+                                                <label for="class_id"></label>
+                                                <select class="SelectDrop" name="class" id="">
+                                                    <option value="all">All Class</option>
+                                                <c:forEach var="o" items="${ClassList}">
+                                                    <option value="${o.team_id}" ${Id==o.team_id ? "selected" : ""}>${o.team_name}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <label for="team_id"></label>
+                                            <select class="SelectDrop" name="team" id="">
+                                                <option value="all">All Team</option>
+                                                <c:forEach var="o" items="${TeamList}">
+                                                    <option value="${o.team_id}" ${Id==o.team_id ? "selected" : ""}>${o.team_name}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <input style ="" type="text" name="searchName"  placeholder="Search feature name" value="${txtSearch}">
+                                            <input style="
+                                                   background: #0073ca;
+                                                   border-radius: .35rem;
+                                                   color: white;
+                                                   "type="submit" value="Search" name="submit" >
+                                        </form>
+                                        </ul> 
+                                        <a id="add" style="" type="submit" href="FeatureDetail?go=add" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"/>Add new feature</a>
+
+                                        <!-- DataTales Example -->
+                                        <div class="card shadow mb-4">
+                                            <div class="card-header py-3">                           
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+
+                                                        <thead>
                                                             <tr>
-                                                                <td visibility: hidden>${o.feature_id}</td>
-                                                                <td>${o.feature_name}</td>
-                                                                <td visibility: hidden>${o.team_id}</td>  
-                                                                <td>${o.team_name}</td>
-                                                                <td>${o.class_code}</td>                                 
-                                                                <td>
-                                                                    <c:if test="${o.status == 1}">
-                                                                        <% out.print("Active"); %>
-                                                                    </c:if>
-                                                                    <c:if test="${o.status == 2}">
-                                                                        <% out.print("Deactive"); %>
-                                                                    </c:if>
-                                                                </td>
-                                                                <td>
-                                                                    <a class="EditLink" href="FeatureDetail?go=Update&fid=${o.feature_id}&Tid=${o.team_id}">Edit</a>
-                                                                    <form action="FeatureList" method="POST" >
-                                                                        <input type="hidden" name="go" value="updateStatus">
-                                                                        <c:if test="${o.status == 2}">
-                                                                            <input type="hidden" name="featureId" value="${o.feature_id}" readonly>
-                                                                            <input onclick="return confirm('Do you sure want to change?')" class="EditLink" type="submit" name="submit" value="Active">
-                                                                        </c:if>
-                                                                        <c:if test="${o.status == 1}">
-                                                                            <input type="hidden" name="featureId" value="${o.feature_id}" readonly>
-                                                                            <input onclick="return confirm('Do you sure want to change?')" class="EditLink" type="submit" name="submit" value="Deactive">
-                                                                        </c:if>
-                                                                    </form>   
-                                                                </td>
-                                                            </tr>                    
+                                                                <th>Class</th>
+                                                                <th>Team</th>
+                                                                <th>Feature</th>                                                   
+                                                                <th>Status</th>
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <c:forEach var="o" items="${FeatureList}">
+                                                                <tr>
+                                                                    <td visibility: hidden>${o.feature_id}</td>
+                                                                    <td>${o.class_code}</td>  
+                                                                    <td>${o.team_name}</td>
+                                                                    <td>${o.feature_name}</td>
+                                                                    <td visibility: hidden>${o.team_id}</td>  
+
+
+                                                                    <td>
+                                                                        <form id="idS${o.feature_id}" action="FeatureList?go=updateStatus" method="POST">
+                                                                            <input type="hidden" name="featureId" value="${o.feature_id}">
+                                                                            <select class="form-control form-control-user" name="status" onchange="submitForm(idS${o.feature_id})" >
+                                                                                <option ${o.status == 2 ? "selected" : ""} value="2">Deactivate</option>
+                                                                                <option ${o.status == 1 ? "selected" : ""} value="1">Active</option>
+                                                                            </select>
+                                                                        </form>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a class="EditLink" href="FeatureDetail?go=Update&fid=${o.feature_id}&Tid=${o.team_id}"><span class="material-symbols-outlined">
+                                                                                edit
+                                                                            </span>
+                                                                        </a>
+
+                                                                    </td>
+                                                                </tr>                    
+                                                            </c:forEach>
+
+                                                        </tbody>
+                                                    </table>
+                                                    <div class="paging">
+                                                        <c:forEach begin="1" end="${maxP}" var="i"  >    
+                                                            <a class ="active" href="FeatureList?index=${i}">${i}</a>                 
                                                         </c:forEach>
 
-                                                    </tbody>
-                                                </table>
-                                                <div class="pagination">
-                                                    <c:forEach begin="1" end="${maxP}" var="i"  >    
-                                                        <a class ="active" href="FeatureList?index=${i}">${i}</a>                 
-                                                    </c:forEach>
-
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    </div>
-                                    <!-- /.container-fluid -->
-
-
-                                    </div>
-                                    <!-- End of Main Content -->
-
-                                    <!-- Footer -->
-                                    <footer class="sticky-footer bg-white">
-                                        <div class="container my-auto">
-                                            <div class="copyright text-center my-auto">
-                                                <span>Copyright &copy; Your Website 2021</span>
-                                            </div>
                                         </div>
-                                    </footer>
-                                    <!-- End of Footer -->
+                                        <!-- /.container-fluid -->
 
-                                    </div>
-                                    <!-- End of Content Wrapper -->
 
-                                    </div>
-                                    <!-- End of Page Wrapper -->
+                                        </div>
+                                        <!-- End of Main Content -->
 
-                                    <!-- Scroll to Top Button-->
-                                    <a class="scroll-to-top rounded" href="#page-top">
-                                        <i class="fas fa-angle-up"></i>
-                                    </a>
+                                        <!-- Footer -->
+                                        <footer class="sticky-footer bg-white">
+                                            <div class="container my-auto">
+                                                <div class="copyright text-center my-auto">
+                                                    <span>Copyright &copy; Your Website 2021</span>
+                                                </div>
+                                            </div>
+                                        </footer>
+                                        <!-- End of Footer -->
 
-                                    <!-- Logout Modal-->
-                                    <jsp:include page="../LogOut.jsp"></jsp:include>
+                                        </div>
+                                        <!-- End of Content Wrapper -->
 
-                                        <!-- Bootstrap core JavaScript-->
-                                        <script src="vendor/jquery/jquery.min.js"></script>
-                                        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+                                        </div>
+                                        <!-- End of Page Wrapper -->
 
-                                        <!-- Core plugin JavaScript-->
-                                        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+                                        <!-- Scroll to Top Button-->
+                                        <a class="scroll-to-top rounded" href="#page-top">
+                                            <i class="fas fa-angle-up"></i>
+                                        </a>
 
-                                        <!-- Custom scripts for all pages-->
-                                        <script src="js/sb-admin-2.min.js"></script>
+                                        <!-- Logout Modal-->
+                                        <jsp:include page="../LogOut.jsp"></jsp:include>
 
-                                        <!-- Page level plugins -->
-                                        <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-                                        <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+                                            <!-- Bootstrap core JavaScript-->
+                                            <script src="vendor/jquery/jquery.min.js"></script>
+                                            <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-                                        <!-- Page level custom scripts -->
-                                        <script src="js/demo/datatables-demo.js"></script>
-                                        <!-- Need copy for use alert-->
-                                        <script src="js/SenJS.js"></script>
-                                        <script src="js/fnon.min.js"></script>
-                                        <script>
+                                            <!-- Core plugin JavaScript-->
+                                            <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+                                            <!-- Custom scripts for all pages-->
+                                            <script src="js/sb-admin-2.min.js"></script>
+
+                                            <!-- Page level plugins -->
+                                            <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+                                            <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+                                            <!-- Page level custom scripts -->
+                                            <script src="js/demo/datatables-demo.js"></script>
+                                            <!-- Need copy for use alert-->
+                                            <script src="js/SenJS.js"></script>
+                                            <script src="js/fnon.min.js"></script>
+                                            <script>
                                                                                 document.addEventListener('DOMContentLoaded', function () {
                                                                                     Fnon.Hint.Init({
                                                                                         zIndex: 9900,
@@ -188,9 +206,27 @@
                                                                                         animation,
                                                                                     })
                                                                                 });
-                                    </script>
-                                    <!-- End Need copy for use alert-->
+                                        </script>
+                                        <!-- End Need copy for use alert-->
+                                        <script>
+                                            function submitForm(form) {
+                                                swal({
+                                                    title: "Are you sure?",
+                                                    text: "This form will be submitted",
+                                                    icon: "warning",
+                                                    buttons: true,
+                                                    dangerMode: true,
+                                                })
+                                                        .then(function (isOkay) {
+                                                            if (isOkay) {
+                                                                form.submit();
+                                                            }
+                                                        });
+                                                return false;
+                                            }
+                                        </script>
+                                        <!-- End Need copy for use alert-->
+                                        <script src="js/sweetalert.min.js"></script>
+                                        </body>
 
-                                    </body>
-
-                                    </html>
+                                        </html>

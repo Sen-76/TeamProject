@@ -1,4 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%-- 
     Document   : UploadExcel
@@ -63,6 +64,13 @@
                                         <input type="submit" value="Submit">
                                     </form>    
                                 </div>
+
+                                <div class="card-body">
+
+                                    <a href="\g1\Template_G1.xlsx" 
+                                       class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                            class="fas fa-download fa-sm text-white-50"></i>Download template</a>
+                                </div>
                             </div>
 
                             <div class="card shadow mb-4">
@@ -81,7 +89,7 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>group id</th>
+                                                <th>Team name</th>
                                                 <th>username</th>
                                                 <th>roll number</th>
                                                 <th>full name</th>
@@ -91,7 +99,7 @@
 
                                         <tfoot>
                                             <tr>
-                                                <th>group id</th>
+                                                <th>Team name</th>
                                                 <th>username</th>
                                                 <th>roll number</th>
                                                 <th>full name</th>
@@ -110,18 +118,48 @@
                                                 </tr>
                                             </c:forEach>
                                         </tbody>
-                                        
+
                                     </table>
 
                                     ${messE} <br>
-                                        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" href="uploadExcel?go=cfDTB">Import yourdata</a>
-                                    
+                                    <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" href="uploadExcel?go=cfDTB">Import yourdata</a>
+
 
 
 
                                 </div>
                             </div>
                         </div>    
+
+                        <div class="card shadow mb-4">
+                            <div class="card-body">
+                                <p>
+
+                                    <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                        Change class
+                                    </button>
+                                </p>
+                                <div class="collapse" id="collapseExample">
+
+                                    <c:forEach var="o" items="${vectC}">
+                                        <a href="uploadExcel?go=uploadE&class_id=${o.id}"
+                                           class="${classID == o.id ? "text-info" : ""}"
+                                           >${o.classCode}</a> |
+                                    </c:forEach>
+
+                                </div>
+
+                                <div>
+                                    Some infomation about this class: 
+                                    <ul>
+                                        <c:forEach var="o" items="${team}">
+                                            <li>  ${o.team_name} - ${o.topic_code} - ${o.topic_name} </li>
+                                            </c:forEach>
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
 
 
 

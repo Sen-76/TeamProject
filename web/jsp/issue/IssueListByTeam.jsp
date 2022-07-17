@@ -74,7 +74,7 @@
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">All Issues:</h6>
                                     <form action="IssueController?go=searchStatus" method="post">
-                                        <select class="form-control form-control-user" onchange="changeOption()" name="statusSearch">
+                                        <select class="form-control form-control-user" onchange="this.form.submit()" name="statusSearch">
                                             <option value="0" ${statusSerach == 0 ? "selected" : ""}>All status</option>
                                         <option value="1" ${statusSerach == 1 ? "selected" : ""}>To Do</option>
                                         <option value="2" ${statusSerach == 2 ? "selected" : ""}>Pending</option>

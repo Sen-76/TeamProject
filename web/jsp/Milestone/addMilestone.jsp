@@ -60,6 +60,8 @@
 
                                         <tbody>
                                             <tr>
+                                                <td>Milestone Name</td>
+                                                <td><input class="form-control form-control-user id" type="text" name="MileName" required></td>
                                                 <td>Iteration Name</td>
                                                 <td>
                                                     <select class="form-control form-control-user id" id="iteId" name="iteId">
@@ -81,11 +83,11 @@
                                         </tr>
                                         <tr>
                                             <td>From Date</td>
-                                            <td><input class="form-control form-control-user id" type="date" name="fromDate" placeholder="yyyy-mm-dd" ></td>
+                                            <td><input class="form-control form-control-user id" type="date" name="fromDate" required placeholder="yyyy-mm-dd" ></td>
                                         </tr>
                                         <tr>
                                             <td>To Date</td>
-                                            <td><input class="form-control form-control-user id" type="date" name="toDate" placeholder="yyyy-mm-dd" ></td>
+                                            <td><input class="form-control form-control-user id" type="date" name="toDate" required placeholder="yyyy-mm-dd" ></td>
                                         </tr>
                                         <tr>
                                             <td>Status </td><br>
@@ -101,7 +103,7 @@
                                     </tbody>
                             </form>
                         </div>
-                            ${thongbao}
+                            <p style="color: red">${thongbao}</p>
 
 
 

@@ -61,7 +61,7 @@
 
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">All your LOC here</h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -76,6 +76,23 @@
                                                                 <select class="form-control form-control-sm" name="class" onchange="this.form.submit()">
                                                                 <c:forEach var="o" items="${vectC}">
                                                                     <option value="${o.id}" ${o.id == class ? "selected" : ""}>${o.classCode}</option>
+                                                                </c:forEach>
+                                                            </select>
+                                                        </label>
+                                                        <label>
+                                                            Milestone:
+                                                            <select class="form-control form-control-sm" name="Iter" onchange="this.form.submit()">
+                                                                <c:forEach var="o" items="${vectM}">
+                                                                    <option value="${o}" ${o == mile ? "selected" : ""}>${o}</option>
+                                                                </c:forEach>
+
+                                                            </select>
+                                                        </label>
+                                                        <label>
+                                                            Function:
+                                                            <select class="form-control form-control-sm" name="Iter" onchange="this.form.submit()">
+                                                                <c:forEach var="o" items="${vectF}">
+                                                                    <option value="${o}" ${o == mile ? "selected" : ""}>${o}</option>
                                                                 </c:forEach>
 
                                                             </select>
@@ -93,36 +110,36 @@
                                                     <thead>
                                                         <tr role="row">
                                                             <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" style="width: 103px;">evaluation_time</th>
-                                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 70px;">evaluation_note</th>
+
                                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 49px;">complexity</th>
                                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 34px;">quality(%)</th>
                                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 82px;">Loc</th>
-                                                            
-                                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 58px;">milestoneID</th>
-                                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 58px;">functionID</th>
+
+                                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 58px;">Milestone name</th>
+                                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 58px;">Function name</th>
                                                         </tr>
                                                     </thead>
                                                     <tfoot>
                                                         <tr role="row">
                                                             <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" style="width: 103px;">evaluation_time</th>
-                                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 70px;">evaluation_note</th>
+
                                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 49px;">complexity</th>
                                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 34px;">quality(%)</th>
                                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 82px;">Loc</th>
-                                                            
-                                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 58px;">milestoneID</th>
-                                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 58px;">functionID</th>
+
+                                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 58px;">Milestone name</th>
+                                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 58px;">Function name</th>
                                                         </tr>
                                                     </tfoot>
                                                     <tbody>
                                                         <c:forEach var="o" items="${loc}">
                                                             <tr class="odd">
                                                                 <td class="sorting_1">${o.evaluation_time}</td>
-                                                                <td>${o.evaluation_note}</td>
+
                                                                 <td>${o.complexity_id}</td>
                                                                 <td>${o.quality_id}</td>
                                                                 <td>${o.complexity_id * o.quality_id /100}</td>
-                                                                
+
                                                                 <td>${o.milestoneID}</td>
                                                                 <td>${o.functionID}</td>
                                                             </tr>

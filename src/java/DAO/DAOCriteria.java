@@ -23,29 +23,29 @@ import java.util.List;
 public class DAOCriteria extends ConnectJDBC {
 
     Connection conn = ConnectJDBC.getConnection();
-    
+
     ResultSet rs = null;
     PreparedStatement ps = null;
-    
+
     public List<Criteria> viewCriteriaList(int index) {
         List<Criteria> list = new ArrayList<>();
         String sql = "select  ar.*,ac.iteration_name, at.subject_code,at.subject_id "
                 + "from evaluation_criteria ar join iteration ac join subject at on ar.iteration_id = ac.iteration_id and ac.subject_id = at.subject_id "
                 + "Order by criteria_id limit 10 offset ?";
-        
+
         try {
             ps = conn.prepareStatement(sql);
             ps.setInt(1, (index - 1) * 10);
             rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new Criteria(rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getBoolean(4),rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10),rs.getString(11),rs.getInt(12)));
+                list.add(new Criteria(rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getBoolean(4), rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getInt(12)));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return list;
     }
-    
+
     public List<Criteria> viewSubjectId() {
         List<Criteria> list = new ArrayList<>();
         String sql = "select distinct at.subject_id,at.subject_code "
@@ -54,14 +54,14 @@ public class DAOCriteria extends ConnectJDBC {
         ResultSet rs = getData(sql);
         try {
             while (rs.next()) {
-                list.add(new Criteria(rs.getInt(1),rs.getString(2)));
+                list.add(new Criteria(rs.getInt(1), rs.getString(2)));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return list;
     }
-    
+
     public int addCriteria(Criteria cr) {
         int n = 0;
         String sql = "Insert into evaluation_criteria(iteration_id, evaluation_title, evaluation_weight, team_evaluation, criteria_order,max_loc,status,description)"
@@ -75,7 +75,7 @@ public class DAOCriteria extends ConnectJDBC {
             ps.setString(5, cr.getCriteria_order());
             ps.setInt(6, cr.getMax_loc());
             ps.setInt(7, cr.getStatus());
-             ps.setString(8, cr.getDescription());
+            ps.setString(8, cr.getDescription());
             n = ps.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -91,14 +91,14 @@ public class DAOCriteria extends ConnectJDBC {
         ResultSet rs = getData(sql);
         try {
             while (rs.next()) {
-                list.add(new Criteria(rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getBoolean(4),rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10),rs.getString(11),rs.getInt(12)));
+                list.add(new Criteria(rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getBoolean(4), rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getInt(12)));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return list;
     }
-    
+
     public List<Criteria> searchSubject(String subject) {
         List<Criteria> list = new ArrayList<>();
         String sql = "select  ar.*,ac.iteration_name,at.subject_code, at.subject_id from evaluation_criteria ar join iteration ac join subject at\n"
@@ -107,14 +107,14 @@ public class DAOCriteria extends ConnectJDBC {
         ResultSet rs = getData(sql);
         try {
             while (rs.next()) {
-                list.add(new Criteria(rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getBoolean(4),rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10),rs.getString(11),rs.getInt(12)));
+                list.add(new Criteria(rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getBoolean(4), rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getInt(12)));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return list;
     }
-    
+
     public Criteria getCriteria(int criteria_id) {
         String sql = "select * from evaluation_criteria where criteria_id = ?";
         try {
@@ -123,7 +123,7 @@ public class DAOCriteria extends ConnectJDBC {
             rs = ps.executeQuery();
             while (rs.next()) {
                 return new Criteria(rs.getInt(1),
-                        rs.getInt(2),                      
+                        rs.getInt(2),
                         rs.getDouble(3),
                         rs.getBoolean(4),
                         rs.getString(5),
@@ -134,11 +134,11 @@ public class DAOCriteria extends ConnectJDBC {
                 );
             }
         } catch (Exception e) {
-            
+
         }
         return null;
     }
-    
+
     public void updateCriteria(int criteria_id, int iteration_id, String evaluation_title, double evaluation_weight, boolean team_evaluation, String criteria_order, int max_loc, int status, String description) {
         String sql = "update evaluation_criteria ar, iteration ac set ar.iteration_id = ? ,ar.evaluation_title =?, ar.evaluation_weight = ? , ar.team_evaluation= ?, ar.criteria_order= ? , ar.max_loc= ? , ar.status= ?, ar.description=?\n"
                 + "where ar.iteration_id = ac.iteration_id\n"
@@ -152,15 +152,15 @@ public class DAOCriteria extends ConnectJDBC {
             ps.setString(5, criteria_order);
             ps.setInt(6, max_loc);
             ps.setInt(7, status);
-             ps.setString(8, description);
+            ps.setString(8, description);
             ps.setInt(9, criteria_id);
-            
+
             ps.executeUpdate();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-    
+
     public List<Criteria> searchByIterName(String c) {
         List<Criteria> list = new ArrayList<>();
         String sql = "select  ar.*,ac.iteration_name, at.subject_code,at.subject_id\n"
@@ -170,29 +170,29 @@ public class DAOCriteria extends ConnectJDBC {
         ResultSet rs = getData(sql);
         try {
             while (rs.next()) {
-                list.add(new Criteria(rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getBoolean(4),rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10),rs.getString(11),rs.getInt(12)));
+                list.add(new Criteria(rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getBoolean(4), rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getInt(12)));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return list;
     }
-    
+
     public List<Criteria> viewIterName() {
         List<Criteria> list = new ArrayList<>();
-        String sql = "select distinct s.subject_id, i.iteration_id, i.iteration_name, s.subject_code \n" +
-"from subject s join iteration i on i.subject_id = s.subject_id order by s.subject_id";
+        String sql = "select distinct s.subject_id, i.iteration_id, i.iteration_name, s.subject_code \n"
+                + "from subject s join iteration i on i.subject_id = s.subject_id order by s.subject_id";
         ResultSet rs = getData(sql);
         try {
             while (rs.next()) {
-                list.add(new Criteria(rs.getInt(1),rs.getInt(2), rs.getString(3),rs.getString(4)));
+                list.add(new Criteria(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4)));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return list;
     }
-    
+
 //     public List<Criteria> viewSubjectCode() {
 //        List<Criteria> list = new ArrayList<>();
 //        String sql = "select * from subject";
@@ -206,19 +206,35 @@ public class DAOCriteria extends ConnectJDBC {
 //        }
 //        return list;
 //    }
-    
     public Criteria getDelete(int criteria_id) {
         String sql = "delete from  evaluation_criteria where criteria_id = ?";
         try {
             ps = conn.prepareStatement(sql);
             ps.setInt(1, criteria_id);
             ps.executeUpdate();
-            
+
         } catch (Exception e) {
         }
         return null;
     }
-    
+
+    public int updateStatus(String criId, int status) {
+        int n = 0;
+        String sql = "update evaluation_criteria \n "
+                + "set status = ? \n "
+                + "where criteria_id = ?";
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, status);
+            ps.setString(2, criId);
+            n = ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return n;
+    }
+
     public int getTotalList() {
         String sql = "select count(*) from evaluation_criteria";
         try {
@@ -232,10 +248,10 @@ public class DAOCriteria extends ConnectJDBC {
         }
         return 0;
     }
-    
+
     public static void main(String[] args) {
         DAOCriteria dao = new DAOCriteria();
-           System.out.print(dao.viewIterName());
+        System.out.print(dao.updateStatus("5", 2));
 //      dao.getDelete(2);
 //       int n = dao.addCriteria(new Criteria(1,2,true,"1",120,1));
 //        if (n > 0) {
@@ -243,8 +259,8 @@ public class DAOCriteria extends ConnectJDBC {
 //        } else {
 //            System.out.println("wrong");
 //        }
-       List<Criteria> list = dao.searchSubject("PRN");
-       for(Criteria c : list)
-       System.out.println(c);
+//       List<Criteria> list = dao.searchSubject("PRN");
+//       for(Criteria c : list)
+//       System.out.println(c);
     }
 }

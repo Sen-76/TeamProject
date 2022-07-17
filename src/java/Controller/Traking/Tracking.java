@@ -7,6 +7,8 @@ package Controller.Traking;
 
 import java.util.List;
 import DAO.DAOSen;
+import Enitiy.ClassUser;
+import Enitiy.Class_s;
 import Enitiy.Function;
 import Enitiy.Team;
 import java.io.IOException;
@@ -43,6 +45,13 @@ public class Tracking extends HttpServlet {
         if (order == null) {
             order = " order by b.team_name";
         }
+        String class_id = request.getParameter("class_id");
+        if (class_id == null || class_id.equals("")) {
+            class_id = "1";
+        }
+        if (class_id != null && !class_id.equals("")) {
+            filter += " and g.class_id = " + class_id + "";
+        }
         String team_id = request.getParameter("team_id");
         if (team_id != null && !team_id.equals("")) {
             filter += " and b.team_id = " + team_id + "";
@@ -78,7 +87,7 @@ public class Tracking extends HttpServlet {
         } else {
             max = dao.CountHaHa(filter) / 10 + 1;
         }
-        if(max == 0){
+        if (max == 0) {
             max = 1;
         }
         if (pages > max) {
@@ -101,9 +110,13 @@ public class Tracking extends HttpServlet {
             request.setAttribute("theme", "Success");
         }
         List<Team> team = dao.Team();
+        ClassUser OneClass = dao.OneClass(class_id);
+        List<Class_s> classes = dao.Class();
         List<Function> function = dao.Function();
         List<Enitiy.Tracking> list = dao.AllTracking(pages, filter, order);
         request.setAttribute("list", list);
+        request.setAttribute("classes", classes);
+        request.setAttribute("OneClass", OneClass);
         request.setAttribute("team", team);
         request.setAttribute("function", function);
         request.getRequestDispatcher("jsp/Tracking/ViewTracking.jsp").forward(request, response);

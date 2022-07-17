@@ -1,4 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%-- 
     Document   : ClassByTrain
     Created on : Jun 13, 2022, 4:31:04 PM
@@ -24,6 +25,9 @@
         <link
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
+
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
         <!-- Custom styles for this template-->
         <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -56,59 +60,113 @@
 
                         <!-- Begin Page Content -->
                         <div class="container-fluid">
-                        <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h3 class="m-0 font-weight-bold text-primary">All your class</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                    <tr>
-                                        <th>Class code</th>
-                                        <th>Trainer</th>
-                                        <th>subject name</th>
-                                        <th>class year</th>
-                                        <th>class term</th>
-                                        <th>block 5 ?</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>Class code</th>
-                                        <th>Trainer</th>
-                                        <th>subject name</th>
-                                        <th>class year</th>
-                                        <th>class term</th>
-                                        <th>block 5 ?</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </tfoot>
-                                     <tbody>
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h3 class="m-0 font-weight-bold text-primary">All your class</h3>
+                                </div>
 
-                                <c:forEach var="o" items="${vectC}">
-                                    <tr>
-                                        <td><a href="TeamList?go=listAllTeam&cid=${o.id}">${o.classCode}</a></td>
-                                        <td>   ${o.trainerId}            </td>
-                                        <td>${o.subjectId}</td>
-                                        <td>${o.classYear}</td>
-                                        <td>${o.classTerm}</td>
-                                        <td>${o.block5Class == 1 ? "<i>True</i>":"False"}</td>
-                                        <td>${o.status == 1 ? "<strong>Ongoing</strong>" : "Ended"}</td>
-                                        <td>   <a href="ClassTrainer?go=detailClass&cid=${o.id}&sid=${o.subjectId}">Details</a>  </td>
-                                    </tr>
-                                </c:forEach>             
+                                <div>
 
-                            </tbody>
-                                </table>
+                                    <nav class="navbar navbar-expand-lg navbar-light ">
+                                        <span class="navbar-brand" >Filter</span>
+                                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                            <span class="navbar-toggler-icon"></span>
+                                        </button>
+
+                                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                            <form class="form-inline my-2 my-lg-0" action="ClassTrainer?go=showAllByTrain" method="POST">
+                                                <ul class="navbar-nav mr-auto">
+                                                    <li class="nav-item dropdown">
+                                                        Trainer: <strong>${Loged.fullname}</strong>
+                                                </li>
+
+                                                <li class="nav-item dropdown">
+                                                    Status:
+                                                    <select class="form-control" name="ClaSta">
+                                                        <option value="2" ${sta == 2 ? "selected":""}>All</option>
+                                                        <option value="1" ${sta == 1 ? "selected":""}>Ongoing</option>
+                                                        <option value="0" ${sta == 0 ? "selected":""}>Ended</option>
+                                                    </select>
+                                                </li>
+
+                                            </ul>
+
+                                            <input class="form-control mr-sm-2" type="text" name="searchClass" value="${search}" placeholder="Search" aria-label="Search">
+                                            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+
+
+
+                                        </form>
+                                    </div>
+                                            <c:if test="${Loged.role_id > 2}">
+                                                <div class="float-right">
+                                        <a class="text text--" href="ShowAllClass?go=AddClass">Add more class</a>
+                                    </div>
+                                            </c:if>        
+                                    
+                                </nav>
+
+
+
+                            </div>
+
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>Class code</th>
+
+                                                <th>subject name</th>
+                                                <th>class year</th>
+                                                <th>class term</th>
+                                                <th>block 5 ?</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Class code</th>
+
+                                                <th>subject name</th>
+                                                <th>class year</th>
+                                                <th>class term</th>
+                                                <th>block 5 ?</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+
+                                            <c:forEach var="o" items="${vectC}">
+                                                <tr>
+                                                    <td>
+                                                        <a href="ClassTrainer?go=detailClass&cid=${o.id}&sid=${o.subjectId}">${o.classCode}</a></td>
+
+                                                    <td>${o.subjectId}</td>
+                                                    <td>${o.classYear}</td>
+                                                    <td>${o.classTerm}</td>
+                                                    <td>${o.block5Class == 1 ? "<i>True</i>":"False"}</td>
+                                                    <td>${o.status == 1 ? "<strong>Ongoing</strong>" : "Ended"}</td>
+                                                    <td class="text-center">   <a href="TeamList?go=listAllTeam&cid=${o.id}">
+                                                            <span class="material-symbols-outlined">
+                                                                group
+                                                            </span>
+                                                        </a> 
+
+
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>             
+
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    </div>
-                        
+
                     <!-- /.container-fluid -->
 
                 </div>
@@ -159,6 +217,9 @@
 
         <script src="js/sweetalert.min.js"></script>
 
+
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     </body>
 
 </html>

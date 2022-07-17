@@ -94,20 +94,18 @@
                                                 Title:
                                                 <input  class="form-control" maxlength="140" type="text" name="title" value="${ct.evaluation_title}" required/>
                                                 Weight:
-                                                <br> <input type="text" name="weight" value="${ct.evaluation_weight}" required/>%
-
+                                                <br> <input style="width:350px" type="text" name="weight" value="${ct.evaluation_weight}" required/>%                           
                                                 <br>  Loc:
                                                 <input class="form-control" type="text" name="loc" value="${ct.max_loc}" required />
-                                                Order: <br>
-                                                <input  type="text" name="order" value="${ct.criteria_order}"/>
-                                                <br>   Status:
+                                                Order:
+                                                <br>  <input style="width:350px" type="text" name="order" value="${ct.criteria_order}"/>
+                                                <br>Status:
                                                 <br>  <input type="radio" name="status" value="1" ${ct.status == 1?"checked":""}>Active
-                                                <input style="margin-left: 30px" type="radio" name="status" value="2" ${ct.status == 2?"checked":""}>Deactive
-                                                <br> Team Evaluation:
+                                                <input style="margin-left: 30px;" type="radio" name="status" value="2" ${ct.status == 2?"checked":""}>Deactive
+                                                <span style="margin-left:35px"> Team Evaluation:</span>
                                                 <input type="checkbox" name="evaluation" value="true" ${ct.team_evaluation == true?"checked":""}  />
-
                                                 <br>   Description:
-                                                <textarea  class="form-control" name="description">${ct.description}</textarea>
+                                                <textarea  class="form-control" name="description">${ct.description}</textarea><br>
                                                 <input type="submit" name="submit" class="update" onclick="return confirm('Are you sure you want to update?')" value="Update" />
 
                                             </form>

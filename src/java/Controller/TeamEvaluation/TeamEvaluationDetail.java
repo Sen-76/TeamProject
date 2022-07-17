@@ -47,14 +47,14 @@ public class TeamEvaluationDetail extends HttpServlet {
             if (Loged == null) {
                 request.getRequestDispatcher("Login_sen").forward(request, response);
             }
-            try {
-                if (Loged.getRole_id() > 2) {
-                    request.setAttribute("messE", "Seems like you don't have permission to do this");
-                    request.getRequestDispatcher("/jsp/Class/Error.jsp").forward(request, response);
-                    return;
-                }
-            } catch (Exception e) {
-            }
+//            try {
+//                if (Loged.getRole_id() > 2) {
+//                    request.setAttribute("messE", "Seems like you don't have permission to do this");
+//                    request.getRequestDispatcher("/jsp/Class/Error.jsp").forward(request, response);
+//                    return;
+//                }
+//            } catch (Exception e) {
+//            }
             String service = request.getParameter("go");
             DAOTeamEvaluation dao = new DAOTeamEvaluation();
             if (service.equals("UpdateEval")) {

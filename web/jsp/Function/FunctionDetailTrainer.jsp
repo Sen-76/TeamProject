@@ -119,10 +119,6 @@
                                                 <textarea class="form-control" name="description" disabled>${fu.description}</textarea>
                                                 <a href="FunctionListTrainer"  /> BACK
 
-                                                
-                                                <div>
-
-                                                </div>
                                             </form>
                                         </div>
                                     </div>

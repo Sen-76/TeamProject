@@ -5,14 +5,13 @@
 <html lang="en">
 
     <head>
-
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Group 1 - Setting Detail</title>
+        <title>G1 - Update Setting</title>
 
         <!-- Custom fonts for this template-->
         <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -22,8 +21,10 @@
 
         <!-- Custom styles for this template-->
         <link href="css/sb-admin-2.min.css" rel="stylesheet">
+        <link href="css/SenCss.css" rel="stylesheet">
         <link rel="icon" href="img/cai nay hoi la.png" type="image/gif" sizes="16x16">
 
+        <link rel="stylesheet" href="fnon.min.css">
     </head>
 
     <body id="page-top">
@@ -33,17 +34,17 @@
 
             <!-- Sidebar -->
             <jsp:include page="Sidebar.jsp"></jsp:include>
-            <!-- End of Sidebar -->
+                <!-- End of Sidebar -->
 
-            <!-- Content Wrapper -->
-            <div id="content-wrapper" class="d-flex flex-column">
+                <!-- Content Wrapper -->
+                <div id="content-wrapper" class="d-flex flex-column">
 
-                <!-- Main Content -->
-                <div id="content">
+                    <!-- Main Content -->
+                    <div id="content">
 
-                    <!-- Topbar -->
-                <jsp:include page="Header.jsp"></jsp:include>
-                    <!-- End of Topbar -->
+                        <!-- Topbar -->
+                    <jsp:include page="Header.jsp"></jsp:include>
+                        <!-- End of Topbar -->
                     <%
                     Setting set = (Setting)request.getAttribute("Setting");
                     ArrayList<Setting> vect = (ArrayList<Setting>) request.getAttribute("typeList");
@@ -51,55 +52,52 @@
                   
                     %>
                     <!-- Begin Page Content -->
-                    <div class="container-fluid">
+                    <div class="container">
+                        <div class="card o-hidden border-0 shadow-lg my-5">
+                            <div class="card-body p-0">
+                                <!-- Nested Row within Card Body -->
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="p-5">
+                                            <div class="text-center">
+                                            </div>
+                                            <form action="SettingDetail">
+                                                <input type="hidden" name="go" value="UpdateDetail" />
 
-                        <!-- 404 Error Text -->
-                        <h1>Setting Details</h1>
-                        <form action="SettingDetail">
-                            <input type="hidden" name="go" value="UpdateDetail" />
-                            <table border="0">
-                                <tbody>
-                                    <tr>
-                                        <td>Group*
-                                            <br><select name="group" style="width: 200px" required>
-                                                <%
+
+                                                <h3>Update Setting</h3>
+                                                Group:
+                                                <select  class="form-control" name="group" required>
+                                                    <%
                                                     for (Setting o : vect) { %>
-                                                <option value="<%=o.getType_id() %>" <%=o.getType_id() == type ? "selected" : "" %>><%=o.getType_id() %></option>>  
-                                                <%       }
-                                                %>
-                                            </select></td>
-                                        <td>Order*
-                                            <br><input type="text" name="order" value="<%=set.getDisplay_order() %>" required/></td>
-                                    </tr>
+                                                    <option value="<%=o.getType_id() %>" <%=o.getType_id() == type ? "selected" : "" %>><%=o.getType_id() %></option>>  
+                                                    <%       }
+                                                    %>
+                                                </select>
+                                                Order:
+                                                <input  class="form-control" type="text" name="order" value="<%=set.getDisplay_order() %>" required/>
 
-                                </tbody>
-                            </table>
-                            Name*
-                            <br> <input type="text" name="lessontype" value="<%=set.getSetting_title() %>" style="width: 400px" required /></td>
-                            <table border="0">
-                                <tbody>
-                                    <tr>
-                                        <td>Value
-                                            <br><input type="text" name="value" value="<%=set.getSetting_value()%>" style="width: 230px"/></td>
-                                        <td>Status 
-                                            <br><input type="radio" name="status" value="1" <%=set.getStatus() == 1 ? "checked" : "" %> style="margin-left: 20px" /><a style="font-size: 13px">Active</a>
-                                            <input type="radio" name="status" value="2" <%=set.getStatus() == 2 ? "checked" : "" %> style="margin-left: 30px" /><a style="font-size: 13px">Deactive</a>
-                                        </td>
-                                    </tr>           
-                                </tbody>
-                            </table>
-                            Description
-                            <br>
-                            <textarea name="scription" style="width: 400px;"><%if (set.getNote() == null) {
-                                    set.setNote("");
-                                }else set.setNote(set.getNote().trim());
-                            out.print(set.getNote());
-                                %>
-                            </textarea>
-                            <br> <br> <input name= "submit"type="submit" value="Submit" style="width: 80px" />
-                        </form>  
+                                                Name:
+                                                <input class="form-control" type="text" name="lessontype" value="<%=set.getSetting_title() %>" required />
+
+                                                Value:
+                                                <input class="form-control"  type="text" name="value" value="<%=set.getSetting_value()%>" style=""/>
+                                                Status: 
+                                                <br>   <input type="radio" name="status" value="1" <%=set.getStatus() == 1 ? "checked" : "" %>/>Active
+                                                <input type="radio" name="status" value="2" <%=set.getStatus() == 2 ? "checked" : "" %> style="margin-left: 100px" />Deactive
+
+                                                <br>Description:
+                                                <textarea  class="form-control" name="description">${fu.description}</textarea>
+                                                <br>
+                                                <input type="submit" name="submit" class="update" onclick="return confirm('Are you sure you want to update?')" value="Update" />
 
 
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- /.container-fluid -->
 

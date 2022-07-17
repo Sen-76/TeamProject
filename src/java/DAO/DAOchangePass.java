@@ -9,21 +9,29 @@ import ConnectDB.ConnectJDBC;
 import Enitiy.Class_s;
 import Enitiy.Setting;
 import Enitiy.Subject;
-import Enitiy.User;
+import Enitiy.*;
 import Enitiy.UserExcel;
 import Enitiy.loc_evaluation;
+import com.mysql.cj.protocol.Resultset;
 import java.security.MessageDigest;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.Stack;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.crypto.Cipher;
@@ -93,7 +101,8 @@ public class DAOchangePass extends ConnectDB.ConnectJDBC {
 
     public int UpdatePass(String pass, int id) {
         int n = 0;
-        String sql = "update user set pass = '" + encrypt(pass) + "' where user_id = '" + id + "'";
+        String sql = "update user set pass = '" + encrypt(pass) + "'"
+                + " where user_id = '" + id + "'";
         try {
             Statement state = conn.createStatement();
             n = state.executeUpdate(sql);
@@ -103,11 +112,12 @@ public class DAOchangePass extends ConnectDB.ConnectJDBC {
         return n;
     }
 
-    public Vector<Class_s> ViewAllClassName(String name, String startFrom) {
+    public Vector<Class_s> ViewAllClassName(String name, String startFrom, String where) {
         Vector<Class_s> list = new Vector<>();
 
-        String sql = "select * from class where class_code like '%" + name + "%' LIMIT 20 offset " + startFrom;
-      //  System.out.println(sql);
+        String sql = "select * from class where class_code like '%" + name + "%'"
+                + where + " LIMIT 20 offset " + startFrom;
+        //  System.out.println(sql);
         ResultSet rs = getData(sql);
         try {
             while (rs.next()) {
@@ -132,34 +142,7 @@ public class DAOchangePass extends ConnectDB.ConnectJDBC {
         Vector<Class_s> list = new Vector<>();
 
         String sql = "select * from class where class_id like '%" + name + "%'  ";
-     //   System.out.println(sql);
-        ResultSet rs = getData(sql);
-        try {
-            while (rs.next()) {
-                int id = rs.getInt(1);
-                String ClassCode = rs.getString(2);
-                String trainerId = rs.getString(3);
-                String SubjectId = rs.getString(4);
-                String ClassYear = rs.getString(5);
-                String ClassTerm = rs.getString(6);
-                String Block5Class = rs.getString(7);
-                int status = rs.getInt(8);
-                Class_s u = new Class_s(id, ClassCode, trainerId,
-                        SubjectId, ClassYear, ClassTerm, Block5Class, status);
-
-                return u;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    
-    public Class_s viewClassByCode(String name) {
-        Vector<Class_s> list = new Vector<>();
-
-        String sql = "select * from class where class_code like '%" + name + "%'  ";
-     //   System.out.println(sql);
+        //   System.out.println(sql);
         ResultSet rs = getData(sql);
         try {
             while (rs.next()) {
@@ -182,12 +165,14 @@ public class DAOchangePass extends ConnectDB.ConnectJDBC {
         return null;
     }
 
-    public int CountClass(String name) {
-        String sql = "select count(*) from class where class_code like '%" + name + "%'";
+    public int CountClass(String name, String where) {
+        String sql = "select count(*) from class"
+                + " where class_code like '%" + name + "%' "
+                + where;
         ResultSet rs = getData(sql);
         try {
             if (rs.next()) {
-               
+
                 return rs.getInt(1);
             }
         } catch (Exception e) {
@@ -302,13 +287,13 @@ public class DAOchangePass extends ConnectDB.ConnectJDBC {
     }
 
     public void updateAllClass(Class_s c) {
-        String sql_update = "update class set class_code = '"+c.getClassCode()+"', "
-                + "trainer_id= "+c.getTrainerId()+", "
-                + "subject_id= "+c.getSubjectId()+", "
-                + "class_year = '"+c.getClassYear()+"',\n"
-                + " class_term = "+c.getClassTerm()+", "
-                + "block5_class = "+c.getBlock5Class()+","
-                + " status = "+c.getStatus()+" where class_id = " + c.getId();
+        String sql_update = "update class set class_code = '" + c.getClassCode() + "', "
+                + "trainer_id= " + c.getTrainerId() + ", "
+                + "subject_id= " + c.getSubjectId() + ", "
+                + "class_year = '" + c.getClassYear() + "',\n"
+                + " class_term = " + c.getClassTerm() + ", "
+                + "block5_class = " + c.getBlock5Class() + ","
+                + " status = " + c.getStatus() + " where class_id = " + c.getId();
         try {
             Statement state = conn.createStatement();
             state.executeUpdate(sql_update);
@@ -316,8 +301,8 @@ public class DAOchangePass extends ConnectDB.ConnectJDBC {
             ex.printStackTrace();
         }
     }
-    
-    public Vector<Class_s> viewALlClassBySubject(String s){
+
+    public Vector<Class_s> viewALlClassBySubject(String s) {
         Vector<Class_s> vect = new Vector<>();
         String sql = "select * from class where subject_id = " + s;
         ResultSet rs = getData(sql);
@@ -339,8 +324,8 @@ public class DAOchangePass extends ConnectDB.ConnectJDBC {
         }
         return vect;
     }
-    
-    public Vector<Class_s> viewAllClassByTrainer(String s){
+
+    public Vector<Class_s> viewAllClassByTrainer(String s) {
         Vector<Class_s> vect = new Vector<>();
         String sql = "select * from class where trainer_id = " + s;
         ResultSet rs = getData(sql);
@@ -368,17 +353,17 @@ public class DAOchangePass extends ConnectDB.ConnectJDBC {
 
         System.out.println(" amen " + Pattern.matches(pattern, s));
     }
-    
-    public  String RandomChar(int a) {
+
+    public String RandomChar(int a) {
         Random random = new Random();
         String rs = "";
         for (int i = 0; i < a; i++) {
             char randomizedCharacter = (char) (random.nextInt(26) + 'a');
             rs += randomizedCharacter;
         }
-        return  rs;
+        return rs;
     }
-    
+
     public String RandomBullSh() {
         String result = "";
         Random rand = new Random();
@@ -389,8 +374,8 @@ public class DAOchangePass extends ConnectDB.ConnectJDBC {
         }
         return result;
     }
-    
-    public Vector<Class_s> viewClassByStudent(String s){
+
+    public Vector<Class_s> viewClassByStudent(String s) {
         Vector<Class_s> vect = new Vector<>();
         String sql = "select * from class a inner join classuser b "
                 + "on a.class_id = b.class_id where b.user_id = " + s;
@@ -413,64 +398,68 @@ public class DAOchangePass extends ConnectDB.ConnectJDBC {
         }
         return vect;
     }
-    
-    public boolean checkClassCode(String name){
-        String sql = " select * from class where class_code like '"+name+"'";
+
+    public boolean checkClassCode(String name) {
+        String sql = " select * from class where class_code like '" + name + "'";
         ResultSet rs = getData(sql);
         try {
-            if(rs.next())
+            if (rs.next()) {
                 return true;
+            }
         } catch (Exception e) {
             System.out.println(e);
         }
         return false;
     }
-    
-    public boolean checkExistUser(String name){
-        String sql = " select * from user where roll_number like '"+name+"'";
+
+    public boolean checkExistUser(String name) {
+        String sql = " select * from user where roll_number like '" + name + "'";
         ResultSet rs = getData(sql);
         try {
-            if(rs.next())
+            if (rs.next()) {
                 return true;
+            }
         } catch (Exception e) {
             System.out.println(e);
         }
         return false;
     }
-    
-    public int insertNewUser(UserExcel u){
+
+    public int insertNewUser(UserExcel u) {
         int n = 0;
         String sql = " insert into user(roll_number, "
                 + "fullname, email, role_id, "
-                + "username,status ,pass)\n" +
-" values('"+u.getRollNum()+"', '"+u.getFullName()+"', "
-                + "'"+u.getUsername()+"', 1, '"+u.getUsername()+"', 1, '"+encrypt("abc123")+"')";
+                + "username,status ,pass)\n"
+                + " values('" + u.getRollNum() + "', '" + u.getFullName() + "', "
+                + "'" + u.getUsername() + "', 1, '" + u.getUsername() + "', 1, '" + encrypt("abc123") + "')";
         try {
             Connection conn = getConnection();
             Statement s = conn.createStatement();
             n = s.executeUpdate(sql);
         } catch (Exception e) {
+            System.out.println(sql);
             e.printStackTrace();
         }
         return n;
     }
-    
-    public String getteamID(String cid, String top){
-        String sql= " select team_id from team where class_id = "+cid+" and topic_code = '"+top+"'";
+
+    public String getteamID(String cid, String top) {
+        String sql = " select team_id from team where class_id = " + cid + " and team_name = " + top + "";
         ResultSet rs = getData(sql);
         try {
-            if(rs.next())
+            if (rs.next()) {
                 return rs.getString(1);
+            }
         } catch (Exception e) {
             System.out.println(e);
         }
         return "";
     }
-    
-    public int insertNewTeam(String classid, String top){
+
+    public int insertNewTeam(String classid, String top) {
         int n = 0;
-        String sql = "insert into team(class_id, topic_code,status)\n" +
-" values("+classid+",'Topic: "+top+"' ,1);";
+        String sql = "insert into team(class_id, team_name,status)\n"
+                + " values(" + classid + ",'" + top + "' ,1);";
         try {
             Connection conn = getConnection();
             Statement s = conn.createStatement();
@@ -480,17 +469,17 @@ public class DAOchangePass extends ConnectDB.ConnectJDBC {
         }
         return n;
     }
-    
-    public int insertClassUser(String classid, UserExcel u){
+
+    public int insertClassUser(String classid, UserExcel u) {
         int n = 0;
-        String tid = getteamID(classid, "Topic: " + u.getGroupID());
-        String sql = "insert into classuser(class_id, team_id, user_id, team_leader, status) \n" +
-" values("+classid+","+tid+", "+getUserID(u.getRollNum())+
-                ", "+ isLead(u.getLeader())+","
+        String tid = getteamID(classid, "" + u.getGroupID());
+        String sql = "insert into classuser(class_id, team_id, user_id, team_leader, status) \n"
+                + " values(" + classid + "," + tid + ", " + getUserID(u.getRollNum())
+                + ", " + isLead(u.getLeader()) + ","
                 + "1)";
         try {
             Connection conn = getConnection();
-            Statement s = conn.createStatement();   
+            Statement s = conn.createStatement();
             n = s.executeUpdate(sql);
         } catch (Exception e) {
             System.out.println(sql);
@@ -498,49 +487,52 @@ public class DAOchangePass extends ConnectDB.ConnectJDBC {
         }
         return n;
     }
-    
-    public String isLead(String s){
-        if(s == null)
+
+    public String isLead(String s) {
+        if (s == null) {
             return "0";
-        if(s.equalsIgnoreCase("true"))
+        }
+        if (s.equalsIgnoreCase("true")) {
             return "1";
-        else
+        } else {
             return "0";
+        }
     }
-    
-    public String getUserID(String s){
-        String sql = "select user_id from user where roll_number like '"+s+"'";
+
+    public String getUserID(String s) {
+        String sql = "select user_id from user where roll_number like '" + s + "'";
         ResultSet rs = getData(sql);
         try {
-            if(rs.next())
+            if (rs.next()) {
                 return rs.getString(1);
+            }
         } catch (Exception e) {
         }
         return "";
     }
-    
-    public int insertLOC(loc_evaluation loc){
+
+    public int insertLOC(loc_evaluation loc) {
         int n = 0;
-        if(loc.getEvaluation_note() == null){
+        if (loc.getEvaluation_note() == null) {
             loc.setEvaluation_note("");
         }
-            
+
         String sql = "insert into loc_evaluation"
                 + "(evaluation_time, evaluation_note, "
-                + "complexity_id, quality_id, tracking_id)\n" +
-"values('"+loc.getEvaluation_time()+"', '"+loc.getEvaluation_note()+"',"
-                + " "+loc.getComplexity_id()+", "+loc.getQuality_id()+", "
-                + ""+loc.getTracking_id()+")";
-        
+                + "complexity_id, quality_id, tracking_id)\n"
+                + "values('" + loc.getEvaluation_time() + "', '" + loc.getEvaluation_note() + "',"
+                + " " + loc.getComplexity_id() + ", " + loc.getQuality_id() + ", "
+                + "" + loc.getTracking_id() + ")";
+
         try {
             Connection conn = getConnection();
-            Statement s = conn.createStatement();   
+            Statement s = conn.createStatement();
             n = s.executeUpdate(sql);
         } catch (Exception e) {
             System.out.println(sql);
             e.printStackTrace();
         }
-        
+
         return n;
     }
 
@@ -596,25 +588,24 @@ public class DAOchangePass extends ConnectDB.ConnectJDBC {
         return vect;
     }
 
-    public Vector<loc_evaluation> viewAllLoc(String s) {
-        Vector<loc_evaluation> vect = new Vector<>();
+    public Vector<ThanhTracking> viewAllLocByStudent(String s) {
+        Vector<ThanhTracking> list = new Vector<>();
         String sql;
         if (s.equals("0")) {
             sql = " select * from loc_evaluation";
         } else {
-            sql = " select * from loc_evaluation where tracking_id = " + s;
+            sql = "select * from tracking where assignee_id = " + s;
         }
         ResultSet rs = getData(sql);
         try {
             while (rs.next()) {
-                loc_evaluation l = new loc_evaluation(rs.getString(1), rs.getString(2),
-                        rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
-                vect.add(l);
+                list.add(new ThanhTracking(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6),
+                        rs.getString(7), rs.getString(8), rs.getString(9)));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return vect;
+        return list;
     }
 
     public loc_evaluation getLOCEva(String id) {
@@ -650,18 +641,18 @@ public class DAOchangePass extends ConnectDB.ConnectJDBC {
 
     public Vector<loc_evaluation> getMemEva(String id, String classid) {
         Vector<loc_evaluation> v = new Vector<>();
-        String sql = "select * from loc_evaluation a right join tracking b on  \n" +
-"a.tracking_id = b.tracking_id\n" +
-"inner join team c on b.team_id = c.team_id\n" +
-"inner join class d on c.class_id = d.class_id\n" +
-" where b.assignee_id = "+id+" and c.class_id = " + classid;
+        String sql = "select * from loc_evaluation a right join tracking b on  \n"
+                + "a.tracking_id = b.tracking_id\n"
+                + "inner join team c on b.team_id = c.team_id\n"
+                + "inner join class d on c.class_id = d.class_id\n"
+                + " where b.assignee_id = " + id + " and c.class_id = " + classid;
         ResultSet rs = getData(sql);
         try {
             loc_evaluation loc = new loc_evaluation();
             while (rs.next()) {
-                loc = new loc_evaluation(rs.getString(1), rs.getString(2),
+                loc = new loc_evaluation(rs.getString(1), ConvertDateFormat(rs.getString(2)),
                         rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6),
-                        rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12),
+                        rs.getString(8), getMile(rs.getString(9)), getFunc(rs.getString(10)), rs.getString(11), rs.getString(12),
                         rs.getString(13), rs.getString(14), rs.getString(15));
                 v.add(loc);
             }
@@ -672,13 +663,193 @@ public class DAOchangePass extends ConnectDB.ConnectJDBC {
         return null;
     }
 
-    public static void main(String[] args) {
-        DAOchangePass dao = new DAOchangePass();
-        Vector<Setting> v = dao.ViewComplexity();
-        for (Setting o : v) {
-            System.out.println(o);
+    public String ConvertDateFormat(String s) {
+        //neu can this hay sua thang nay
+        final String temp = "yyyy-MM-dd";
+        Date date1 = new Date();
+        if (s == null || s.equals("")) {
+            return "not yet";
         }
-
+        try {
+            date1 = new SimpleDateFormat(temp).parse(s);
+            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            String strDate = dateFormat.format(date1);
+            return strDate;
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+            return "not yet";
+        }
     }
 
+    public Vector<Class_s> allClass() {
+        Vector<Class_s> list = new Vector<>();
+
+        String sql = "select * from class ";
+        //  System.out.println(sql);
+        ResultSet rs = getData(sql);
+        try {
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                String ClassCode = rs.getString(2);
+                String trainerId = rs.getString(3);
+                String SubjectId = rs.getString(4);
+                String ClassYear = rs.getString(5);
+                String ClassTerm = rs.getString(6);
+                String Block5Class = rs.getString(7);
+                int status = rs.getInt(8);
+                Class_s u = new Class_s(id, ClassCode, ShowTeacher(trainerId), ShowSubject(SubjectId), ClassYear, ClassTerm, Block5Class, status);
+                list.add(u);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public Vector<Team> viewTeamByClass(String id) {
+        Vector<Team> list = new Vector<>();
+        String sql = "select * from team where class_id = " + id;
+        ResultSet rs = getData(sql);
+        try {
+            while (rs.next()) {
+                list.add(new Team(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
+                        rs.getInt(6), rs.getString(7)));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
+    public boolean checkTeamExist(String clas, String team) {
+        String sql = "select * from "
+                + "team where class_id = " + clas + " and team_name = " + team;
+        try {
+            ResultSet rs = getData(sql);
+            if (rs.next()) {
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println(sql);
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public Vector<Tracking> AllTracking() {
+        Vector<Tracking> list = new Vector<>();
+        String sql = "SELECT * FROM tracking a\n"
+                + "left join team b on a.team_id = b.team_id\n"
+                + "left join milestone c on a.milestone_id = c.milestone_id\n"
+                + "left join `function` d on d.function_id = a.function_id\n"
+                + "left join user e on e.user_id = a.assigner_id\n"
+                + "left join user f on f.user_id = a.assignee_id\n";
+        ResultSet rs = getData(sql);
+        try {
+            while (rs.next()) {
+                list.add(new Tracking(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6),
+                        rs.getString(7), rs.getString(8), rs.getInt(9), rs.getString(16), rs.getString(23), rs.getString(26), rs.getString(36), rs.getString(50)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public String getLocID(String id) {
+        String sql = "select * from loc_evaluation where tracking_id = " + id;
+        ResultSet rs = getData(sql);
+        try {
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String getMile(String s) {
+        String sql = "select milestone_name from milestone where milestone_id = " + s;
+        try {
+            ResultSet rs = getData(sql);
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    public String getFunc(String s) {
+        String sql = "select function_name from `function` where function_id = " + s;
+        try {
+            ResultSet rs = getData(sql);
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    public Vector<String> allMile(String clas) {
+        Vector<String> v = new Stack<>();
+        String sql = "select milestone_name from milestone"
+                + " where class_id = " + clas;
+        try {
+            ResultSet rs = getData(sql);
+            while (rs.next()) {
+                v.add(rs.getString(1));
+            }
+        } catch (Exception e) {
+        }
+        return v;
+    }
+
+    public Vector<String> allFunct() {
+        Vector<String> v = new Stack<>();
+        String sql = "select function_name from `function` ";
+        try {
+            ResultSet rs = getData(sql);
+            while (rs.next()) {
+                v.add(rs.getString(1));
+            }
+        } catch (Exception e) {
+        }
+        return v;
+    }
+
+    public Vector<User> allTrainer() {
+        Vector<User> v = new Stack<>();
+        String sql = "select * from user where (role_id = 3 or \n"
+                + "role_id = 2) and status = 1";
+        try {
+            ResultSet rs = getData(sql);
+            while (rs.next()) {
+                User u = new User(rs.getInt(1), rs.getString(3), "", "");
+                v.add(u);
+            }
+        } catch (Exception e) {
+        }
+        return v;
+    }
+
+    public static void main(String[] args) {
+        DAOchangePass dao = new DAOchangePass();
+//        Vector<loc_evaluation> v = dao.getMemEva("2017", "4");
+//        for (loc_evaluation o : v) {
+//            System.out.println(o);
+//        }
+//        Vector<Class_s> v = dao.ViewAllClassName("", "0", "and trainer_id = 2");
+//        Vector<Class_s> v0 = new Vector<>();
+//        for (Class_s o : v) {
+//            System.out.println(o);
+//        }
+        Vector<User> v = dao.allTrainer();
+        System.out.println(v);
+        for (User o : v) {
+            System.out.println(o);
+        }
+    }
 }

@@ -20,6 +20,7 @@
         <link
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
         <!-- Custom styles for this template-->
         <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -83,30 +84,31 @@
                         <div class="container-fluid">
                             <div class="card shadow mb-4">
                                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                                    <a style="font-weight: bold" class="navbar-brand" href="UserController">List All<br> Users:</a>
+                                    <a style="font-weight: bold" class="navbar-brand" href="UserController">List All Users:</a>
                                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                         <ul class="navbar-nav mr-auto">
-                                            <li class="nav-item active">
-                                                <a class="nav-link">Role <span class="sr-only">(current)</span></a>
-                                            </li>
+                                            <!--                                            <li class="nav-item active">
+                                                                                            <a class="nav-link">Role <span class="sr-only">(current)</span></a>
+                                                                                        </li>-->
                                             <li class="nav-item">
-                                                <form action="UserController?go=searchRole" method="post">
+                                                <form action="UserController" method="get">
+                                                    <input type="hidden" name="go" value="searchRole">
                                                     <select class="form-control form-control-user" name="ROLEid" onchange="this.form.submit()">
                                                         <option ${role == 5 ? "selected" : ""} value="5">All role</option>
-                                                        <option ${role == 1 ? "selected" : ""} value="1">Student</option>
-                                                        <option ${role == 2 ? "selected" : ""} value="2">Trainer</option>
-                                                        <option ${role == 3 ? "selected" : ""} value="3">Author</option>
-                                                        <option ${role == 4 ? "selected" : ""} value="4">Admin</option>
+                                                    <option ${role == 1 ? "selected" : ""} value="1">Student</option>
+                                                    <option ${role == 2 ? "selected" : ""} value="2">Trainer</option>
+                                                    <option ${role == 3 ? "selected" : ""} value="3">Author</option>
+                                                    <option ${role == 4 ? "selected" : ""} value="4">Admin</option>
                                                 </select>
                                             </form>
                                         </li>
-                                        <li class="nav-item active">
-                                            <a class="nav-link">Status <span class="sr-only">(current)</span></a>
-                                        </li>
+                                        <!--                                        <li class="nav-item active">
+                                                                                    <a class="nav-link">Status <span class="sr-only">(current)</span></a>
+                                                                                </li>-->
                                         <li class="nav-item">
                                             <form action="UserController?go=searchByStatus" method="post">
                                                 <select class="form-control form-control-user" name="statu" onchange="this.form.submit()">
-                                                    <option value="2">All status</option>
+                                                    <option ${status == 2 ? "selected" : ""} value="2">All status</option>
                                                     <option ${status == 1 ? "selected" : ""} value="1">Active</option>
                                                     <option ${status == 0 ? "selected" : ""} value="0">Deactive</option>
                                                 </select>
@@ -118,6 +120,7 @@
                                         <li class="nav-item">
                                             <form action="UserController?go=sortFullname" method="post">
                                                 <select class="form-control form-control-user" name="sort" onchange="this.form.submit()">
+                                                    <option ${sort == 0 ? "selected" : ""} value="0">None</option>
                                                     <option ${sort == 1 ? "selected" : ""} value="1">Increase</option>
                                                     <option ${sort == 2 ? "selected" : ""} value="2">Decrease</option>
                                                 </select>
@@ -131,7 +134,7 @@
                                     </form>
                                 </div>
                             </nav>
-                            <p style="text-align: center; font-weight: bold;">Number of users: ${countUser}</p><a style="margin-left: 50px" href="UserController?go=addNewUser">Add new User</a>
+                            <p style="text-align: center; font-weight: bold;">Number of users: ${countUser}</p><a style="margin-left: 50px; display: block; width: 110px;" href="UserController?go=addNewUser">Add new User</a>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -162,10 +165,10 @@
 
                                                     <td>${o.date_of_birth}</td>
                                                     <td>
-                                                        <form action="UserController?go=changeStatus" method="POST">
+                                                        <form id="idS${o.user_id}" action="UserController?go=changeStatus" method="POST">
                                                             <input type="hidden" name="userID" value="${o.user_id}"/>
-                                                            <select class="form-control form-control-user" name="status" onchange="this.form.submit()">
-                                                                <option ${o.status == 0 ? "selected" : ""} value="0">Deactive</option>
+                                                            <select class="form-control form-control-user" name="status" onchange="submitForm(idS${o.user_id})">
+                                                                <option ${o.status == 0 ? "selected" : ""} value="0">Deactivate</option>
                                                                 <option ${o.status == 1 ? "selected" : ""} value="1">Active</option>
                                                             </select>
                                                         </form>  
@@ -181,109 +184,131 @@
                                                             </select>
                                                         </form>  
                                                     </td>
-                                                    <td><a class="EditLink" href="UserController?go=editUser&userID=${o.user_id}">Edit</a></td>
+
+                                                    <td><a href="UserController?go=editUser&userID=${o.user_id}">
+                                                            <span class="material-symbols-outlined">
+                                                                edit
+                                                            </span>
+                                                        </a></td>
                                                 </tr>
                                             </c:forEach>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="phanTrang">
-                                    <a href="UserController?go=listAllUser&page=${page-1}&nameAndRoll=${search}" class="${page == k ? "collapse-item active":""}">Previous</a>
+                                    <a onclick="${page < numberPage ? "do_back()" : ""}" class="${page == k ? "collapse-item active":""}">Previous</a>
                                     <a style="text-decoration: none;" class="collapse-item active">${page} of ${numberPage}</a>
-                                    <a href="UserController?go=listAllUser&page=${page+1}&nameAndRoll=${search}" class="${page == k ? "collapse-item active":""}">Next</a>
+                                    <a onclick="${page < numberPage ? "do_next()" : ""}" class="${page == k ? "collapse-item active":""}">Next</a>
                                 </div>
                             </div>
                             <!-- /.container-fluid -->
-
                         </div>
-                        <!-- End of Main Content -->
-
-
-                        <script>
-                            function submitForm(form) {
-                                swal({
-                                    title: "Are you sure?",
-                                    text: "This form will be submitted",
-                                    icon: "warning",
-                                    buttons: true,
-                                    dangerMode: true,
-                                })
-                                        .then(function (isOkay) {
-                                            if (isOkay) {
-                                                form.submit();
-                                            }
-                                        });
-                                return false;
-                            }
-                        </script>
-
-                        <script>
-                            document.addEventListener('DOMContentLoaded', function () {
-                                Fnon.Hint.Init({
-                                    zIndex: 9900,
-                                });
-                                // Hint
-                                var message = "${message}";
-                                var theme = "${theme}";
-                                var title = "${title}";
-                                var position = "right-top";
-                                var animation = "slide-left";
-                                Fnon.Hint[theme](message, {
-                                    title,
-                                    position,
-                                    animation,
-                                })
-                            });
-                        </script>
-
-                        <script src="js/sweetalert.min.js"></script>
-
-                        <script src="js/SenJS.js"></script>
-                        <script src="js/fnon.min.js"></script>
-                        <!-- Footer -->
-                        <!--            <footer class="sticky-footer bg-white">
-                                        <div class="container my-auto">
-                                            <div class="copyright text-center my-auto">
-                                                <span>Copyright &copy; Your Website 2021</span>
-                                            </div>
-                                        </div>
-                                    </footer>-->
-                        <!-- End of Footer -->
-
                     </div>
-                    <!-- End of Content Wrapper -->
-
                 </div>
-                <!-- End of Page Wrapper -->
+            </div>
+        </div>
+        <!-- End of Main Content -->
 
-                <!-- Scroll to Top Button-->
-                <a class="scroll-to-top rounded" href="#page-top">
-                    <i class="fas fa-angle-up"></i>
-                </a>
 
-                <!-- Logout Modal-->
-                <jsp:include page="../LogOut.jsp"></jsp:include>
 
-                <!-- Bootstrap core JavaScript-->
-                <script src="vendor/jquery/jquery.min.js"></script>
-                <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script>
+                                                                function submitForm(form) {
+                                                                    swal({
+                                                                        title: "Are you sure?",
+                                                                        text: "This form will be submitted",
+                                                                        icon: "warning",
+                                                                        buttons: true,
+                                                                        dangerMode: true,
+                                                                    })
+                                                                            .then(function (isOkay) {
+                                                                                if (isOkay) {
+                                                                                    form.submit();
+                                                                                }
+                                                                            });
+                                                                    return false;
+                                                                }
+        </script>
 
-                <!-- Core plugin JavaScript-->
-                <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Fnon.Hint.Init({
+                    zIndex: 9900,
+                });
+                // Hint
+                var message = "${message}";
+                var theme = "${theme}";
+                var title = "${title}";
+                var position = "right-top";
+                var animation = "slide-left";
+                Fnon.Hint[theme](message, {
+                    title,
+                    position,
+                    animation,
+                })
+            });
+        </script>
 
-                <!-- Custom scripts for all pages-->
-                <script src="js/sb-admin-2.min.js"></script>
+        <script src="js/sweetalert.min.js"></script>
 
-                <!-- Page level plugins -->
-                <script src="vendor/chart.js/Chart.min.js"></script>
+        <script src="js/SenJS.js"></script>
+        <script src="js/fnon.min.js"></script>
+        <!-- Footer -->
+        <!--            <footer class="sticky-footer bg-white">
+                        <div class="container my-auto">
+                            <div class="copyright text-center my-auto">
+                                <span>Copyright &copy; Your Website 2021</span>
+                            </div>
+                        </div>
+                    </footer>-->
+        <!-- End of Footer -->
 
-                <!-- Page level custom scripts -->
-                <script src="js/demo/chart-area-demo.js"></script>
-                <script src="js/demo/chart-pie-demo.js"></script>
+        <!-- End of Content Wrapper -->
 
-                <script src="js/sweetalert.min.js"></script>
+        <!-- End of Page Wrapper -->
 
-                </body>
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
 
-                </html>
+        <!-- Logout Modal-->
+        <jsp:include page="../LogOut.jsp"></jsp:include>
+
+            <!-- Bootstrap core JavaScript-->
+            <script src="vendor/jquery/jquery.min.js"></script>
+            <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+            <!-- Core plugin JavaScript-->
+            <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+            <!-- Custom scripts for all pages-->
+            <script src="js/sb-admin-2.min.js"></script>
+
+            <!-- Page level plugins -->
+            <script src="vendor/chart.js/Chart.min.js"></script>
+
+            <!-- Page level custom scripts -->
+            <script src="js/demo/chart-area-demo.js"></script>
+            <script src="js/demo/chart-pie-demo.js"></script>
+
+            <script src="js/sweetalert.min.js"></script>
+
+            <script>
+            function do_back() {
+                var url = new URL(window.location.href);
+                url.searchParams.set("page", '${page-1}');
+                document.location.search = url.search;
+            }
+        </script>
+
+        <script>
+            function do_next() {
+                var url = new URL(window.location.href);
+                url.searchParams.set("page", '${page+1}');
+                document.location.search = url.search;
+            }
+        </script>
+    </body>
+
+</html>
 

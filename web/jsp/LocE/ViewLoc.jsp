@@ -1,6 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%-- 
     Document   : ViewLoc
     Created on : Jun 23, 2022, 9:26:20 PM
@@ -58,8 +59,54 @@
                         <!-- Begin Page Content -->
                         <div class="container-fluid">
 
-                               
-                            
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>team name</th>
+                                                    <th>mile stone</th>
+                                                    <th>function</th>
+                                                    <th>assigner</th>
+                                                    <th>assignee</th>
+                                                    
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>team name</th>
+                                                    <th>mile stone</th>
+                                                    <th>function</th>
+                                                    <th>assigner</th>
+                                                    <th>assignee</th>
+                                                    
+                                                    <th>Action</th>
+                                                </tr>
+                                            </tfoot>
+                                            <tbody>
+                                            <c:forEach var="o" items="${vect}">
+                                                <tr>
+                                                    <td>${o.team_name}</td>
+                                                    <td>${o.milestone_name}</td>
+                                                    <td>${o.function_name}</td>
+                                                    <td>${o.assigner_name}</td>
+                                                    <td>${o.assignee_name}</td>
+                                                    
+                                                    <td><a href="LocEvalue?go=evaluation&trID=${o.tracking_id}">Loc action</a></td>
+                                                </tr>
+                                            </c:forEach>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>  
+
                     </div>
                     <!-- /.container-fluid -->
 

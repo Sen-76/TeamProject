@@ -49,7 +49,7 @@ public class DAOIteration extends ConnectJDBC {
         ResultSet rs = getData(sql);
         try {
             while (rs.next()) {
-                list.add(new Iteration(rs.getInt(1), rs.getInt(2), rs.getString(7), rs.getString(3), rs.getString(4), rs.getInt(5)));
+                list.add(new Iteration(rs.getInt(1), rs.getInt(2), rs.getString(8), rs.getString(3), rs.getString(4), rs.getInt(5)));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -100,12 +100,12 @@ public class DAOIteration extends ConnectJDBC {
         List<Iteration> list = new ArrayList<>();
         String sql = "SELECT * FROM iteration it inner join subject sub\n"
                 + "on it.subject_id = sub.subject_id\n"
-                + "where it.subject_id = "+id+"\n"
+                + "where it.subject_id = " + id + "\n"
                 + "order by it.subject_id";
         ResultSet rs = getData(sql);
         try {
             while (rs.next()) {
-                list.add(new Iteration(rs.getInt(1),rs.getInt(2) ,rs.getString(7), rs.getString(3), rs.getString(4), rs.getInt(5)));
+                list.add(new Iteration(rs.getInt(1), rs.getInt(2), rs.getString(8), rs.getString(3), rs.getString(4), rs.getInt(5)));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -122,7 +122,7 @@ public class DAOIteration extends ConnectJDBC {
         ResultSet rs = getData(sql);
         try {
             while (rs.next()) {
-                list.add(new Iteration(rs.getInt(1), rs.getString(7), rs.getString(3), rs.getString(4), rs.getInt(5)));
+                list.add(new Iteration(rs.getInt(1), rs.getString(8), rs.getString(3), rs.getString(4), rs.getInt(5)));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -153,7 +153,7 @@ public class DAOIteration extends ConnectJDBC {
         ResultSet rs = getData(sql);
         try {
             while (rs.next()) {
-                list.add(new Iteration(rs.getInt(1), rs.getInt(2), rs.getString(7), rs.getString(3), rs.getString(4), rs.getInt(5)));
+                list.add(new Iteration(rs.getInt(1), rs.getInt(2), rs.getString(8), rs.getString(3), rs.getString(4), rs.getInt(5)));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -167,13 +167,43 @@ public class DAOIteration extends ConnectJDBC {
         ResultSet rs = getData(sql);
         try {
             if (rs.next()) {
-                return new Iteration(rs.getInt(1), rs.getInt(2), rs.getString(7), rs.getString(3), rs.getString(4), rs.getInt(5));
+                return new Iteration(rs.getInt(1), rs.getInt(2), rs.getString(8), rs.getString(3), rs.getString(4), rs.getInt(5));
 
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return null;
+    }
+
+    public int deleteIteration(String iteId, String subId) {
+        int n = 0;
+        String sql = "delete from `swp391-project`.iteration \n"
+                + "where iteration_id = ? and subject_id = ?";
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, iteId);
+            ps.setString(2, subId);
+            n = ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return n;
+    }
+
+    public int updateStatus(String iteId, String status) {
+        int n = 0;
+        String sql = "update iteration\n"
+                + "set status = ? where iteration_id = ?";
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setString(1,status);
+            ps.setString(2, iteId);
+            n = ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }       
+        return n;
     }
 
     public int countIte() {
@@ -188,6 +218,19 @@ public class DAOIteration extends ConnectJDBC {
         }
         return 0;
     }
+    
+    public boolean checkExistIte(String name) {
+        String sql = " select * from Iteration where iteration_name like '" + name + "'";
+        ResultSet rs = getData(sql);
+        try {
+            if (rs.next()) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     public static void main(String[] args) {
         DAOIteration dao = new DAOIteration();
@@ -197,7 +240,7 @@ public class DAOIteration extends ConnectJDBC {
 //        if (n > 0) {
 //            System.out.println("chay dc");
 //        }
-        List<Iteration> list = dao.searchIteration("1","a");
+        List<Iteration> list = dao.searchIteration("1", "a");
         for (Iteration temp : list) {
             System.out.println(temp);
         }

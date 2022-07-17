@@ -59,24 +59,24 @@
                                                         <option value="${o.iteration_id}">${o.subject_code}-${o.iteration_name}</option>
                                                     </c:forEach>
                                                 </select> 
-                                                <br> Title:
+                                                Title:
                                                 <input class="form-control"  maxlength="140" type="text" name="title" value="${txtTitle}" required/>
-                                                <br> Weight:
-                                                <br> <input type="text" name="weight" value="${txtWeight}" required/>%
+                                                Weight:
+                                                <br> <input style="width:350px" type="text" name="weight" value="${txtWeight}" required/>%
                                                 <div style="color: red">${errW}</div>
-                                                <br> LOC:
+                                                LOC:
                                                 <input class="form-control" type="text" name="loc" value="${txtLoc}" required />
                                                 <div style="color: red">${errL}</div>
-                                                <br>  Order: 
-                                                <br>  <input type="text" name="order" value="${txtOrder}" required/>
-                                                 <div style="color: red">${errO}</div>
-                                                <br>  Status:</br>
+                                                 Order: 
+                                                <br>  <input style="width:350px" type="text" name="order" value="${txtOrder}" required/>
+                                                <div style="color: red">${errO}</div>
+                                                 Status:</br>
                                                 <input type="radio" name="status" value="1" checked>Active
                                                 <input style="margin-left: 30px" type="radio" name="status" value="2">Deactive
-                                                <br>   Team Evaluation:
+                                                <span style="margin-left:35px"> Team Evaluation:</span>
                                                 <input  type="checkbox" name="evaluation" value="true" />
                                                 <br>Description:
-                                                <textarea  class="form-control" name="description"></textarea>
+                                                <textarea  class="form-control" name="description"></textarea><br>
                                                 <input type="submit" name="submit" class="update" onclick="return confirm('Are you sure you want to add?')" value="Add" />
 
 

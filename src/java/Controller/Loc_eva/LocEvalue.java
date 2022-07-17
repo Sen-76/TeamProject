@@ -45,10 +45,10 @@ public class LocEvalue extends HttpServlet {
             User loged = (User) session.getAttribute("Loged");
             DAOchangePass dao = new DAOchangePass();
             DAOSen daoS = new DAOSen();
-            if (loged == null) {
-                request.getRequestDispatcher("Login_sen").forward(request, response);
-                return;
-            }
+//            if (loged == null) {
+//                request.getRequestDispatcher("Login_sen").forward(request, response);
+//                return;
+//            }
 //            try {
 //                if (loged.getRole_id() != 4) {
 //                    request.setAttribute("messE", "Seems like you don't have permission to do this");
@@ -58,7 +58,12 @@ public class LocEvalue extends HttpServlet {
 //            } catch (Exception e) {
 //            }
             if (service == null) {
-                service = "evaluation";
+                service = "show";
+            }
+            if (service.equals("show")) {
+                Vector<Tracking> v = dao.AllTracking();
+                request.setAttribute("vect", v);
+                request.getRequestDispatcher("/jsp/LocE/ViewLoc.jsp").forward(request, response);
             }
             if (service.equals("evaluation")) {
                 String trID = request.getParameter("trID");
@@ -87,6 +92,7 @@ public class LocEvalue extends HttpServlet {
                     String tid = request.getParameter("tid");
                     request.setAttribute("tracking", tid);
                     request.setAttribute("today", strDate);
+
                     request.getRequestDispatcher("/jsp/LocE/AddLoc.jsp").forward(request, response);
                 }
                 if (submit != null) {
@@ -103,7 +109,10 @@ public class LocEvalue extends HttpServlet {
                         request.setAttribute("message", "Đã add thành công LOC mới!");
                         request.setAttribute("theme", "Success");
                         session.removeAttribute("tracking");
-                        request.getRequestDispatcher("/jsp/LocE/ViewLoc.jsp").forward(request, response);
+
+                        Vector<Tracking> v = dao.AllTracking();
+                        request.setAttribute("vect", v);
+                        request.getRequestDispatcher("/Tracking").forward(request, response);
                     } else {
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                         String strDate = formatter.format(date);
@@ -119,7 +128,8 @@ public class LocEvalue extends HttpServlet {
                 }
             }
             if (service.equals("updateLoc")) {
-                String eid = (String) session.getAttribute("tracking");
+                String eid = (String) session.getAttribute("tracking"); //sai cai nay
+                String locid = dao.getLocID(eid);
                 String submit = request.getParameter("submit");
                 if (submit == null) {
                     Date date = new Date();
@@ -147,16 +157,24 @@ public class LocEvalue extends HttpServlet {
                     String qual = request.getParameter("qual");
                     String track = request.getParameter("tracking");
 
-                    loc_evaluation loc = new loc_evaluation(eid, date, note, comp, qual, "1");
+                    loc_evaluation loc = new loc_evaluation(locid, date, note, comp, qual, track);
                     int n = dao.updateLOC(loc);
 
+                    if(n > 0){
                     //Vector<loc_evaluation> vect = dao.viewAllLoc(trID);
                     // request.setAttribute("vectLoc", vect);
                     request.setAttribute("title", "Add thành công");
                     request.setAttribute("message", "Đã update thành công LOC mới!");
                     session.removeAttribute("tracking");
                     request.setAttribute("theme", "Success");
-                    request.getRequestDispatcher("/jsp/LocE/ViewLoc.jsp").forward(request, response);
+                    
+                    Vector<Tracking> v = dao.AllTracking();
+                    request.setAttribute("vect", v);
+                    request.getRequestDispatcher("/Tracking").forward(request, response);
+                }
+                    else{
+                        out.print(loc.toString());
+                    }
                 }
             }
         }

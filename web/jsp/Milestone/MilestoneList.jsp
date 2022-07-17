@@ -1,6 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%-- 
     Document   : HomeExample
     Created on : May 20, 2022, 12:55:19 PM
@@ -74,157 +75,147 @@
 
 
                             <div>Click <a href="MilestoneListServlet?go=addMilestone">here</a> to add Milestone</div>
-                            ${sta}
+                            
 
-                            <div class="card-body">
-                                <div class="table-responsive">
+                            <div>All Of Classes: <c:forEach var="o" items="${listClassCode}">
+                                    <a class="btn btn-outline-primary" href="MilestoneListServlet?go=EachClass&classId=${o.class_id}">${o.classCode} </a>
+                                </c:forEach><div>
 
-                                    <table id="slide" class="table table-bordered" width="100%" cellspacing="0">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
 
-                                        <thead>
-                                            <tr>
-                                                <th>Milestone Id</th>
-                                                <th>Iteration Name</th>
-                                                <th>Class Code</th>                                                                                           
-                                                <th>From Date</th>
-                                                <th>To Date</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
+                                            <table id="slide" class="table table-bordered" width="100%" cellspacing="0">
 
-                                            </tr>
-                                        </thead>
-                                        <tfoot>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Milestone Name</th>
+                                                        <th>Iteration Name</th>
+                                                        <th>Class Code</th>                                                                                           
+                                                        <th>From Date</th>
+                                                        <th>To Date</th>
+                                                        <th>Status</th>
+                                                        <th>Action</th>
 
-                                            <tr>
-                                                <th>Milestone Id</th>
-                                                <th>Iteration Name</th>
-                                                <th>Class Code</th>                                                                                           
-                                                <th>From Date</th>
-                                                <th>To Date</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                            </tr>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    <c:forEach var="o" items="${list}">
+                                                        <tr>
+                                                            <td>${o.milestone_name}</td>
+                                                            <td>${o.iterationName}</td>
+                                                            <td>${o.classCode}</td>
+                                                            <td>${o.from_date}</td>
+                                                            <td>${o.to_date}</td>
+                                                            <td>
+                                                                <form action="MilestoneListServlet?go=updateStatus" method="Post">
+                                                                    <input type="hidden" name="mileId" value="${o.milestone_id}">
+                                                                    <select class="form-control form-control-user id" id ="status" name="status" onchange="this.form.submit()">
+                                                                        <option value="1" ${o.status == 1 ? "selected" : ""}>Open</option>
+                                                                        <option value="2" ${o.status == 2 ? "selected" : ""}>Closed</option>
+                                                                        <option value="3" ${o.status == 3 ? "selected" : ""}>Cancelled</option>
+                                                                    </select>
+                                                                </form>
+                                                            </td>                                                    
+                                                            <td><a class="btn btn-outline-primary" href="MilestoneListServlet?go=updateMilestone&mileId=${o.milestone_id}&iteId=${o.interation_id}&classId=${o.class_id}">Edit </a>
+                                                                <a class="btn btn-outline-danger" href="MilestoneListServlet?go=deleteMilestone&mileId=${o.milestone_id}&iteId=${o.interation_id}&classId=${o.class_id}"> Delete</a></td>
+
+                                                        </tr> 
+                                                    </c:forEach>
+
+                                                </tbody>
+                                            </table>
+
+                                            <c:if test="${page>1}">
+                                                <a href="MilestoneListServlet?go=listAllMilestone&page=${page - 1}" >pre</a>
+                                            </c:if>
+
+                                            Page ${page}
+                                            <c:if test="${page!=countPage}">
+                                                <a href="MilestoneListServlet?go=listAllMilestone&page=${page + 1}">next</a>
+                                            </c:if>
+                                        </div>
+                                    </div>
+                                </div>
 
 
-                                        </tfoot>
-                                        <tbody>
-                                            <c:forEach var="o" items="${list}">
-                                                <tr>
-                                                    <td>${o.milestone_id}</td>
-                                                    <td>${o.iterationName}</td>
-                                                    <td>${o.classCode}</td>
-                                                    <td>${o.from_date}</td>
-                                                    <td>${o.to_date}</td>
-                                                    <td>
-                                                        <form action="MilestoneListServlet?go=updateStatus" method="Post">
-                                                            <input type="hidden" name="mileId" value="${o.milestone_id}">
-                                                            <select class="form-control form-control-user" id ="status" name="status" onchange="this.form.submit()">
-                                                                <option value="1" ${o.status == 1 ? "selected" : ""}>Open</option>
-                                                                <option value="2" ${o.status == 2 ? "selected" : ""}>Closed</option>
-                                                                <option value="3" ${o.status == 3 ? "selected" : ""}>Cancelled</option>
-                                                            </select>
-                                                        </form>
 
-                                                    </td>                                                    
-                                                    <td><a href="MilestoneListServlet?go=updateMilestone&mileId=${o.milestone_id}&iteId=${o.interation_id}&classId=${o.class_id}">Edit </a>
-                                                    <a href="MilestoneListServlet?go=deleteMilestone&mileId=${o.milestone_id}&iteId=${o.interation_id}&classId=${o.class_id}"> Delete</a></td>
 
-                                                </tr> 
-                                            </c:forEach>
+                            </div>
+                            <!-- /.container-fluid -->
 
-                                        </tbody>
-                                    </table>
+                        </div>
+                        <!-- End of Main Content -->
 
-                                    <c:if test="${page>1}">
-                                        <a href="MilestoneListServlet?go=listAllMilestone&page=${page - 1}" >pre</a>
-                                    </c:if>
-
-                                    Page ${page}
-                                    <c:if test="${page!=countPage}">
-                                        <a href="MilestoneListServlet?go=listAllMilestone&page=${page + 1}">next</a>
-                                    </c:if>
+                        <!-- Footer -->
+                        <footer class="sticky-footer bg-white">
+                            <div class="container my-auto">
+                                <div class="copyright text-center my-auto">
+                                    <span>Copyright &copy; Your Website 2021</span>
                                 </div>
                             </div>
-                        </div>
-
-
-
+                        </footer>
+                        <!-- End of Footer -->
 
                     </div>
-                    <!-- /.container-fluid -->
+                    <!-- End of Content Wrapper -->
 
                 </div>
-                <!-- End of Main Content -->
+                <!-- End of Page Wrapper -->
 
-                <!-- Footer -->
-                <footer class="sticky-footer bg-white">
-                    <div class="container my-auto">
-                        <div class="copyright text-center my-auto">
-                            <span>Copyright &copy; Your Website 2021</span>
-                        </div>
-                    </div>
-                </footer>
-                <!-- End of Footer -->
+                <!-- Scroll to Top Button-->
+                <a class="scroll-to-top rounded" href="#page-top">
+                    <i class="fas fa-angle-up"></i>
+                </a>
 
-            </div>
-            <!-- End of Content Wrapper -->
+                <!-- Logout Modal-->
+                <jsp:include page="../LogOut.jsp"></jsp:include>
 
-        </div>
-        <!-- End of Page Wrapper -->
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+                <script>
+                                                                        function CallAjax() {
+                                                                            var classId = document.getElementById("classId").value;
+                                                                            var iteName = document.getElementById("iteId").value;
+                                                                            var Ajax = "Ajax";
+                                                                            $.ajax({
+                                                                                url: "/g1/MilestoneListServlet",
+                                                                                type: "get",
+                                                                                data: {
+                                                                                    Ajax: Ajax,
+                                                                                    classId: classId,
+                                                                                    iteId: iteName
+                                                                                },
+                                                                                success: function (data) {
+                                                                                    var slide = document.getElementById("slide");
+                                                                                    slide.innerHTML = data;
+                                                                                },
+                                                                                error: function (xhr) {
+                                                                                }
+                                                                            });
+                                                                        }
+                </script>
 
-        <!-- Scroll to Top Button-->
-        <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fas fa-angle-up"></i>
-        </a>
+                <!-- Bootstrap core JavaScript-->
+                <script src="vendor/jquery/jquery.min.js"></script>
+                <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-        <!-- Logout Modal-->
-        <jsp:include page="../LogOut.jsp"></jsp:include>
+                <!-- Core plugin JavaScript-->
+                <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script>
-                                    function CallAjax() {
-                                        var classId = document.getElementById("classId").value;
-                                        var iteName = document.getElementById("iteId").value;
-                                        var Ajax = "Ajax";
-                                        $.ajax({
-                                            url: "/g1/MilestoneListServlet",
-                                            type: "get",
-                                            data: {
-                                                Ajax: Ajax,
-                                                classId: classId,
-                                                iteId: iteName
-                                            },
-                                            success: function (data) {
-                                                var slide = document.getElementById("slide");
-                                                slide.innerHTML = data;
-                                            },
-                                            error: function (xhr) {
-                                            }
-                                        });
-                                    }
-        </script>
+                <!-- Custom scripts for all pages-->
+                <script src="js/sb-admin-2.min.js"></script>
 
-        <!-- Bootstrap core JavaScript-->
-        <script src="vendor/jquery/jquery.min.js"></script>
-        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+                <!-- Page level plugins -->
+                <script src="vendor/chart.js/Chart.min.js"></script>
 
-        <!-- Core plugin JavaScript-->
-        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-        <!-- Custom scripts for all pages-->
-        <script src="js/sb-admin-2.min.js"></script>
-
-        <!-- Page level plugins -->
-        <script src="vendor/chart.js/Chart.min.js"></script>
-
-        <!-- Page level custom scripts -->
-        <script src="js/demo/chart-area-demo.js"></script>
-        <script src="js/demo/chart-pie-demo.js"></script>
+                <!-- Page level custom scripts -->
+                <script src="js/demo/chart-area-demo.js"></script>
+                <script src="js/demo/chart-pie-demo.js"></script>
 
 
 
-        <script src="js/sweetalert.min.js"></script>
+                <script src="js/sweetalert.min.js"></script>
 
-    </body>
+                </body>
 
-</html>
+                </html>

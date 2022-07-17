@@ -53,7 +53,7 @@
                     <div class="container-fluid">
 
                         <!-- Page Heading -->
-                        <h1 class="h3 mb-4 text-gray-800">Add more setting here</h1>
+                        <h1 class="h3 mb-4 text-gray-800">Add more Iteration here</h1>
                         <div class="InputForm">
                             <form method="POST" action="IterationListServlet">
                                 <input type="hidden" name="go" value="addIteration">
@@ -61,7 +61,7 @@
                                     <tbody>
                                         <tr>
                                             <td>subject_code: <td>
-                                                <select id="subjectId" name="subjectId">
+                                                <select class="form-control form-control-user id" id="subjectId" name="subjectId">
                                                 <c:forEach var="o" items="${listSubCode}">
                                                     <option value="${o.subject_id}">${o.subject_code}</option>
                                                 </c:forEach>
@@ -71,11 +71,11 @@
                                         </tr>
                                         <tr>
                                             <td> iteration_name: </td>
-                                            <td><input class="search" type="text" name="name" required></td>
+                                            <td><input class="form-control form-control-user id" type="text" name="name" required></td>
                                         </tr>
                                         <tr>
                                             <td>duration: </td>
-                                            <td><input class="search" type="text" name="duration"></td>
+                                            <td><input class="form-control form-control-user id" type="text" name="duration" placeholder="Ex: 1 day/month,...." required></td>
                                         </tr>                                     
                                         <tr>
                                             <td>Status: </td>
@@ -87,6 +87,7 @@
                                             <td><input class="SubBut" type="submit" value="Add" name="submit"></td>
                                         </tr>
                                     </tbody>
+                                    <p style="color: red">${thongbao}</p>
                                 </table>                     
                             </form>
                         </div>

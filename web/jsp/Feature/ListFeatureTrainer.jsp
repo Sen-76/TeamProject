@@ -16,11 +16,13 @@
         <link
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
-
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
         <!-- Custom styles for this template-->
         <link href="css/sb-admin-2.min.css" rel="stylesheet">
         <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
         <link rel="icon" href="img/cai nay hoi la.png" type="image/gif" sizes="16x16">
+        <link href="css/SenCss.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
         <link href="css/PhanhCss.css" rel="stylesheet">
         <!-- Need copy for use alert-->
         <link rel="stylesheet" href="fnon.min.css">
@@ -49,140 +51,156 @@
                         <!-- Begin Page Content -->
                         <div class="container-fluid">          
 
-                            <h1 style="font-weight: bold;margin-left: 25px" class="h3 mb-2 text-gray-800"> Feature List</h1>
-                            <div>   
-                                <form action="FeatureListSearchTrainer" method="POST">                  
-                                    <select style="margin-left: 550px" class="SelectDrop" name="class" id="">
-                                        <option value="all">All Team</option>
+                            <h1 style="font-weight: bold" class="h3 mb-2 text-gray-800"> Feature List</h1>
+
+                            <ul class="spbw" id="filtera" > 
+                                <form action="FeatureListSearchTrainer" method="POST">  
+                                    <label for="class_id"></label>
+                                    <select class="SelectDrop" name="class" id="">
+                                        <option value="all">All Class</option>
                                     <c:forEach var="o" items="${ClassList}">
-                                        <option value="${o.team_name}" ${Id==o.team_name ? "selected" : ""}>${o.team_name}</option>
+                                        <option value="${o.team_id}" ${Id==o.team_id ? "selected" : ""}>${o.team_name}</option>
                                     </c:forEach>
-                                    <input style ="" type="text" name="searchName"  placeholder="Search feature name" value="${txtSearch}">
-                                    <input type="submit" value="Search" name="submit" >
-                                    </form>
-                                    </div>
+                                </select>
+                                <label for="team_id"></label>
+                                <select class="SelectDrop" name="team" id="">
+                                    <option value="all">All Team</option>
+                                    <c:forEach var="o" items="${TeamList}">
+                                        <option value="${o.team_id}" ${Id==o.team_id ? "selected" : ""}>${o.team_name}</option>
+                                    </c:forEach>
+                                </select>
+                                <input style ="" type="text" name="searchName"  placeholder="Search feature name" value="${txtSearch}">
+                                <input style="
+                                       background: #0073ca;
+                                       border-radius: .35rem;
+                                       color: white;
+                                       "type="submit" value="Search" name="submit" >
+                            </form>
+                        </ul> 
+                        <a id="add" type="submit"></a>
+                        <!-- DataTales Example -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">                           
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 
-                                    <!-- DataTales Example -->
-                                    <div class="card shadow mb-4">
+                                        <thead>
+                                            <tr>
+                                                <th>Class</th> 
+                                                <th>Team</th>
+                                                <th>Feature</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach var="o" items="${FeatureList}">
+                                                <tr>
+                                                    <td visibility: hidden>${o.feature_id}</td>
+                                                    <td>${o.class_code}</td>
+                                                    <td>${o.team_name}</td>
+                                                    <td>${o.feature_name}</td>
+                                                    <td visibility: hidden>${o.team_id}</td>  
+                                                    <td>
+                                                        <c:if test="${o.status == 1}">
+                                                            <% out.print("Active"); %>
+                                                        </c:if>
+                                                        <c:if test="${o.status == 2}">
+                                                            <% out.print("Deactive"); %>
+                                                        </c:if>
+                                                    </td>
+                                                    <td>
+                                                        <a class="EditLink" href="FeatureDetailTrainer?go=Update&fid=${o.feature_id}&Tid=${o.team_id}"><span class="material-symbols-outlined">
+                                                                visibility
+                                                            </span></a>
+                                                    </td>
+                                                </tr>                    
+                                            </c:forEach>
 
-                                        <div class="card-body">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Feature</th>
-                                                            <th>Team</th>
-                                                            <th>Class</th>                                                     
-                                                            <th>Status</th>
-                                                            <th>Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <c:forEach var="o" items="${FeatureList}">
-                                                            <tr>
-                                                                <td visibility: hidden>${o.feature_id}</td>
-                                                                <td>${o.feature_name}</td>
-                                                                <td visibility: hidden>${o.team_id}</td>  
-                                                                <td>${o.team_name}</td>
-                                                                <td>${o.class_code}</td>                                 
-                                                                <td>
-                                                                    <c:if test="${o.status == 1}">
-                                                                        <% out.print("Active"); %>
-                                                                    </c:if>
-                                                                    <c:if test="${o.status == 2}">
-                                                                        <% out.print("Deactive"); %>
-                                                                    </c:if>
-                                                                </td>
-                                                                <td>
-                                                                    <a class="EditLink" href="FeatureDetailTrainer?go=Update&fid=${o.feature_id}&Tid=${o.team_id}">Detail</a>
-                                                                   
-                                                                </td>
-                                                            </tr>                    
-                                                        </c:forEach>
-
-                                                    </tbody>
-                                                </table>
-                                                <div class="pagination">
-                                                    <c:forEach begin="1" end="${maxP}" var="i"  >    
-                                                        <a class ="active" href="FeatureListTrainer?index=${i}">${i}</a>                 
-                                                    </c:forEach>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    </div>
-                                    <!-- /.container-fluid -->
-
-
-                                    </div>
-                                    <!-- End of Main Content -->
-
-                                    <!-- Footer -->
-                                    <footer class="sticky-footer bg-white">
-                                        <div class="container my-auto">
-                                            <div class="copyright text-center my-auto">
-                                                <span>Copyright &copy; Your Website 2021</span>
-                                            </div>
-                                        </div>
-                                    </footer>
-                                    <!-- End of Footer -->
+                                        </tbody>
+                                    </table>
+                                    <div class="paging">
+                                        <c:forEach begin="1" end="${maxP}" var="i"  >    
+                                            <a class ="active" href="FeatureListTrainer?index=${i}">${i}</a>                 
+                                        </c:forEach>
 
                                     </div>
-                                    <!-- End of Content Wrapper -->
+                                </div>
+                            </div>
+                        </div>
 
-                                    </div>
-                                    <!-- End of Page Wrapper -->
+                    </div>
+                    <!-- /.container-fluid -->
 
-                                    <!-- Scroll to Top Button-->
-                                    <a class="scroll-to-top rounded" href="#page-top">
-                                        <i class="fas fa-angle-up"></i>
-                                    </a>
 
-                                    <!-- Logout Modal-->
-                                    <jsp:include page="../LogOut.jsp"></jsp:include>
+                </div>
+                <!-- End of Main Content -->
 
-                                        <!-- Bootstrap core JavaScript-->
-                                        <script src="vendor/jquery/jquery.min.js"></script>
-                                        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+                <!-- Footer -->
+                <footer class="sticky-footer bg-white">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+                            <span>Copyright &copy; Your Website 2021</span>
+                        </div>
+                    </div>
+                </footer>
+                <!-- End of Footer -->
 
-                                        <!-- Core plugin JavaScript-->
-                                        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+            </div>
+            <!-- End of Content Wrapper -->
 
-                                        <!-- Custom scripts for all pages-->
-                                        <script src="js/sb-admin-2.min.js"></script>
+        </div>
+        <!-- End of Page Wrapper -->
 
-                                        <!-- Page level plugins -->
-                                        <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-                                        <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
 
-                                        <!-- Page level custom scripts -->
-                                        <script src="js/demo/datatables-demo.js"></script>
-                                        <!-- Need copy for use alert-->
-                                        <script src="js/SenJS.js"></script>
-                                        <script src="js/fnon.min.js"></script>
-                                        <script>
-                                                                                document.addEventListener('DOMContentLoaded', function () {
-                                                                                    Fnon.Hint.Init({
-                                                                                        zIndex: 9900,
-                                                                                    });
-                                                                                    // Hint
-                                                                                    var message = "${message}";
-                                                                                    var theme = "${theme}";
-                                                                                    var title = "${title}";
-                                                                                    var position = "right-top";
-                                                                                    var animation = "slide-left";
-                                                                                    Fnon.Hint[theme](message, {
-                                                                                        title,
-                                                                                        position,
-                                                                                        animation,
-                                                                                    })
-                                                                                });
-                                    </script>
-                                    <!-- End Need copy for use alert-->
+        <!-- Logout Modal-->
+        <jsp:include page="../LogOut.jsp"></jsp:include>
 
-                                    </body>
+            <!-- Bootstrap core JavaScript-->
+            <script src="vendor/jquery/jquery.min.js"></script>
+            <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-                                    </html>
+            <!-- Core plugin JavaScript-->
+            <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+            <!-- Custom scripts for all pages-->
+            <script src="js/sb-admin-2.min.js"></script>
+
+            <!-- Page level plugins -->
+            <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+            <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+            <!-- Page level custom scripts -->
+            <script src="js/demo/datatables-demo.js"></script>
+            <!-- Need copy for use alert-->
+            <script src="js/SenJS.js"></script>
+            <script src="js/fnon.min.js"></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    Fnon.Hint.Init({
+                        zIndex: 9900,
+                    });
+                    // Hint
+                    var message = "${message}";
+                    var theme = "${theme}";
+                    var title = "${title}";
+                    var position = "right-top";
+                    var animation = "slide-left";
+                    Fnon.Hint[theme](message, {
+                        title,
+                        position,
+                        animation,
+                    })
+                });
+        </script>
+        <!-- End Need copy for use alert-->
+
+    </body>
+
+</html>

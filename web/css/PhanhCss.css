@@ -9,34 +9,32 @@ and open the template in the editor.
 */
 
 
-.pagination {
-    display: inline-block;
-    margin-left: 700px;
+.paging {
+    display: flex;
+    justify-content: flex-end;
 }
 
-.pagination a {
+.paging a {
     color: black;
     float: left;
     padding: 8px 16px;
     text-decoration: none;
 } 
-.pagination a:hover{background-color: #ddd; ;
 
-}
 
-.pagination a.active {
+.paging a.active {
     color: blue;
 }
 
 ul#filtera {
     display: flex;
     justify-content: flex-end;
-  align-items: center;
+    align-items: center;
 }
 
 li{
     list-style: none;
-       padding: 2px;
+    padding: 2px;
 }
 
 a#add{margin-bottom: 50px}

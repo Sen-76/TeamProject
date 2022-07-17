@@ -1,5 +1,6 @@
 package Controller;
 
+import Controller.Setting.SettingListServlet;
 import DAO.DAOSen;
 import DAO.DAOTeam;
 import DAO.DAOchangePass;
@@ -33,14 +34,14 @@ public class TeamList extends HttpServlet {
             request.getRequestDispatcher("Login_sen").forward(request, response);
             return;
         }
-        try {
-            if (Loged.getRole_id() > 2 ) {
-                request.setAttribute("messE", "Seems like you don't have permission to do this");
-                request.getRequestDispatcher("/jsp/Class/Error.jsp").forward(request, response);
-                return;
-            }
-        } catch (Exception e) {
-        }
+//        try {
+//            if (Loged.getRole_id() > 2 ) {
+//                request.setAttribute("messE", "Seems like you don't have permission to do this");
+//                request.getRequestDispatcher("/jsp/Class/Error.jsp").forward(request, response);
+//                return;
+//            }
+//        } catch (Exception e) {
+//        }
 
         DAOTeam dao = new DAOTeam();
         DAOchangePass daoc = new DAOchangePass();

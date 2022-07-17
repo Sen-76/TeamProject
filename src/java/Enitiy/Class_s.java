@@ -111,7 +111,7 @@ public class Class_s {
     }
     
     public User getTrainer() {
-        UserDAO dao = new UserDAO();
+        DAOTeamEvaluation dao = new DAOTeamEvaluation();
         return dao.getUserByID(trainerId);
     }
 

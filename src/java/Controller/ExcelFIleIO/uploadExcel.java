@@ -9,6 +9,7 @@ import DAO.DAOExcel;
 import DAO.DAOSen;
 import DAO.DAOUpdate;
 import DAO.DAOchangePass;
+import Enitiy.*;
 import Enitiy.User;
 import Enitiy.UserExcel;
 import java.io.File;
@@ -74,20 +75,30 @@ public class uploadExcel extends HttpServlet {
                 request.getRequestDispatcher("Login_sen").forward(request, response);
                 return;
             }
-            try {
-                if (loged.getRole_id() == 1 || loged.getRole_id() == 2) {
-                    request.setAttribute("messE", "Seems like you don't have permission to do this");
-                    request.getRequestDispatcher("/jsp/Class/Error.jsp").forward(request, response);
-                    return;
-                }
-            } catch (Exception e) {
-            }
+//            try {
+//                if (loged.getRole_id() == 1 || loged.getRole_id() == 2) {
+//                    request.setAttribute("messE", "Seems like you don't have permission to do this");
+//                    request.getRequestDispatcher("/jsp/Class/Error.jsp").forward(request, response);
+//                    return;
+//                }
+//            } catch (Exception e) {
+//            }
 
             if (service == null) {
                 service = "uploadE";
             }
             if (service.equals("uploadE")) {
+                Vector<Class_s> v = dao.allClass();
+                request.setAttribute("vectC", v);
+
                 request.setAttribute("count", "-1");
+
+                Vector<Class_s> ve = dao.allClass();
+                request.setAttribute("vectC", ve);
+
+                Vector<Team> vteam = dao.viewTeamByClass(request.getParameter("class_id"));
+                request.setAttribute("team", vteam);
+
                 session.setAttribute("classID", request.getParameter("class_id"));
                 request.getRequestDispatcher("/jsp/Class/UploadExcel.jsp").forward(request, response);
             }
@@ -113,9 +124,15 @@ public class uploadExcel extends HttpServlet {
 
                             if (filename == null || filename.equals("")) {
 
+                                Vector<Class_s> v = dao.allClass();
+                                request.setAttribute("vectC", v);
+
+                                Vector<Team> vteam = dao.viewTeamByClass(request.getParameter("class_id"));
+                                request.setAttribute("team", vteam);
+
                                 request.setAttribute("messE", "Hãy import file vào trước");
                                 request.getRequestDispatcher("/jsp/Class/UploadExcel.jsp").forward(request, response);
-                                
+
                             } else {
                                 filename = daos.RandomBullSh() + item.getName();
                                 Path path = Paths.get(filename);
@@ -132,6 +149,13 @@ public class uploadExcel extends HttpServlet {
 
                     session.setAttribute("vect", v);
                     session.setAttribute("count", v.size());
+
+                    Vector<Class_s> ve = dao.allClass();
+                    request.setAttribute("vectC", ve);
+
+                    Vector<Team> vteam = dao.viewTeamByClass(request.getParameter("class_id"));
+                    request.setAttribute("team", vteam);
+
                     request.getRequestDispatcher("/jsp/Class/UploadExcel.jsp").forward(request, response);
                 } catch (Exception e) {
                     out.print(e);
@@ -140,6 +164,12 @@ public class uploadExcel extends HttpServlet {
             if (service.equals("cfDTB")) {
                 Vector<UserExcel> v = (Vector<UserExcel>) session.getAttribute("vect");
                 if (v == null) {
+                    Vector<Class_s> ve = dao.allClass();
+                    request.setAttribute("vectC", ve);
+                    String claid = (String) session.getAttribute("classID") ;
+                    Vector<Team> vteam = dao.viewTeamByClass(claid);
+                    request.setAttribute("team", vteam);
+
                     request.setAttribute("messE", "Hãy import file vào trước");
                     request.getRequestDispatcher("/jsp/Class/UploadExcel.jsp").forward(request, response);
                     return;
@@ -155,7 +185,9 @@ public class uploadExcel extends HttpServlet {
                     setTeam.add(o.getGroupID());
                 }
                 for (String o : setTeam) {
-                    dao.insertNewTeam(classid, o);
+                    if(!dao.checkTeamExist(classid, o)){
+                        dao.insertNewTeam(classid, o);
+                    }
                 }
                 for (UserExcel o : v) {
                     dao.insertClassUser(classid, o);

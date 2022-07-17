@@ -61,8 +61,8 @@
 
                                         <tbody>
                                             <tr>
-                                                <td> Milestone Id:</td>                                           
-                                                <td> <input class="form-control form-control-user id" type="hidden" value="${listMile.milestone_id}" name="mileId">${listMile.milestone_id} </td><br>                                                                                                              
+                                                <td> Milestone Name:</td>                                           
+                                                <td> <input class="form-control form-control-user id" type="hidden" value="${listMile.milestone_id}" name="mileId">${listMile.milestone_name} </td><br>                                                                                                              
                                         </tr>
                                         <tr>
                                             <td> Iteration Name: <td>                                          
@@ -70,7 +70,7 @@
                                         </tr>
                                         <tr>
                                             <td> Class Code: </td>
-                                            <td><input class="search" type="hidden" name="classId" value="${listMile.interation_id}" >${listMile.classCode}</td><br>
+                                            <td><input class="search" type="hidden" name="classId" value="${listMile.class_id}" >${listMile.classCode}</td><br>
                                         </tr>
                                         <tr>
                                             <td>From Date: </td>
@@ -95,7 +95,7 @@
                                                     
                             </form>
                         </div>
-                        ${thongbao}
+                                                <p style="color: red">${thongbao}</p>
 
 
 

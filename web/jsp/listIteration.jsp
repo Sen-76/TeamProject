@@ -73,20 +73,21 @@
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Iteration Table</h6>
                                 </div>
-                                <form action="IterationListServlet" method="POST">
-                                    Subject Code:
-                                    <select id ="subjectId" name="subjectId">
-                                        <option value="all">List all</option>
-                                    <c:forEach var="o" items="${listSubId}">
-                                        <option value="${o.subject_id}" ${subId == o.subject_id ? "selected" :""}>${o.subject_code}</option>
-                                    </c:forEach>
+                                <div style="padding-left: 30px">
+                                    <form action="IterationListServlet" method="POST">
+                                        Subject Code:
+                                        <select id ="subjectId" name="subjectId">
+                                            <option value="all">List all</option>
+                                        <c:forEach var="o" items="${listSubId}">
+                                            <option value="${o.subject_id}" ${subId == o.subject_id ? "selected" :""}>${o.subject_code}</option>
+                                        </c:forEach>
 
-                                </select>
-                                Iteration Name : <input type="text" name="IteName">
-                                <input type="submit" name="submit" value="search">
-                            </form>
-                            <div><a href="IterationListServlet?go=addIteration">Add Iteration</a></div>
-
+                                            </select>
+                                        Iteration Name : <input  type="text" name="IteName">
+                                        <input class="btn btn-primary" type="submit" name="submit" value="search">
+                                </form>
+                                <div><a class="btn btn-outline-primary" href="IterationListServlet?go=addIteration">Add Iteration</a></div>
+                            </div>
 
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -103,20 +104,7 @@
                                                 <th>Action</th>
 
                                             </tr>
-                                        </thead>
-                                        <tfoot>
-
-                                            <tr>
-                                                <th>iteration_id</th>
-                                                <th>subject_code</th>
-                                                <th>iteration_name</th>                                                                                           
-                                                <th>duration</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                            </tr>
-
-
-                                        </tfoot>
+                                        </thead>                                   
                                         <tbody>
                                             <c:forEach var="o" items="${list}">
                                                 <tr>
@@ -124,27 +112,29 @@
                                                     <td>${o.subject_code}</td>
                                                     <td>${o.iteration_name}</td>
                                                     <td>${o.duration}</td>
-                                                    <td><c:if test="${o.status == 2}">
-
-                                                            <% out.print("Active"); %>
-                                                        </c:if>
-                                                        <c:if test="${o.status == 1}">
-                                                            <% out.print("Deactive"); %>
-                                                        </c:if></td>                                                    
-                                                    <td><a href="IterationListServlet?go=updateIteration&iteId=${o.iteration_id}&subjectId=${o.subject_id}">Edit</a></td>
+                                                    <td><form action="IterationListServlet?go=updateStatus" method="Post">
+                                                            <input type="hidden" name="iteId" value="${o.iteration_id}">
+                                                            <select class="form-control form-control-user id" id ="status" name="status" onchange="this.form.submit()">
+                                                                <option value="1" ${o.status == 1 ? "selected" : ""}>Active</option>
+                                                                <option value="2" ${o.status == 2 ? "selected" : ""}>Deactive</option>                  
+                                                            </select>
+                                                        </form></td>                                                    
+                                                    <td><a class="btn btn-outline-primary" href="IterationListServlet?go=updateIteration&iteId=${o.iteration_id}&subjectId=${o.subject_id}">Edit</a>
+                                                        
+                                                        <a class="btn btn-outline-danger" href="IterationListServlet?go=deleteIteration&iteId=${o.iteration_id}&subjectId=${o.subject_id}">Delete</a></td>
                                                 </tr>                    
                                             </c:forEach>
-                                                
+
                                         </tbody>
                                     </table>
-${nono}
+
                                     <c:if test="${page>1}">
-                                        <a href="IterationListServlet?go=listAllIteration&page=${page - 1}" >pre</a>
+                                        <a class="btn btn-outline-secondary" href="IterationListServlet?go=listAllIteration&page=${page - 1}" >pre</a>
                                     </c:if>
 
                                     ${page}
                                     <c:if test="${page!=countPage}">
-                                        <a href="IterationListServlet?go=listAllIteration&page=${page + 1}">next</a>
+                                        <a class="btn btn-outline-secondary" href="IterationListServlet?go=listAllIteration&page=${page + 1}">next</a>
                                     </c:if>
 
 

@@ -56,12 +56,16 @@
                     <div class="container-fluid">
 
                         <!-- Page Heading -->
-                        <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-                        <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
-                            For more information about DataTables, please visit the <a target="_blank"
-                                                                                       href="https://datatables.net">official DataTables documentation</a>.</p>
+                        <h1 class="h3 mb-2 text-gray-800">Setting</h1>
 
-                        <div>   
+                                                                                     
+                        <!-- DataTales Example -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Setting Table</h6>
+                            </div>
+
+                            <div>   
                             <form action="SearchSet" method="POST">
                                 <label for="typeId"></label>
                                 <select class="SelectDrop" name="typeId" id="typeId">
@@ -77,26 +81,17 @@
                                     <option value="1" ${sta1 == 1 ? "selected" : ""}>Activate</option>
                                     <option value="2" ${sta1 == 2 ? "selected" : ""}>Deactivate</option>
                                 </select>
-                                <input class="search" type="text" name="SearchName" placeholder="Type setting name to search">
-                                <input type="submit" value="Search" name="submit" class="SubBut">
+                                <input class="form-control-user" type="text" name="SearchName" placeholder="Enter setting title">
+                                <input type="submit" value="Search" name="submit" class="LinkHere">
                                 <a class="LinkHere" href="SettingListServlet?go=addSetting">Add Setting</a>
                                 <a class="LinkHere" href="SettingListServlet?go=syncLabel">Sync Label from GitLab</a>
                             </form>
-                        </div>                                                             
-
-
-                        <!-- DataTales Example -->
-                        <div class="card shadow mb-4">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
-                            </div>
-
-
+                        </div>
 
 
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <table class="table table-bordered"  width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
                                                 <th>Setting ID</th>

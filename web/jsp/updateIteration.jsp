@@ -52,55 +52,48 @@
                         <!-- End of Topbar -->
 
                         <!-- Begin Page Content -->
-                        <div class="container-fluid">
+                        <div class="container">
 
                             <!-- Page Heading -->
                             <h1 class="h3 mb-4 text-gray-800">Update Iteration here</h1>
-                            <div class="InputForm">
+                            <div >
                                 <form method="POST" action="IterationListServlet">
                                     <input type="hidden" name="go" value="updateIteration">
-                                    
-                                    <table >
+
+                                    </tbody>
                                         <tbody>
                                             <tr>
-                                                <td> iteration_Id:</td>
-                                            <c:if test="${iteUpdate.iteration_id !=null}">
-                                                <td> <input type="hidden" value="${iteUpdate.iteration_id}" name="iteId"> ${iteUpdate.iteration_id}   </td>
-                                            </c:if>
-                                            <c:if test="${iteUpdate.iteration_id ==null}">
-                                                <td> <input type="hidden" value="${iteUpdate.iteration_id}" name="iteId"> helo ${iteUpdate.iteration_id}  </td>
-                                            </c:if>
-                                                
-                                        </tr>
-                                        <tr>
-                                            <td>subject_code: <td>
-                                            <c:if test="${iteUpdate.subject_id != null}">
-                                                <td><input type="hidden" value="${iteUpdate.subject_id}" name="subjectId">  ${iteUpdate.subject_code}  </td> 
-                                            </c:if>
-                                            <c:if test="${iteUpdate.subject_id == null}">
-                                                <td><input type="hidden" value="${iteUpdate.subject_id}" name="subjectId">  helo ${iteUpdate.subject_code}  </td> 
-                                            </c:if>                                          
+                                        <div>Iteration Id:
+                                            <input class="form-control form-control-user id" hidden value="${iteUpdate.iteration_id}" name="iteId"> ${iteUpdate.iteration_id}
+                                    </div>
 
-                                        </tr>
-                                        <tr>
-                                            <td> iteration_name: </td>
-                                            <td><input class="search" type="text" name="name" value="${iteUpdate.iteration_name}" required></td>
-                                        </tr>
-                                        <tr>
-                                            <td>duration: </td>
-                                            <td><input class="search" type="text" name="duration" value="${iteUpdate.duration}"></td>
-                                        </tr>                                     
-                                        <tr>
-                                            <td>Status: </td>
-                                            <td><input type="radio" name="status" value="1" checked>Active
-                                                <input type="radio" name="status" value="2">Deactive</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td><input class="SubBut" type="submit" value="Update" name="submit"></td>
-                                        </tr>
-                                    </tbody>
-                                </table>                     
+                                    </tr>
+                                    <tr>
+                                    <div>
+                                        subject_code: 
+
+                                        <input class="form-control form-control-user id" hidden value="${iteUpdate.subject_id}" name="subjectId" >  ${iteUpdate.subject_code}
+                                    </div>
+                                    </tr>
+                                    <tr>
+                                        <td> iteration_name: </td>
+                                        <td><input class="form-control form-control-user id" type="text" name="name" value="${iteUpdate.iteration_name}" required></td>
+                                    </tr>
+                                    <tr>
+                                        <td>duration: </td>
+                                        <td><input class="form-control form-control-user id" type="text" name="duration" value="${iteUpdate.duration}"></td>
+                                    </tr>                                     
+                                    <tr>
+                                        <td>Status: </td>
+                                        <td><input type="radio" name="status" value="1" checked>Active
+                                            <input type="radio" name="status" value="2">Deactive</td>
+                                    </tr>
+                                    <tr>
+                                    <br>
+                                        <td><input class="SubBut" type="submit" value="Update" name="submit"></td>
+                                    </tr>
+                                    <p style="color: red">${thongbao}</p>
+                                                     
                             </form>
                         </div>
                     </div>

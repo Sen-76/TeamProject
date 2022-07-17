@@ -93,7 +93,7 @@
                                                 <select class="form-control"  name="feature_id" >
                                                     <%
                                          for (Function1 o : vect2) { %>
-                                                    <option  value="<%=o.getFeature_id()%>" <%=o.getFeature_id() == fe ? "selected" : "" %>><%=o.getFeature_name()%></option>>  
+                                                    <option hidden  value="<%=o.getFeature_id()%>" <%=o.getFeature_id() == fe ? "selected" : "" %>><%=o.getFeature_name()%></option>>  
                                                     <%       }
                                                     %>
                                                 </select> 

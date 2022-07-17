@@ -22,6 +22,7 @@
         <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
         <link rel="icon" href="img/cai nay hoi la.png" type="image/gif" sizes="16x16">
         <link href="css/SenCss.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
         <link href="css/PhanhCss.css" rel="stylesheet">
         <!-- Need copy for use alert-->
         <link rel="stylesheet" href="fnon.min.css">
@@ -50,13 +51,30 @@
                         <!-- Begin Page Content -->
                         <div class="container-fluid">          
 
-                            <h1 style="font-weight: bold" class="h3 mb-2 text-gray-800"> Function List</h1>              
+                            <h1 style="font-weight: bold" class="h3 mb-2 text-gray-800"> Function List</h1>   
+
+                            <li>
+                                <a type="submit" href="FunctionUploadExcel?go=Show&classId=" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"/>Upload</a>
+                                <a href="DownloadFunction?ClassId=" 
+                                   class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                        class="fas fa-download fa-sm text-white-50"></i>Download list Function</a>
+                                <a href="\g1\Template_Function.xlsx" 
+                                   class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                        class="fas fa-download fa-sm text-white-50"></i>Download template</a>
+                            </li>           
                             <ul class="spbw" id="filtera" >  
 
                                 <li>  <form action="FunctionSearch" method="POST">
-                                        <label for="feature_id"></label>
-                                        <select onchange="" class="SelectDrop" name="feature" id="feature">
-                                            <option value="all">All Feature</option>
+                                        <label for="class_id"></label>
+                                        <select onchange="" class="SelectDrop" name="class" id="">
+                                            <option value="all">All Class</option>
+                                        <c:forEach var="o" items="${ClassList}">
+                                            <option value="${o.feature_id}" ${Id==o.feature_id?"selected" : ""}>${o.feature_name}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <label for="team_id"></label>
+                                    <select onchange="" class="SelectDrop" name="team" id="">
+                                        <option value="all">All Team</option>
                                         <c:forEach var="o" items="${FeIDList}">
                                             <option value="${o.feature_id}" ${Id==o.feature_id?"selected" : ""}>${o.feature_name}</option>
                                         </c:forEach>
@@ -80,22 +98,20 @@
 
                         <!-- DataTales Example -->
                         <div class="card shadow mb-4">
-
+                            <div class="card-header py-3">                           
+                            </div>
                             <div class="card-body">
                                 <div class="table-responsive">
 
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">                         
                                         <thead>
-                                            <tr>
+                                             <tr>                           
                                                 <th>Function</th>
-                                                <th>Access roles</th>
-                                                <th>Level</th>
+                                                <th>Feature</th>
+                                                <th>Access_roles</th>
+                                                <th>Level</th> 
                                                 <th>In charge</th>
                                                 <th>Priority</th>                                                                       
-                                                <th>Feature</th>
-                                                <th>Team</th>
-                                                <th>Class</th>
-
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
@@ -105,7 +121,10 @@
                                                 <tr>
                                                     <td visibility: hidden>${o.function_id}</td>
                                                     <td visibility: hidden>${o.feature_id}</td>
+
+                                                    <td>${o.team_name}</td>
                                                     <td>${o.function_name}</td>
+                                                    <td>${o.feature_name}</td>
                                                     <td visibility: hidden>${o.team_id}</td>  
                                                     <td visibility: hidden>${o.owner_id}</td>  
                                                     <td>${o.access_roles}</td>
@@ -113,9 +132,6 @@
                                                     <td> ${o.fullname} </td>
                                                     <td>${o.priority}</td>
 
-                                                    <td>${o.feature_name}</td>
-                                                    <td>${o.team_name}</td>
-                                                    <td>${o.class_code}</td>
                                                     <td>
                                                         <c:if test="${o.status == 1}">
                                                             <% out.print("Pending"); %>
@@ -131,15 +147,20 @@
                                                         </c:if>
                                                     </td>
                                                     <td>
-                                                        <a class="EditLink" href="FunctionDetail?go=Update&fid=${o.function_id}&Owner=${o.owner_id}&Fe=${o.feature_id}&Com=${o.complexity_id}">Edit</a>
-                                                        <a class="" href="FunctionDetail?go=Delete&fid=${o.function_id}" onclick="return confirm('Do you sure want to remove?')">Delete</a>
+                                                        <a class="EditLink" href="FunctionDetail?go=Update&fid=${o.function_id}&Owner=${o.owner_id}&Fe=${o.feature_id}&Com=${o.complexity_id}"><span class="material-symbols-outlined">
+                                                                edit
+                                                            </span>
+                                                        </a>
+                                                        <a class="" href="FunctionDetail?go=Delete&fid=${o.function_id}" onclick="return confirm('Do you sure want to remove?')"><span class="material-symbols-outlined">
+                                                                delete
+                                                            </span></a>
                                                     </td>
                                                 </tr>                    
                                             </c:forEach>
 
                                         </tbody>
                                     </table>
-                                    <div class="pagination">
+                                    <div class="paging">
                                         <c:forEach begin="1" end="${maxP}" var="i"  >    
                                             <a class ="active" href="FunctionList?index=${i}">${i}</a>                 
                                         </c:forEach>

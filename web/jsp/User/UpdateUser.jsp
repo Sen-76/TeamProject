@@ -48,7 +48,7 @@
                 background: repeating-linear-gradient(45deg, #ff0000e8, #0000ffde);
             }
         </style>
-        
+
         <!-- Page Wrapper -->
         <div id="wrapper">
 
@@ -80,60 +80,45 @@
                                                 <form action="UserController" method="POST">
                                                     <input type="hidden" name="go" value="editUser" />
                                                     <input type="hidden" name="userID" value="${uid}" />
-                                                <table>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>Roll Number:</td>
-                                                            <td><input class="form-control form-control-user" id="name" type="text" name="rollNumber" value="${listUpdate.roll_number}"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Full name:</td>
-                                                            <td><input class="form-control form-control-user" id="rollNumber" type="text" name="fullName" value="${listUpdate.fullname}"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Gender:</td>
-                                                            <td class="form-control form-control-user"><input type="radio" name="gender" value="1" ${listUpdate.gender == 1 ? "checked" : ""}>Male
-                                                                <input type="radio" name="gender" value="2" ${listUpdate.gender == 2 ? "checked" : ""}>Female</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Date of birth:</td>
-                                                            <td><input class="form-control form-control-user" id="dob" max="${dateNow}" type="date" name="dob" value="${listUpdate.date_of_birth}"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Email:</td>
-                                                            <td><input class="form-control form-control-user" id="email" type="email" name="email" value="${listUpdate.email}" /></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Mobile:</td>
-                                                            <td><input class="form-control form-control-user" id="mobile" maxlength="10" type="text" name="phone" value="${listUpdate.mobile}" /></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Role:</td>
-                                                            <td>
-                                                                <select class="form-control form-control-user" name="roleID" >
-                                                                    <option value="${listUpdate.role_id}" ${listUpdate.role_id == 4 ? "selected" : ""} >Admin</option>
-                                                                    <option value="${listUpdate.role_id}" ${listUpdate.role_id == 3 ? "selected" : ""} >Author</option>
-                                                                    <option value="${listUpdate.role_id}" ${listUpdate.role_id == 2 ? "selected" : ""} >Trainer</option>
-                                                                    <option value="${listUpdate.role_id}" ${listUpdate.role_id == 1 ? "selected" : ""} >Student</option>
-                                                                </select>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Status:</td>
-                                                            <td class="form-control form-control-user"><input type="radio" name="status" value="1" ${listUpdate.status == 1 ? "checked" : ""}>Activate
-                                                                <input type="radio" name="status" value="0" ${listUpdate.status == 0 ? "checked" : ""}>Deactivate</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Note: </td>
-                                                            <td><textarea class="form-control form-control-user" name="NOTE">${listUpdate.note}</textarea></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td></td>
-                                                            <td><input class="form-control form-control-user" onclick="return confirm('Are you sure you want to change?')" type="submit" value="Save" name="submit"></td>
-                                                            <td><input class="form-control form-control-user" type="reset" value="Reset"></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+
+                                                <strong>Roll Number:</strong>
+                                                <input class="form-control form-control-user" id="name" type="text" name="rollNumber" value="${listUpdate.roll_number}">
+
+                                                <strong>Full name:</strong>
+                                                <input class="form-control form-control-user" id="rollNumber" type="text" name="fullName" value="${listUpdate.fullname}">
+
+                                                <strong>Gender:</strong>
+                                                <input type="radio" name="gender" value="1" ${listUpdate.gender == 1 ? "checked" : ""}>Male
+                                                <input type="radio" name="gender" value="2" ${listUpdate.gender == 2 ? "checked" : ""}>Female
+                                                <br>
+                                                <strong>Date of birth:</strong>
+                                                <input class="form-control form-control-user" id="dob" max="${dateNow}" type="date" name="dob" value="${listUpdate.date_of_birth}">
+
+                                                <strong>Email:</strong>
+                                                <input class="form-control form-control-user" id="email" type="email" name="email" value="${listUpdate.email}" />
+
+                                                <strong>Mobile:</strong>
+                                                <input class="form-control form-control-user" id="mobile" maxlength="10" type="text" name="phone" value="${listUpdate.mobile}" />
+
+                                                <strong>Role:</strong>
+                                                <select class="form-control form-control-user" name="roleID" >
+                                                    <option value="4" ${listUpdate.role_id == 4 ? "selected" : ""} >Admin</option>
+                                                    <option value="3" ${listUpdate.role_id == 3 ? "selected" : ""} >Author</option>
+                                                    <option value="2" ${listUpdate.role_id == 2 ? "selected" : ""} >Trainer</option>
+                                                    <option value="1" ${listUpdate.role_id == 1 ? "selected" : ""} >Student</option>
+                                                </select>
+
+                                                <strong>Status:</strong>
+                                                <input type="radio" name="status" value="1" ${listUpdate.status == 1 ? "checked" : ""}>Activate
+                                                <input type="radio" name="status" value="0" ${listUpdate.status == 0 ? "checked" : ""}>Deactivate
+                                                <br>
+                                                <strong>Note: </strong>
+                                                <textarea class="form-control form-control-user" name="NOTE">${listUpdate.note}</textarea>
+                                                <br>
+
+                                                <input class="btn btn-primary" type="submit" value="Save" name="submit">
+                                                <input class="btn btn-primary" type="reset" value="Reset">
+
                                             </form>
                                             <span style="color: red; font-weight: bold;">${err}</span>
                                         </div> 

@@ -57,113 +57,114 @@
 
                         <!-- Begin Page Content -->
                         <div class="container-fluid">
+                            <div class="card">
+                                <div class="row">
 
-                            <div class="row">
+                                    <div class="col-lg-12 card-body">
+                                        <div class="p-5 ">
 
-                                <div class="col-lg-12">
-                                    <div class="p-5">
-
-                                    <c:if test="${upd == 1234}">
-                                        <div class="text-center">
-                                            <h1 class="h4 text-gray-900 mb-4">Update LOC evaluation</h1>
+                                        <c:if test="${upd == 1234}">
+                                            <div class="text-center ">
+                                                <h1 class="h4 text-gray-900 mb-4">Update LOC evaluation</h1>
                                             </div>
                                             <form class="user" action="LocEvalue" method="POST">
                                                 <input name="go" type="hidden" value="updateLoc" >
                                                 <input name="tracking" type="hidden" value="${tracking}" >
                                                 <input name="eid" type="hidden" value="${eid}" >
-                                                
-                                            <div class="form-group">
-                                                <p>Date created</p>
-                                                <input name="dateCreate" type="date" value="${locU.evaluation_time}" class="form-control " 
-                                                       id="exampleInputEmail"  required>
-                                            </div>
-                                            <div class="form-group">
-                                                <p>Notes</p>
-                                                <textarea name="note" class="form-control  note" rows="4" cols="20">${locU.evaluation_note}</textarea>
-                                            </div>
-                                            
-                                            <div class="form-group">
-                                                <p>Complexity</p>
 
-                                                <select class="form-control " name="comp">
+                                                <div class="form-group">
+                                                    <p>Date created</p>
+                                                    <input name="dateCreate" type="date" value="${locU.evaluation_time}" class="form-control " 
+                                                           id="exampleInputEmail"  required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <p>Notes</p>
+                                                    <textarea name="note" class="form-control  note" rows="4" cols="20">${locU.evaluation_note}</textarea>
+                                                </div>
 
-                                                    <c:forEach var="o" items="${complex}">
-                                                        <option value="${o.setting_value}" ${locU.complexity_id == o.setting_value ? "selected":""}>${o.display_order} (${o.setting_value})</option>
-                                                    </c:forEach>
+                                                <div class="form-group">
+                                                    <p>Complexity</p>
 
-                                                </select>
-                                            </div>
+                                                    <select class="form-control " name="comp">
 
-                                            <div class="form-group">
-                                                <p>Quality</p>
-                                                <select class="form-control " name="qual">
-                                                    <c:forEach var="o" items="${quality}">
-                                                        <option value="${o.setting_value}" ${locU.quality_id == o.setting_value ? "selected":""}>${o.display_order} (${o.setting_value}%)</option>
-                                                    </c:forEach>
-                                                        
-                                                </select>
-                                            </div>
-                                        
-                                    </c:if>
+                                                        <c:forEach var="o" items="${complex}">
+                                                            <option value="${o.setting_value}" ${locU.complexity_id == o.setting_value ? "selected":""}>${o.display_order} (${o.setting_value})</option>
+                                                        </c:forEach>
 
-                                    <c:if test="${upd != 1234}">
-                                        <div class="text-center">
-                                            <h1 class="h4 text-gray-900 mb-4">Add more LOC evaluation</h1>
-                                        </div>
-                                        <form class="user" action="LocEvalue" method="POST">
-                                            <input type="hidden" name="go" value="AddLoc" />
-                                            <input name="tracking" type="hidden" value="${tracking}" >
-                                            <div class="form-group">
-                                                <p>Date created</p>
-                                                <input name="dateCreate" type="date" value="${today}" class="form-control " 
-                                                       id="exampleInputEmail"  required>
-                                            </div>
-                                            <div class="form-group">
-                                                <p>Notes</p>
-                                                <textarea name="note" class="form-control  note" rows="4" cols="20"></textarea>
-                                            </div>
-                                            <div class="form-group">
-                                                <p>Complexity</p>
+                                                    </select>
+                                                </div>
 
-                                                <select class="form-control " name="comp">
+                                                <div class="form-group">
+                                                    <p>Quality</p>
+                                                    <select class="form-control " name="qual">
+                                                        <c:forEach var="o" items="${quality}">
+                                                            <option value="${o.setting_value}" ${locU.quality_id == o.setting_value ? "selected":""}>${o.display_order} (${o.setting_value}%)</option>
+                                                        </c:forEach>
 
-                                                    <c:forEach var="o" items="${complex}">
-                                                        <option value="${o.setting_value}">${o.display_order} (${o.setting_value})</option>
-                                                    </c:forEach>
+                                                    </select>
+                                                </div>
 
-                                                </select>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <p>Quality</p>
-                                                <select class="form-control " name="qual">
-                                                    <c:forEach var="o" items="${quality}">
-                                                        <option value="${o.setting_value}">${o.display_order} (${o.setting_value}%)</option>
-                                                    </c:forEach>
-                                                </select>
-                                            </div>
-                                        </c:if>
-
-                                        <div class="log">
-
-                                            <c:if test="${upd == 1234}">
-                                                <input type="submit" value="Update" name="submit">
                                             </c:if>
 
                                             <c:if test="${upd != 1234}">
-                                                <input type="submit" value="Add" name="submit">
-                                            </c:if>
+                                                <div class="text-center">
+                                                    <h1 class="h4 text-gray-900 mb-4">Add more LOC evaluation</h1>
+                                                </div>
+                                                <form class="user" action="LocEvalue" method="POST">
+                                                    <input type="hidden" name="go" value="AddLoc" />
+                                                    <input name="tracking" type="hidden" value="${tracking}" >
+                                                    <div class="form-group">
+                                                        <p>Date created</p>
+                                                        <input name="dateCreate" type="date" value="${today}" class="form-control " 
+                                                               id="exampleInputEmail"  required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <p>Notes</p>
+                                                        <textarea name="note" class="form-control  note" rows="4" cols="20"></textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <p>Complexity</p>
+
+                                                        <select class="form-control " name="comp">
+
+                                                            <c:forEach var="o" items="${complex}">
+                                                                <option value="${o.setting_value}">${o.display_order} (${o.setting_value})</option>
+                                                            </c:forEach>
+
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <p>Quality</p>
+                                                        <select class="form-control " name="qual">
+                                                            <c:forEach var="o" items="${quality}">
+                                                                <option value="${o.setting_value}">${o.display_order} (${o.setting_value}%)</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                    </div>
+                                                </c:if>
+
+                                                <div class="log">
+
+                                                    <c:if test="${upd == 1234}">
+                                                        <input type="submit" value="Update" name="submit">
+                                                    </c:if>
+
+                                                    <c:if test="${upd != 1234}">
+                                                        <input type="submit" value="Add" name="submit">
+                                                    </c:if>
 
 
-                                        </div>
+                                                </div>
 
 
-                                    </form>
+                                            </form>
 
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
                     <!-- /.container-fluid -->
 

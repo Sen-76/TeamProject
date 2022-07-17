@@ -27,6 +27,7 @@
         <link rel="icon" href="img/cai nay hoi la.png" type="image/gif" sizes="16x16">
         <link href="css/PhanhCss.css" rel="stylesheet">
         <link href="css/SenCss.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
         <!-- Need copy for use alert-->
         <link rel="stylesheet" href="fnon.min.css">
         <!-- End Need copy for use alert-->
@@ -54,17 +55,17 @@
                             <h1 style="font-weight: bold" class="h3 mb-2 text-gray-800"> Criteria List</h1>
                             <ul class="spbw" id="filtera" >  
 
-                                <form action="CriteriaSearch" method="POST" style="display: flex; flex-direction: row" >
+                                <li>  <form action="CriteriaSearch" method="POST">
 
                                         <label for="subject_id"></label>
-                                        <select class="form-control form-control-user" class="SelectDrop" name="subject" id="subject">
+                                        <select class="SelectDrop" name="subject" id="subject">
                                             <option value="all">All Subject</option>
                                         <c:forEach var="o" items="${subjectList}">
                                             <option value="${o.subject_id}" ${Id==o.subject_id ? "selected" : ""}>${o.subject_name}</option>
                                         </c:forEach>
 
                                     </select>
-                                    <input  class="form-control form-control-user" type="text" name="searchName"  placeholder="Search Iteration and Loc" value="${txtSearch}">
+                                    <input  type="text" name="searchName"  placeholder="Search Iteration and Loc" value="${txtSearch}">
                                     <input type="submit" value="Search" name="submit"  style="
                                            background: #0073ca;
                                            border-radius: .35rem;
@@ -74,10 +75,12 @@
                         <a id="add" style="" type="submit" href="CriteriaDetail?go=add" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"/>Add new criteria</a>
                         <!-- DataTales Example -->
                         <div class="card shadow mb-4">
-
+                            <div class="card-header py-3">                           
+                            </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered sentable" id="dataTable" width="100%" cellspacing="0">
+
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 
                                         <thead>
                                             <tr>
@@ -112,23 +115,27 @@
                                                     </td>
                                                     <td>${o.criteria_order}</td>
                                                     <td>
-                                                        <c:if test="${o.status == 1}">
-                                                            <% out.print("Activate"); %>
-                                                        </c:if>
-                                                        <c:if test="${o.status == 2}">
-                                                            <% out.print("Deactivate"); %>
-                                                        </c:if>
+                                                        <form id="idS${o.criteria_id}" action="Criteria?go=updateStatus" method="POST">
+                                                            <input type="hidden" name="criId" value="${o.criteria_id}">
+                                                            <select class="form-control form-control-user" name="status" onchange="submitForm(idS${o.criteria_id})" >
+                                                                <option ${o.status == 2 ? "selected" : ""} value="2">Deactivate</option>
+                                                                <option ${o.status == 1 ? "selected" : ""} value="1">Active</option>
+                                                            </select>
+                                                        </form>
                                                     </td>
                                                     <td>
-                                                        <a class="" href="CriteriaDetail?go=Update&cid=${o.criteria_id}&Iter=${o.iteration_id}&Sub=${o.subject_id}">Edit</a>
-                                                        <a class="" href="CriteriaDetail?go=Delete&cid=${o.criteria_id}" onclick="return confirm('Do you sure want to remove?')">Activate</a>
+                                                        <a class="" href="CriteriaDetail?go=Update&cid=${o.criteria_id}&Iter=${o.iteration_id}&Sub=${o.subject_id}"><span class="material-symbols-outlined">
+                                                                edit
+                                                            </span>
+
                                                     </td>
                                                 </tr>                    
                                             </c:forEach>
 
                                         </tbody>
+                                        
                                     </table>
-                                    <div class="pagination">
+                                    <div class="paging">
 
                                         <c:forEach begin="1" end="${maxP}" var="i"  >    
                                             <a class ="active" href="Criteria?index=${i}">${i}</a>
@@ -189,25 +196,43 @@
             <script src="js/SenJS.js"></script>
             <script src="js/fnon.min.js"></script>
             <script>
-                                                            document.addEventListener('DOMContentLoaded', function () {
-                                                                Fnon.Hint.Init({
-                                                                    zIndex: 9900,
+                                                                document.addEventListener('DOMContentLoaded', function () {
+                                                                    Fnon.Hint.Init({
+                                                                        zIndex: 9900,
+                                                                    });
+                                                                    // Hint
+                                                                    var message = "${message}";
+                                                                    var theme = "${theme}";
+                                                                    var title = "${title}";
+                                                                    var position = "right-top";
+                                                                    var animation = "slide-left";
+                                                                    Fnon.Hint[theme](message, {
+                                                                        title,
+                                                                        position,
+                                                                        animation,
+                                                                    })
                                                                 });
-                                                                // Hint
-                                                                var message = "${message}";
-                                                                var theme = "${theme}";
-                                                                var title = "${title}";
-                                                                var position = "right-top";
-                                                                var animation = "slide-left";
-                                                                Fnon.Hint[theme](message, {
-                                                                    title,
-                                                                    position,
-                                                                    animation,
-                                                                })
-                                                            });
         </script>
-
+        <script>
+            function submitForm(form) {
+                swal({
+                    title: "Are you sure?",
+                    text: "This form will be submitted",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                        .then(function (isOkay) {
+                            if (isOkay) {
+                                form.submit();
+                            }
+                        });
+                return false;
+            }
+        </script>
+        <!-- End Need copy for use alert-->
         <script src="js/sweetalert.min.js"></script>
+
 
         <!-- End Need copy for use alert-->
     </body>

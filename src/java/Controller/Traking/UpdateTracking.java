@@ -70,7 +70,7 @@ public class UpdateTracking extends HttpServlet {
             request.setAttribute("theme", "Success");
             dao.UpdateTracking(id, team_id, milestone_id, function_id, assigner_id, assignee_id, tracking_note, updates, status);
         }
-
+        String ClassId = request.getParameter("ClassId");
         Enitiy.Tracking a = dao.OneTracking(id);
         request.setAttribute("a", a);
         List<Team> lteam = dao.Team();
@@ -81,7 +81,7 @@ public class UpdateTracking extends HttpServlet {
         request.setAttribute("lFunction", lFunction);
         List<User> lStudent = dao.Student(id);
         request.setAttribute("lStudent", lStudent);
-        List<User> lNotStudent = dao.NotStudent();
+        List<User> lNotStudent = dao.NotStudent(ClassId);
         request.setAttribute("lNotStudent", lNotStudent);
 
         if (idConfirm != null) {
@@ -90,8 +90,9 @@ public class UpdateTracking extends HttpServlet {
             out.print("<select class=\"form-control form-control-user assignee_id\" name=\"assignee_id\">\n");
             for (User user : lStudent) {
                 out.print(" <option value=\"" + user.getUser_id() + "\"");
-                if(user.getUser_id() == Loged.getUser_id())
+                if (user.getUser_id() == Loged.getUser_id()) {
                     out.print("selected");
+                }
                 out.print(" >" + user.getFullname() + "</option>\n");
             }
             out.print("</select>");

@@ -77,7 +77,7 @@ public class ChangePassWord extends HttpServlet {
                         request.setAttribute("passNew", passNew);
                         request.setAttribute("re_pass", re_pass);
                         
-                        session.setAttribute("mess_p", "Not same with old one");
+                        session.setAttribute("mess_p", "Your new password not same with your old password");
                         request.getRequestDispatcher("/jsp/ChangePass.jsp").forward(request, response);
                         return;
                     }
@@ -88,7 +88,7 @@ public class ChangePassWord extends HttpServlet {
                         request.setAttribute("passNew", passNew);
                         request.setAttribute("re_pass", re_pass);
                         
-                        session.setAttribute("mess_p", "new pass and re-pass not the same");
+                        session.setAttribute("mess_p", "New pass and re-pass are not the same");
                         request.getRequestDispatcher("/jsp/ChangePass.jsp").forward(request, response);
                         return;
                     }
@@ -98,13 +98,14 @@ public class ChangePassWord extends HttpServlet {
                         request.setAttribute("passNew", passNew);
                         request.setAttribute("re_pass", re_pass);
                         
-                        session.setAttribute("mess_p", "Old password and new password not the same");
+                        session.setAttribute("mess_p", "Old password and new password are not the same");
                         request.getRequestDispatcher("/jsp/ChangePass.jsp").forward(request, response);
                         return;
                     }
                     if (daoThanh.encrypt(PassNow).equals(Loged.getPass()) && passNew.equals(re_pass)) {
                         
                         daoThanh.UpdatePass(re_pass, Loged.getUser_id());
+                        session.setAttribute("ok", 1);
                         session.setAttribute("mess_p", "Your pass has been changed");
                         request.getRequestDispatcher("/jsp/ChangePass.jsp").forward(request, response);
                     }

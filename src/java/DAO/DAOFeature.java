@@ -39,17 +39,15 @@ public class DAOFeature extends ConnectJDBC {
 //        }
 //        return list;
 //    }
-    
-    public List<Feature> viewFeatureList(int index, int index1,int index2) {
+    public List<Feature> viewFeatureList(int index, int index2) {
         List<Feature> list = new ArrayList<>();
         String sql = "select distinct af.*, at.team_name, al.class_code, al.class_id from feature af join team at on at.team_id  = af.team_id\n"
-                + "join class al on al.class_id = at.class_id join classuser cl on cl.team_id = at.team_id where cl.user_id= ? and at.team_id =? limit 10 offset ?";
+                + "join class al on al.class_id = at.class_id join classuser cl on cl.team_id = at.team_id where cl.user_id= ?  limit 10 offset ?";
 
         try {
             ps = conn.prepareStatement(sql);
             ps.setInt(1, index);
-            ps.setInt(2, index1);
-            ps.setInt(3, (index2 - 1) * 10);
+            ps.setInt(2, (index2 - 1) * 10);
             rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Feature(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8)));
@@ -59,7 +57,7 @@ public class DAOFeature extends ConnectJDBC {
         }
         return list;
     }
-    
+
 //    public List<Feature> viewFeatureList(int index, int index1) {
 //        List<Feature> list = new ArrayList<>();
 //        String sql = "select distinct af.*, at.team_name, al.class_code, al.class_id from feature af join team at on at.team_id  = af.team_id\n"
@@ -79,16 +77,15 @@ public class DAOFeature extends ConnectJDBC {
 //        }
 //        return list;
 //    }
-
-
-    public int updateStatus(int status, int feature_id) {
+    public int updateStatus(String feId, int status) {
         int n = 0;
+        String sql = "update feature \n "
+                + "set status = ? \n "
+                + "where feature_id = ?";
         try {
-            String sql = "update feature\n"
-                    + " set status = ? where feature_id = ?";
             ps = conn.prepareStatement(sql);
             ps.setInt(1, status);
-            ps.setInt(2, feature_id);
+            ps.setString(2, feId);
             n = ps.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -113,24 +110,43 @@ public class DAOFeature extends ConnectJDBC {
         return list;
     }
 
-//    public List<Feature> searchClass(String class_code, int index) {
-//        List<Feature> list = new ArrayList<>();
-//        String sql = "select distinct af.*,at.team_name, al.class_code, al.class_id from feature af join team at on at.team_id  = af.team_id\n"
-//                + "join class al on al.class_id = at.class_id join classuser cl on cl.team_id = at.team_id\n"
-//                + "where class_code = '" + class_code + "' and cl.user_id= ?";
-//
-//        try {
-//            ps = conn.prepareStatement(sql);
-//            ps.setInt(1, index);
-//            rs = ps.executeQuery();
-//            while (rs.next()) {
-//                list.add(new Feature(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8)));
-//            }
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//        }
-//        return list;
-//    }
+    public List<Feature> searchClass(String class_id, int index) {
+        List<Feature> list = new ArrayList<>();
+        String sql = "select distinct af.*,at.team_name, al.class_code, al.class_id from feature af join team at on at.team_id  = af.team_id\n"
+                + "join class al on al.class_id = at.class_id join classuser cl on cl.team_id = at.team_id\n"
+                + "where al.class_id = '" + class_id + "' and cl.user_id= ?";
+
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, index);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Feature(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8)));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Feature> searchTeam(String team_id, int index) {
+        List<Feature> list = new ArrayList<>();
+        String sql = "select distinct af.*,at.team_name, al.class_code, al.class_id from feature af join team at on at.team_id  = af.team_id\n"
+                + "join class al on al.class_id = at.class_id join classuser cl on cl.team_id = at.team_id\n"
+                + "where af.team_id = '" + team_id + "' and cl.user_id= ?";
+
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, index);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Feature(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8)));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
 
     public Feature getFeature(int feature_id) {
         String sql = "select distinct af.*,at.team_name, al.class_code, al.class_id from team at join feature af join class al\n"
@@ -160,6 +176,24 @@ public class DAOFeature extends ConnectJDBC {
     public List<Feature> viewClass(int index) {
         List<Feature> list = new ArrayList<>();
         String sql = "select distinct at.class_id , al.class_code from feature af join team at on at.team_id  = af.team_id\n"
+                + "join class al on al.class_id = at.class_id join classuser cl on cl.team_id = at.team_id where cl.user_id= ? ";
+
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, index);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Feature(rs.getInt(1), rs.getString(2)));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Feature> viewTeam(int index) {
+        List<Feature> list = new ArrayList<>();
+        String sql = "select distinct af.team_id , at.team_name from feature af join team at on at.team_id  = af.team_id\n"
                 + "join class al on al.class_id = at.class_id join classuser cl on cl.team_id = at.team_id where cl.user_id= ? ";
 
         try {
@@ -232,11 +266,11 @@ public class DAOFeature extends ConnectJDBC {
     }
 
     public int getTotalList(int index) {
-        String sql = "select count(*) from feature af join team at on at.team_id  = af.team_id\n" +
-"join class al on al.class_id = at.class_id join classuser cl on cl.team_id = at.team_id where cl.user_id= ? ";
-        
+        String sql = "select count(*) from feature af join team at on at.team_id  = af.team_id\n"
+                + "join class al on al.class_id = at.class_id join classuser cl on cl.team_id = at.team_id where cl.user_id= ? ";
+
         try {
-             ps = conn.prepareStatement(sql);
+            ps = conn.prepareStatement(sql);
             ps.setInt(1, index);
             rs = ps.executeQuery();
             if (rs.next()) {
@@ -247,11 +281,12 @@ public class DAOFeature extends ConnectJDBC {
         }
         return 0;
     }
-     public int getTotalListTrainer() {
+
+    public int getTotalListTrainer() {
         String sql = "select count(*) from feature f inner join team t on f.team_id = t.team_id inner join class c on c.class_id = t.class_id  ";
-         ResultSet rs = getData(sql);
+        ResultSet rs = getData(sql);
         try {
-             
+
             if (rs.next()) {
                 return rs.getInt(1);
             }
@@ -260,8 +295,7 @@ public class DAOFeature extends ConnectJDBC {
         }
         return 0;
     }
-    
-    
+
 //    public List<Feature> viewFeatureListTranier(int index, int index1) {
 //        List<Feature> list = new ArrayList<>();
 //        String sql = "select distinct af.*, at.team_name, al.class_code, al.class_id from feature af join team at on at.team_id  = af.team_id\n" +
@@ -280,17 +314,16 @@ public class DAOFeature extends ConnectJDBC {
 //        }
 //        return list;
 //    }
-    
-     public List<Feature> viewFeatureListTranier(int index, int index2, int index3) {
+    public List<Feature> viewFeatureListTranier(int index, int index3) {
         List<Feature> list = new ArrayList<>();
-        String sql = "select distinct af.*, at.team_name, al.class_code, al.class_id from feature af join team at on at.team_id  = af.team_id\n" +
-"join class al on al.class_id = at.class_id join user au on al.trainer_id = au.user_id where au.user_id = ? and at.class_id = ? order by class_id limit 10 offset ?";
+        String sql = "select distinct af.*, at.team_name, al.class_code, al.class_id from feature af join team at on at.team_id  = af.team_id\n"
+                + "join class al on al.class_id = at.class_id join user au on al.trainer_id = au.user_id where au.user_id = ?  order by class_id limit 10 offset ?";
 
         try {
             ps = conn.prepareStatement(sql);
             ps.setInt(1, index);
-     ps.setInt(2, index2);
-          ps.setInt(3, (index3 - 1) * 10);
+
+            ps.setInt(2, (index3 - 1) * 10);
             rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Feature(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8)));
@@ -300,34 +333,15 @@ public class DAOFeature extends ConnectJDBC {
         }
         return list;
     }
-    
-//     public List<Feature> viewClassTrainer(int index) {
-//        List<Feature> list = new ArrayList<>();
-//        String sql = "select distinct at.class_id , al.class_code from feature af join team at on at.team_id  = af.team_id\n" +
-//"join class al on al.class_id = at.class_id join user au on al.trainer_id = au.user_id where au.user_id = ? ";
-//
-//        try {
-//            ps = conn.prepareStatement(sql);
-//            ps.setInt(1, index);
-//            rs = ps.executeQuery();
-//            while (rs.next()) {
-//                list.add(new Feature(rs.getInt(1), rs.getString(2)));
-//            }
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//        }
-//        return list;
-//    }
-     
-      public List<Feature> viewClassTrainer(int index, int index1) {
+
+    public List<Feature> viewClassTrainer(int index) {
         List<Feature> list = new ArrayList<>();
-        String sql = "select distinct at.team_id , at.team_name from team at\n" +
-"join class al on al.class_id = at.class_id join user au on al.trainer_id = au.user_id where au.user_id = ? and al.class_id = ? ";
+        String sql = "select distinct at.class_id , al.class_code from feature af join team at on at.team_id  = af.team_id\n"
+                + "join class al on al.class_id = at.class_id join user au on al.trainer_id = au.user_id where au.user_id = ? ";
 
         try {
             ps = conn.prepareStatement(sql);
             ps.setInt(1, index);
-     ps.setInt(2, index1);
             rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Feature(rs.getInt(1), rs.getString(2)));
@@ -337,36 +351,53 @@ public class DAOFeature extends ConnectJDBC {
         }
         return list;
     }
-     
-//     public List<Feature> searchClassTrainer(String class_code, int index) {
-//        List<Feature> list = new ArrayList<>();
-//        String sql = "select distinct af.*,at.team_name, al.class_code, al.class_id from feature af join team at on at.team_id  = af.team_id\n" +
-//                    "join class al on al.class_id = at.class_id join user au on al.trainer_id = au.user_id\n"
-//                + "where class_code = '" + class_code + "' and au.user_id= ?";
-//
-//        try {
-//            ps = conn.prepareStatement(sql);
-//            ps.setInt(1, index);
-//            rs = ps.executeQuery();
-//            while (rs.next()) {
-//                list.add(new Feature(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8)));
-//            }
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//        }
-//        return list;
-//    }
-     
-     public List<Feature> searchClassTrainer(String team_name, int index, int index1) {
+
+    public List<Feature> viewTeamTrainer(int index) {
+        List<Feature> list = new ArrayList<>();
+        String sql = "select distinct f.team_id , at.team_name from feature f join team at on f.team_id = at.team_id\n"
+                + "join class al on al.class_id = at.class_id join user au on al.trainer_id = au.user_id where au.user_id = ? ";
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, index);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Feature(rs.getInt(1), rs.getString(2)));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Feature> searchClassTrainer(String class_id, int index) {
         List<Feature> list = new ArrayList<>();
         String sql = "select distinct af.*,at.team_name, al.class_code, al.class_id from feature af join team at on at.team_id  = af.team_id\n"
-+ "join class al on al.class_id = at.class_id join user au on al.trainer_id = au.user_id\n"
-                + "where at.team_name = '" + team_name + "' and au.user_id= ? and al.class_id = ?";
+                + "join class al on al.class_id = at.class_id join user au on al.trainer_id = au.user_id\n"
+                + "where al.class_id = '" + class_id + "' and au.user_id= ?";
 
         try {
             ps = conn.prepareStatement(sql);
             ps.setInt(1, index);
-      ps.setInt(2, index1);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Feature(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8)));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Feature> searchTeamTrainer(String team_id, int index) {
+        List<Feature> list = new ArrayList<>();
+        String sql = "select distinct af.*,at.team_name, al.class_code, al.class_id from feature af join team at on at.team_id  = af.team_id\n"
+                + "join class al on al.class_id = at.class_id join user au on al.trainer_id = au.user_id\n"
+                + "where af.team_id = '" + team_id + "' and au.user_id= ?";
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, index);
+
             rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Feature(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8)));
@@ -381,11 +412,7 @@ public class DAOFeature extends ConnectJDBC {
         DAOFeature dao = new DAOFeature();
 //       dao.updateFeature(1, "de", 1, "lala");
         //dao.updateFeature(20, "gt", 1, "ex", "g5", "SE1323");
-        System.out.println(dao.viewFeatureList(1, 2, 1));
+        System.out.println(dao.updateStatus("2", 2));
     }
-
-    
-
-  
 
 }

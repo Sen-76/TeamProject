@@ -54,14 +54,14 @@ public class ShowAllClass extends HttpServlet {
                 request.getRequestDispatcher("Login_sen").forward(request, response);
                 return;
             }
-            try {
-                if (loged.getRole_id() != 4) {
-                    request.setAttribute("messE", "Seems like you don't have permission to do this");
-                    request.getRequestDispatcher("/jsp/Class/Error.jsp").forward(request, response);
-                    return;
-                }
-            } catch (Exception e) {
-            }
+//            try {
+//                if (loged.getRole_id() != 4) {
+//                    request.setAttribute("messE", "Seems like you don't have permission to do this");
+//                    request.getRequestDispatcher("/jsp/Class/Error.jsp").forward(request, response);
+//                    return;
+//                }
+//            } catch (Exception e) {
+//            }
             if (service == null) {
                 service = "ViewAllClass";
             }
@@ -91,16 +91,41 @@ public class ShowAllClass extends HttpServlet {
                 request.setAttribute("page", page);
 
                 Vector<User> vectT = dao.showAllTeacher();
-                Vector<Class_s> vectClass = dao.ViewAllClassName(search, startFrom);
+                Vector<Class_s> vectClass = dao.ViewAllClassName(search, startFrom, "");
 
-                int soLuongTrang;
-                if (dao.CountClass(search) % 20 == 0) {
-                    soLuongTrang = dao.CountClass(search) / 20;
-                } else {
-                    soLuongTrang = dao.CountClass(search) / 20 + 1;
+                //=================================================================cai nay lam filter
+                String where = "";
+                String sta = request.getParameter("ClaSta");
+                if (sta == null || sta.equals("")) {
+                    sta = "2";
+                }
+                if (!sta.equals("2")) {
+                    int a = Integer.parseInt(sta);
+                    where += " and status = " + a;
                 }
 
-                request.setAttribute("totalResult", dao.CountClass(search));
+                String trainer = request.getParameter("trainerName");
+                if (trainer == null || trainer.equals("")) {
+
+                } else {
+                    where += " and trainer_id = " + trainer;
+
+                }
+                request.setAttribute("trainerName", trainer);
+                Vector<User> allTra = dao.allTrainer();
+                request.setAttribute("allTra", allTra);
+                request.setAttribute("sta", sta);
+                 vectClass = dao.ViewAllClassName(search, startFrom, where);
+                //==================================================================filter
+
+                int soLuongTrang;
+                if (dao.CountClass(search, where) % 20 == 0) {
+                    soLuongTrang = dao.CountClass(search, where) / 20;
+                } else {
+                    soLuongTrang = dao.CountClass(search, where) / 20 + 1;
+                }
+
+                request.setAttribute("totalResult", dao.CountClass(search, where));
 
                 request.setAttribute("soLuongTrang", soLuongTrang);
                 //   request.setAttribute("tongSoTrang", dao.CountClass());
@@ -145,7 +170,8 @@ public class ShowAllClass extends HttpServlet {
                         request.setAttribute("mess", "Not allow null");
                         request.getRequestDispatcher("/jsp/Class/AddClass.jsp").forward(request, response);
                         return;
-                    } if(dao.checkClassCode(class_code)){
+                    }
+                    if (dao.checkClassCode(class_code)) {
                         request.setAttribute("class_code", class_code);
                         request.setAttribute("trainer", trainer);
                         request.setAttribute("subject", subject);
@@ -225,24 +251,24 @@ public class ShowAllClass extends HttpServlet {
                         request.setAttribute("mess", "Not allow null");
                         request.getRequestDispatcher("/jsp/Class/AddClass.jsp").forward(request, response);
                         return;
-                    }
-                    else if(dao.checkClassCode(class_code)){
-                        request.setAttribute("class_code", class_code);
-                        request.setAttribute("trainer", trainer);
-                        request.setAttribute("subject", subject);
-                        request.setAttribute("class_Year", class_Year);
-                        request.setAttribute("class_term", class_term);
-                        request.setAttribute("block5", block5);
-                        request.setAttribute("status", status);
-
-                        request.setAttribute("vectT", vectT);
-                        request.setAttribute("listSub", listSub);
-
-                        request.setAttribute("update", "updateClass");
-                        request.setAttribute("mess", "This class is already exist");
-                        request.getRequestDispatcher("/jsp/Class/AddClass.jsp").forward(request, response);
-                        return;
-                    }
+                    } 
+//                    else if (dao.checkClassCode(class_code)) {
+//                        request.setAttribute("class_code", class_code);
+//                        request.setAttribute("trainer", trainer);
+//                        request.setAttribute("subject", subject);
+//                        request.setAttribute("class_Year", class_Year);
+//                        request.setAttribute("class_term", class_term);
+//                        request.setAttribute("block5", block5);
+//                        request.setAttribute("status", status);
+//
+//                        request.setAttribute("vectT", vectT);
+//                        request.setAttribute("listSub", listSub);
+//
+//                        request.setAttribute("update", "updateClass");
+//                        request.setAttribute("mess", "This class is already exist");
+//                        request.getRequestDispatcher("/jsp/Class/AddClass.jsp").forward(request, response);
+//                        return;
+//                    }
                     else {
                         Class_s s = new Class_s(Integer.parseInt(classId), class_code, trainer, subject, class_Year, class_term, block5, Integer.parseInt(status));
                         dao.updateAllClass(s);

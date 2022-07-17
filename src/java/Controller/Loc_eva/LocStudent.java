@@ -52,13 +52,24 @@ public class LocStudent extends HttpServlet {
             if (service == null || service.equals("")) {
                 service = "show";
             }
-            
+
             if (service.equals("show")) {
+                
                 Vector<Class_s> vect = dao.viewClassByStudent(loged.getUser_id() + "");
                 request.setAttribute("vectC", vect);
                 String classid = request.getParameter("class");
-                if(classid == null || classid.equals(""))
+                if (classid == null || classid.equals("")) {
                     classid = vect.firstElement().getId() + "";
+                }
+                Vector<String> vectM = dao.allMile(classid);
+                request.setAttribute("vectM", vectM);
+                String mile = request.getParameter("Iter");
+                if(mile == null || mile.equals(""))
+                    mile = vectM.firstElement();
+                request.setAttribute("mile", mile);
+                
+                Vector<String> vectF = dao.allFunct();
+                request.setAttribute("vectF", vectF);
                 
                 String id = request.getParameter("Tid");
                 Vector<loc_evaluation> loc = dao.getMemEva(loged.getUser_id() + "", classid);
@@ -66,17 +77,21 @@ public class LocStudent extends HttpServlet {
 
                 int totalL = 0;
                 for (loc_evaluation o : loc) {
-                    int a = Integer.parseInt(o.getComplexity_id());
-                    int b = Integer.parseInt(o.getQuality_id());
-                    totalL += (a * b / 100);
+                    try {
+                        int a = Integer.parseInt(o.getComplexity_id());
+                        int b = Integer.parseInt(o.getQuality_id());
+                        totalL += (a * b / 100);
+                    } catch (Exception e) {
+                    }
+
                 }
                 if (totalL < 360) {
                     request.setAttribute("mess", "NOT PASSED");
                 } else {
-                    request.setAttribute("mess", "PASSED");  
+                    request.setAttribute("mess", "PASSED");
                 }
                 request.setAttribute("class", classid);
-                
+
                 request.setAttribute("total", totalL);
                 request.getRequestDispatcher("/jsp/LocE/LocStudent.jsp").forward(request, response);
             }

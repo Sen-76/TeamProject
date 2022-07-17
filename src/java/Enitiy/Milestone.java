@@ -60,8 +60,27 @@ public class Milestone {
         this.status = status;
         this.classCode = classCode;
     }
+
+    public Milestone(int milestone_id, int interation_id, int class_id, String from_date, String to_date, int status, String classCode, String iterationName, String milestone_name) {
+        this.milestone_id = milestone_id;
+        this.interation_id = interation_id;
+        this.class_id = class_id;
+        this.from_date = from_date;
+        this.to_date = to_date;
+        this.status = status;
+        this.classCode = classCode;
+        this.iterationName = iterationName;
+        this.milestone_name = milestone_name;
+    }
     
-    
+    public Milestone(int interation_id, int class_id, String from_date, String to_date, String milestone_name, int status ) {
+        this.interation_id = interation_id;
+        this.class_id = class_id;
+        this.from_date = from_date;
+        this.to_date = to_date;
+        this.status = status;
+        this.milestone_name = milestone_name;
+    }
 
     public Milestone(int milestone_id, int interation_id, int class_id, String from_date, String to_date, int status, String classCode, String iterationName) {
         this.milestone_id = milestone_id;

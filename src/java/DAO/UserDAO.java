@@ -3,7 +3,13 @@ package DAO;
 import ConnectDB.ConnectJDBC;
 import Enitiy.*;
 import java.security.MessageDigest;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
@@ -25,15 +31,71 @@ public class UserDAO extends ConnectJDBC {
                         rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7),
                         rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), rs.getString(12), rs.getString(13), rs.getString(14)));
             }
-            for (User u : ve) {
-                if (u.getUser_id() == myID) {
-                    ve.remove(u);
+            for (int i = 0; i < ve.size(); i++) {
+                if (ve.get(i).getUser_id() == myID) {
+                    ve.remove(i);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return ve;
+    }
+
+    public int coutSearchRole(int roleID) {
+        int n = 0;
+
+        String sql;
+        if (roleID != 5) {
+            sql = "select COUNT(*) from user where role_id = " + roleID + "";
+        } else {
+            sql = "select COUNT(*) from user";
+        }
+        ResultSet rs = getData(sql);
+        try {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return n;
+    }
+
+    public String ConvertDateFormat(String s) {
+        //neu can this hay sua thang nay
+        final String temp = "yyyy-MM-dd";
+        Date date1 = new Date();
+        if (s.equals("") || s == null) {
+            s = "not yet";
+        }
+        try {
+            date1 = new SimpleDateFormat(temp).parse(s);
+            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            String strDate = dateFormat.format(date1);
+            return strDate;
+        } catch (java.text.ParseException ex) {
+            return s;
+        }
+    }
+
+    public int coutSearchStatus(int roleID) {
+        int n = 0;
+        String sql;
+        if (roleID != 2) {
+            sql = "select COUNT(*) from user where status = " + roleID + "";
+        } else {
+            sql = "select COUNT(*) from user";
+        }
+        ResultSet rs = getData(sql);
+        try {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return n;
     }
 
     public Vector<User> listAll(int sartFrom) {
@@ -59,6 +121,7 @@ public class UserDAO extends ConnectJDBC {
     public Vector<User> searchByRole(String id, int start, int uid) {
         Vector<User> veU = new Vector<>();
         String sql = "select * from user where role_id = " + id + " LIMIT 10 OFFSET " + start + "";
+//        String sql = "select * from user where role_id = " + id;
         ResultSet rs = getData(sql);
         try {
             while (rs.next()) {
@@ -66,9 +129,9 @@ public class UserDAO extends ConnectJDBC {
                         rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7),
                         rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), rs.getString(12), rs.getString(13), rs.getString(14)));
             }
-            for (User u : veU) {
-                if (u.getUser_id() == uid) {
-                    veU.remove(u);
+            for (int i = 0; i < veU.size(); i++) {
+                if (veU.get(i).getUser_id() == uid) {
+                    veU.remove(i);
                 }
             }
         } catch (SQLException e) {
@@ -77,8 +140,7 @@ public class UserDAO extends ConnectJDBC {
         return veU;
     }
 
-    
-    public Vector<User> sortAsc(int sart, int uid){
+    public Vector<User> sortAsc(int sart, int uid) {
         Vector<User> veS = new Vector<>();
         String sql = "select * from user order by fullname asc LIMIT 10 OFFSET " + sart + "";
         ResultSet rs = getData(sql);
@@ -88,19 +150,18 @@ public class UserDAO extends ConnectJDBC {
                         rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7),
                         rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), rs.getString(12), rs.getString(13), rs.getString(14)));
             }
-            for (User u : veS) {
-                if (u.getUser_id() == uid) {
-                    veS.remove(u);
+            for (int i = 0; i < veS.size(); i++) {
+                if (veS.get(i).getUser_id() == uid) {
+                    veS.remove(i);
                 }
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return veS;
     }
-    
-    public Vector<User> sortDesc(int sart, int uid){
+
+    public Vector<User> sortDesc(int sart, int uid) {
         Vector<User> veS = new Vector<>();
         String sql = "select * from user order by fullname desc LIMIT 10 OFFSET " + sart + "";
         ResultSet rs = getData(sql);
@@ -110,9 +171,9 @@ public class UserDAO extends ConnectJDBC {
                         rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7),
                         rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), rs.getString(12), rs.getString(13), rs.getString(14)));
             }
-            for (User u : veS) {
-                if (u.getUser_id() == uid) {
-                    veS.remove(u);
+            for (int i = 0; i < veS.size(); i++) {
+                if (veS.get(i).getUser_id() == uid) {
+                    veS.remove(i);
                 }
             }
 
@@ -121,8 +182,7 @@ public class UserDAO extends ConnectJDBC {
         }
         return veS;
     }
-    
-    
+
     public Vector<User> searchByStatus(int sta, int startform, int uid) {
         Vector<User> veS = new Vector<>();
         String sql = "select * from user where status = " + sta + " LIMIT 10 OFFSET " + startform + "";
@@ -133,12 +193,11 @@ public class UserDAO extends ConnectJDBC {
                         rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7),
                         rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), rs.getString(12), rs.getString(13), rs.getString(14)));
             }
-            for (User u : veS) {
-                if (u.getUser_id() == uid) {
-                    veS.remove(u);
+            for (int i = 0; i < veS.size(); i++) {
+                if (veS.get(i).getUser_id() == uid) {
+                    veS.remove(i);
                 }
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -180,14 +239,19 @@ public class UserDAO extends ConnectJDBC {
     public int countUser(String roll) {
         String sql = "select COUNT(*) from user where roll_number like '%" + roll + "%' or fullname like '%" + roll + "%'";
         ResultSet rs = getData(sql);
+        int n = 0;
         try {
             if (rs.next()) {
-                return rs.getInt(1) - 1;
+                n = rs.getInt(1) - 1;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return 0;
+        if (n <= 0) {
+            return 0;
+        } else {
+            return n;
+        }
     }
 
     public Vector<User> listUserByClass(String id) {
@@ -344,21 +408,22 @@ public class UserDAO extends ConnectJDBC {
         return n;
     }
 
-    public User getUserByID(String user_id) {
-        String sql = "select * from user where user_id = " + user_id + "";
-        ResultSet rs = getData(sql);
-        try {
-            if (rs.next()) {
-                return new User(rs.getInt(1), rs.getString(2), rs.getString(3),
-                        rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7),
-                        rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), rs.getString(12), rs.getString(13), rs.getString(14));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    
+//    public Vector<User> detailUser(int id) {
+//        User u1;
+//        Vector<User> ve = new Vector<>();
+//        String sql = "select * from user where user_id = " + id + "";
+//        ResultSet rs = getData(sql);
+//        try {
+//            if (rs.next()) {
+//                ve.add(new User(rs.getInt(1), rs.getString(2), rs.getString(3),
+//                        rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7),
+//                        rs.getString(8), rs.getString(9), rs.getInt(10), rs.getInt(11), rs.getString(12), rs.getString(13)));
+//            }
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//        }
+//        return ve;
+//    }
     public int changeRole(int roleid, int id) {
         int n = 0;
         String sql = "update user set role_id = " + roleid + " where user_id = " + id + "";
@@ -409,8 +474,13 @@ public class UserDAO extends ConnectJDBC {
                 return rs.getInt(1);
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
-        return 0;
+        if (n <= 0) {
+            return 0;
+        } else {
+            return n;
+        }
     }
 
     public boolean isNumber(String s) {
@@ -435,8 +505,18 @@ public class UserDAO extends ConnectJDBC {
      */
     public static void main(String[] args) {
         UserDAO dao = new UserDAO();
-        System.out.println(dao.searchByStatus(0, 0, 1));
+//        System.out.println(dao.coutSearchRole(2));
+//        System.out.println(dao.searchByStatus(0, 0, 1).size());
 
+        int n = dao.updateUser(new User(2, "he172315", "Nguyen Hoa", 1, "2022-07-08", "abc@gmail.com", "0325154574", 2, 1, ""));
+
+//        System.out.println(dao.listAllUser(0, "", 1));
+//        Vector<User> v = dao.listAllUser(0, "", 1);
+//        for (User o : v) {
+//            o.setDate_of_birth(dao.ConvertDateFormat(o.getDate_of_birth()));
+//            System.out.println(o);
+//        }
+//        System.out.println(dao.searchByStatus(0, 0, 1));
 //        int n = dao.updateUser(new User(1, "123", "Dang Tat", 0, "2022-01-02", "tienanh@gmail.com", "0123456789", 0));
 //        if (n > 0) {
 //            System.out.println("oke detsune!");

@@ -46,15 +46,16 @@ public class AddTracking extends HttpServlet {
             request.getRequestDispatcher("Tracking").forward(request, response);
             return;
         }
+        String ClassId = request.getParameter("ClassId");
         List<Team> lteam = dao.Team();
         request.setAttribute("lteam", lteam);
         List<Milestone> lMilestone = dao.Milestone();
         request.setAttribute("lMilestone", lMilestone);
         List<Function> lFunction = dao.Function();
         request.setAttribute("lFunction", lFunction);
-        List<User> lStudent = dao.Student2();
+        List<User> lStudent = dao.Student2(ClassId);
         request.setAttribute("lStudent", lStudent);
-        List<User> lNotStudent = dao.NotStudent();
+        List<User> lNotStudent = dao.NotStudent(ClassId);
         request.setAttribute("lNotStudent", lNotStudent);
         request.getRequestDispatcher("jsp/Tracking/AddTracking.jsp").forward(request, response);
 

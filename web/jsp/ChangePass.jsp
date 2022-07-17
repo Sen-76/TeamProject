@@ -26,7 +26,7 @@
 
         <!-- Custom styles for this template-->
         <link href="css/sb-admin-2.min.css" rel="stylesheet">
-        <link href="css/SenCss.css" rel="stylesheet">
+        <!--        <link href="css/SenCss.css" rel="stylesheet">-->
         <link rel="icon" href="img/cai nay hoi la.png" type="image/gif" sizes="16x16">
 
     </head>
@@ -65,7 +65,7 @@
                                         <div class="card-body p-0">
                                             <!-- Nested Row within Card Body -->
                                             <div class="row">
-                                               
+
                                                 <div class="col-lg-12">
                                                     <div class="p-5">
                                                         <div class="text-center">
@@ -76,20 +76,37 @@
                                                             <div class="form-group">
                                                                 <input name="PassNow" type="password" class="form-control form-control-user" 
                                                                        value="${PassNow}"
-                                                                       id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Your current password...">
+                                                                id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Your current password..." required>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input value="${passNew}" required name="passNew" type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Your new password">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input value="${re_pass}" required name="re_pass" type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Your new password">
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-sm-12 text-center">
+                                                                <span class="text-center ${ok == 1 ? "text-success":"text-danger"}" >${mess_p}</span>
                                                             </div>
-                                                            <div class="form-group">
-                                                                <input value="${passNew}" name="passNew" type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Your new password">
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-sm-5"></div>
+
+                                                            <div class="col-sm-7">
+
+                                                                <br>
+                                                                <input class="btn btn-primary " type="submit" name="submit" value="Change" />
                                                             </div>
-                                                            <div class="form-group">
-                                                                <input value="${re_pass}" name="re_pass" type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Your new password">
-                                                            </div>
-                                                            <span style="color: red;">${mess_p}</span>
-                                                        <input class="btn btn-primary btn-user btn-block" type="submit" name="submit" value="Submit" />
-                                                        
+
+                                                        </div>
+
+
+
 
                                                     </form>
-                                                   
+
 
                                                 </div>
                                             </div>

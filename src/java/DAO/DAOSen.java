@@ -3,6 +3,7 @@ package DAO;
 import Enitiy.User;
 import ConnectDB.ConnectJDBC;
 import Enitiy.ClassUser;
+import Enitiy.Class_s;
 import Enitiy.Function;
 import Enitiy.Milestone;
 import Enitiy.Setting;
@@ -718,6 +719,7 @@ public class DAOSen extends ConnectJDBC {
                 + "left join `function` d on d.function_id = a.function_id\n"
                 + "left join user e on e.user_id = a.assigner_id\n"
                 + "left join user f on f.user_id = a.assignee_id\n"
+                + "left join class g on g.class_id = b.class_id\n"
                 + "where a.status <> 0 " + filter + " " + order + "\n"
                 + "limit 10 offset " + (index - 1) * 10 + "";
         System.out.println(sql);
@@ -740,6 +742,7 @@ public class DAOSen extends ConnectJDBC {
                 + "left join `function` d on d.function_id = a.function_id\n"
                 + "left join user e on e.user_id = a.assigner_id\n"
                 + "left join user f on f.user_id = a.assignee_id\n"
+                + "left join class g on g.class_id = b.class_id\n"
                 + "where a.status <> 0 " + filter + "";
         ResultSet rs = getData(sql);
         try {
@@ -822,6 +825,21 @@ public class DAOSen extends ConnectJDBC {
         return list;
     }
 
+    public List<Class_s> Class() {
+        List<Class_s> list = new ArrayList<>();
+        String sql = "select * from class where status = 1;";
+        System.out.println(sql);
+        ResultSet rs = getData(sql);
+        try {
+            while (rs.next()) {
+                list.add(new Class_s(rs.getInt(1), rs.getString(2)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public List<Milestone> Milestone2(String tracking_id) {
         List<Milestone> list = new ArrayList<>();
         String sql = "SELECT * from milestone m left join class n on m.class_id = n.class_id\n"
@@ -888,9 +906,10 @@ public class DAOSen extends ConnectJDBC {
         return list;
     }
 
-    public List<User> Student2() {
+    public List<User> Student2(String classid) {
         List<User> list = new ArrayList<>();
-        String sql = "SELECT * FROM user where status = 1 and role_id = 1";
+        String sql = "SELECT * FROM user a join classuser b on a.user_id = b.user_id\n"
+                + "where a.status = 1 and a.role_id = 1 and b.class_id = " + classid + "";
         System.out.println(sql);
         ResultSet rs = getData(sql);
         try {
@@ -903,9 +922,11 @@ public class DAOSen extends ConnectJDBC {
         return list;
     }
 
-    public List<User> NotStudent() {
+    public List<User> NotStudent(String classid) {
         List<User> list = new ArrayList<>();
-        String sql = "SELECT * FROM user where status = 1 and role_id > 1;";
+        String sql = "SELECT * FROM user where user_id = (\n"
+                + "select trainer_id from class where class_id = " + classid + "\n"
+                + ")";
         System.out.println(sql);
         ResultSet rs = getData(sql);
         try {
@@ -957,6 +978,9 @@ public class DAOSen extends ConnectJDBC {
 
     public static void main(String[] args) {
         DAOSen dao = new DAOSen();
-        System.out.println(dao.TeamOfLoged("1"));
+        List<Class_s> lst = dao.Class();
+        for (Class_s class_s : lst) {
+            System.out.println(class_s);
+        }
     }
 }

@@ -27,6 +27,7 @@
         <!-- Custom styles for this template-->
         <link href="css/sb-admin-2.min.css" rel="stylesheet">
         <link rel="icon" href="img/cai nay hoi la.png" type="image/gif" sizes="16x16">
+        <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
         <link rel="stylesheet" href="fnon.min.css">
         <link href="css/SenCss.css" rel="stylesheet">
 
@@ -59,70 +60,74 @@
                                     <p> / </p>
                                     <a href="Tracking"> Tracking </a>
                                 </div>
-                                <h4 class="h4 two-lines"></h4>
-                                <span class="span"></span>
-                            </div>
-                            <div style="margin-top:120px"></div>
-                            <ul class="spbw">
-                                <li><a type="submit" href="AddTracking" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"/>Add new Tracking</a>
-                                <li>
+                                <h4 class="h4 two-lines">${OneClass.subject_code} - ${OneClass.subject_name}</h4>
+                            <span class="span">Class: ${OneClass.class_code}</span>
+                        </div>
+                        <div style="margin-top:160px"></div>
+                        <ul class="spbw">
+                            <li><a type="submit" href="AddTracking?ClassId=${OneClass.class_id}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"/>Add new Tracking</a>
+                            <li>
+                                <form style="display: flex !important;" action="Tracking" method="POST" id="Form">
+                                    <select id="SearchBy" class="form-control form-control-user" name="class_id">
+                                        <c:forEach var="o" items="${classes}">
+                                            <option ${o.classCode == OneClass.class_code ? "selected" : ""} value="${o.id}">${o.classCode}</option>
+                                        </c:forEach>
+                                    </select>
                                     <form style="display: flex !important;" action="Tracking" method="POST" id="Form">
                                         <select id="SearchBy" class="form-control form-control-user" name="team_id">
                                             <option value="">All Team</option>
-                                        <c:forEach var="o" items="${team}">
-                                            <option ${o.team_id == team_id ? "selected" : ""} value="${o.team_id}">${o.team_name}</option>
-                                        </c:forEach>
-                                    </select>
-                                    <select id="SearchBy" class="form-control form-control-user" name="func_id">
-                                        <option value="">All Function</option>
-                                        <c:forEach var="o" items="${function}">
-                                            <option ${o.function_id == func_id ? "selected" : ""} value="${o.function_id}">${o.function_name}</option>
-                                        </c:forEach>
-                                    </select>
-                                    <input placeholder="Text Something" name="searchTxT" id="searchTxT" value="${searchTxT}" class="form-control form-control-user">
-                                    <input id="submit" type="submit" name="Search" value="Search" style="
-                                           background: #0073ca;
-                                           border-radius: .35rem;
-                                           "/>
-                                    <div class="form-control" style="
-                                         display: flex;
-                                         width: auto;
-                                         justify-content: center;
-                                         align-items: center;" onclick="DaiRa()"><ion-icon name="arrow-dropdown-circle"></ion-icon></div>  
-                                    <ul class="daira" style="
-                                        position: absolute;
-                                        display: flex;
-                                        flex-direction: column;
-                                        z-index: 100;
-                                        align-items: flex-start;
-                                        background: white;
-                                        border-radius: 10px;
-                                        height: 0;
-                                        right: 0;
-                                        overflow: hidden;
-                                        transition: height 0.5s ease-in-out;
-                                        margin-top: 37px;
-                                        ">
-                                        <style>
-                                            .daira li{
-                                                height: 5px;
-                                            }
-                                            .daira.active {
-                                                padding-bottom: 15px;
-                                                height: 220px !important;
-                                                border: 1px solid #d1d3e2;
-                                            }
-                                        </style>
-                                        <li><input ${SearchBy.equals("c.milestone_name") ? "checked" : ""} type="radio" name="SearchBy" value="c.milestone_name" />Milestone</li>
-                                        <li><input ${SearchBy.equals("e.fullname") ? "checked" : ""} type="radio" name="SearchBy" value="e.fullname" />Assigner</li>
-                                        <li><input ${SearchBy.equals("f.fullname") ? "checked" : ""} type="radio" name="SearchBy" value="f.fullname" />Assignee</li>
-                                        <li><input ${SearchBy.equals("a.tracking_note") ? "checked" : ""} type="radio" name="SearchBy" value="a.tracking_note" />Note</li>
-                                        <li><input ${SearchBy.equals("a.updates") ? "checked" : ""} type="radio" name="SearchBy" value="a.updates" />Update</li>
-                                    </ul>
-                                    <input id="pagees" type="hidden" name="page" value="${page}" />
-                                    <input id="order" type="hidden" name="order" value="" />
+                                            <c:forEach var="o" items="${team}">
+                                                <option ${o.team_id == team_id ? "selected" : ""} value="${o.team_id}">${o.team_name}</option>
+                                            </c:forEach>
+                                        </select>
+                                        <select id="SearchBy" class="form-control form-control-user" name="func_id">
+                                            <option value="">All Function</option>
+                                            <c:forEach var="o" items="${function}">
+                                                <option ${o.function_id == func_id ? "selected" : ""} value="${o.function_id}">${o.function_name}</option>
+                                            </c:forEach>
+                                        </select>
+                                        <input placeholder="Text Something" name="searchTxT" id="searchTxT" value="${searchTxT}" class="form-control form-control-user">
+                                        <input id="submit" type="submit" name="Search" value="Search" style="
+                                               background: #0073ca;
+                                               border-radius: .35rem;
+                                               "/>
+                                        <div class="form-control" style="
+                                             display: flex;
+                                             width: auto;
+                                             justify-content: center;
+                                             align-items: center;" onclick="DaiRa()"><ion-icon name="arrow-dropdown-circle"></ion-icon></div>  
+                                        <ul class="daira" style="
+                                            position: absolute;
+                                            display: flex;
+                                            flex-direction: column;
+                                            z-index: 100;
+                                            align-items: flex-start;
+                                            background: white;
+                                            border-radius: 10px;
+                                            height: 0;
+                                            right: 0;
+                                            overflow: hidden;
+                                            transition: height 0.5s ease-in-out;
+                                            margin-top: 37px;
+                                            ">
+                                            <style>
+                                                .daira li{
+                                                    height: 5px;
+                                                }
+                                                .daira.active {
+                                                    padding-bottom: 15px;
+                                                    height: 150px !important;
+                                                    border: 1px solid #d1d3e2;
+                                                }
+                                            </style>
+                                            <li><input ${SearchBy.equals("c.milestone_name") ? "checked" : ""} type="radio" name="SearchBy" value="c.milestone_name" />Milestone</li>
+                                            <li><input ${SearchBy.equals("e.fullname") ? "checked" : ""} type="radio" name="SearchBy" value="e.fullname" />Assigner</li>
+                                            <li><input ${SearchBy.equals("f.fullname") ? "checked" : ""} type="radio" name="SearchBy" value="f.fullname" />Assignee</li>
+                                        </ul>
+                                        <input id="pagees" type="hidden" name="page" value="${page}" />
+                                        <input id="order" type="hidden" name="order" value="" />
 
-                                </form>
+                                    </form>
                             </li>
                         </ul>
                         <div class="card shadow mb-4">
@@ -135,16 +140,14 @@
                                     <table class="table table-bordered sentable" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th id=" order by b.team_name" onclick="OrderBy(this)">Team</th>
-                                                <th id=" order by c.milestone_name" onclick="OrderBymilestone_name(this)">MileStone</th>
-                                                <th id=" order by d.function_name" onclick="OrderBy(this)">Function</th>
-                                                <th id=" order by e.fullname" onclick="OrderBy(this)">Assigner</th>
-                                                <th id=" order by f.fullname" onclick="OrderBy(this)">Assignee</th>
-                                                <th id=" order by a.tracking_note" onclick="OrderBy(this)">Note</th>
-                                                <th id=" order by a.updates" onclick="OrderBy(this)">Update</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                            </tr>
+                                                <th id=" order by b.team_name" onclick="OrderBy(this)">Team  <ion-icon name="arrow-dropdown"></ion-icon></th>
+                                        <th id=" order by c.milestone_name" onclick="OrderBymilestone_name(this)">MileStone  <ion-icon name="arrow-dropdown"></ion-icon></th>
+                                        <th id=" order by d.function_name" onclick="OrderBy(this)">Function  <ion-icon name="arrow-dropdown"></ion-icon></th>
+                                        <th id=" order by e.fullname" onclick="OrderBy(this)">Assigner  <ion-icon name="arrow-dropdown"></ion-icon></th>
+                                        <th id=" order by f.fullname" onclick="OrderBy(this)">Assignee  <ion-icon name="arrow-dropdown"></ion-icon></th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                        </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
@@ -153,8 +156,6 @@
                                                 <th>Function</th>
                                                 <th>Assigner</th>
                                                 <th>Assignee</th>
-                                                <th>Note</th>
-                                                <th>Update</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
@@ -167,8 +168,6 @@
                                                     <td>${o.function_name}</td>
                                                     <td>${o.assigner_name}</td>                                            
                                                     <td>${o.assignee_name}</td>
-                                                    <td>${o.tracking_note}</td>
-                                                    <td>${o.update}</td>  
                                                     <td>
                                                         <select onchange="Confirm(this)" name="${o.tracking_id}" class="form-control form-control-user statuses">
                                                             <option ${o.status == 1 ? "selected" : ""} value="1">Planed</option>
@@ -182,11 +181,11 @@
                                                         </select>
                                                     </td>
                                                     <c:if test="${o.status < 7}">
-                                                        <td><a href="UpdateTracking?id=${o.tracking_id}">Update</a></td>
-                                                    </c:if>
-                                                    <c:if test="${o.status >= 7}">
-                                                        <td><a>Can't Update</a></td>
-                                                    </c:if>
+                                                        <td><a href="UpdateTracking?id=${o.tracking_id}&ClassId=${OneClass.class_id}"><ion-icon name="create" md="md-create"></ion-icon></a></td>
+                                                                </c:if>
+                                                                <c:if test="${o.status >= 7}">
+                                                        <td><a><ion-icon name="remove"></ion-icon></a></td>
+                                                                </c:if>
                                                 </tr>
                                             </tbody>
                                         </c:forEach>
@@ -234,76 +233,76 @@
             <jsp:include page="../LogOut.jsp"></jsp:include>
                 <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
                 <script>
-                                                function OrderBy(a) {
-                                                    document.querySelector("#order").value = a.id;
-                                                    document.querySelector("#submit").click();
-                                                }
-                                                function OrderBymilestone_name(a){
-                                                    document.querySelector("#order").value = a.id;
-                                                    document.querySelector("#pagees").value = ${pages};
-                                                    document.querySelector("#submit").click();
-                                                }
-                                                function changePage() {
-                                                    document.querySelector("#pagees").value = document.querySelector("#page").value;
-                                                }
-                                                function CongPage() {
-                                                    document.querySelector("#pagees").value = ${pages - 1};
-                                                    document.querySelector("#submit").click();
-                                                }
-                                                function TruPage() {
-                                                    document.querySelector("#pagees").value = ${pages + 1};
-                                                    document.querySelector("#submit").click();
-                                                }
-                                                function SubmitForm() {
-                                                    document.querySelector("#Form").submit;
-                                                    document.querySelector("#submit").click();
-                                                }
-                                                function changetype() {
-                                                    document.querySelector("#page").style.display = "block";
-                                                    document.querySelector("#gobtn").style.display = "block";
-                                                    document.querySelector("#showpage").style.display = "none";
-                                                }
-                                                function DaiRa() {
-                                                    var likeda = document.querySelector(".daira");
-                                                    likeda.classList.toggle("active");
-                                                }
-                                                function Confirm(id) {
-                                                    var status = id.value;
-                                                    var id = id.name;
-                                                    var idConfirm = "UpdateTracking";
-                                                    $.ajax({
-                                                        url: "/g1/Confirm",
-                                                        type: "get",
-                                                        data: {
-                                                            idConfirm: idConfirm,
-                                                            status: status,
-                                                            id: id
-                                                        },
-                                                        success: function (data) {
-                                                            var confirm = document.getElementById("confirm");
-                                                            confirm.innerHTML = data;
-                                                            $("#confirm1").modal("show");
-                                                        },
-                                                        error: function (xhr) {
-                                                        }
-                                                    });
-                                                }
-                                                document.addEventListener('DOMContentLoaded', function () {
-                                                    Fnon.Hint.Init({
-                                                        zIndex: 9900,
-                                                    });
-                                                    // Hint
-                                                    var message = "${message}";
-                                                    var theme = "${theme}";
-                                                    var title = "${title}";
-                                                    var position = "right-top";
-                                                    var animation = "slide-left";
-                                                    Fnon.Hint[theme](message, {
-                                                        title,
-                                                        position,
-                                                        animation,
-                                                    })
-                                                });
+                                    function OrderBy(a) {
+                                        document.querySelector("#order").value = a.id;
+                                        document.querySelector("#submit").click();
+                                    }
+                                    function OrderBymilestone_name(a) {
+                                        document.querySelector("#order").value = a.id;
+                                        document.querySelector("#pagees").value = ${pages};
+                                        document.querySelector("#submit").click();
+                                    }
+                                    function changePage() {
+                                        document.querySelector("#pagees").value = document.querySelector("#page").value;
+                                    }
+                                    function CongPage() {
+                                        document.querySelector("#pagees").value = ${pages - 1};
+                                        document.querySelector("#submit").click();
+                                    }
+                                    function TruPage() {
+                                        document.querySelector("#pagees").value = ${pages + 1};
+                                        document.querySelector("#submit").click();
+                                    }
+                                    function SubmitForm() {
+                                        document.querySelector("#Form").submit;
+                                        document.querySelector("#submit").click();
+                                    }
+                                    function changetype() {
+                                        document.querySelector("#page").style.display = "block";
+                                        document.querySelector("#gobtn").style.display = "block";
+                                        document.querySelector("#showpage").style.display = "none";
+                                    }
+                                    function DaiRa() {
+                                        var likeda = document.querySelector(".daira");
+                                        likeda.classList.toggle("active");
+                                    }
+                                    function Confirm(id) {
+                                        var status = id.value;
+                                        var id = id.name;
+                                        var idConfirm = "UpdateTracking";
+                                        $.ajax({
+                                            url: "/g1/Confirm",
+                                            type: "get",
+                                            data: {
+                                                idConfirm: idConfirm,
+                                                status: status,
+                                                id: id
+                                            },
+                                            success: function (data) {
+                                                var confirm = document.getElementById("confirm");
+                                                confirm.innerHTML = data;
+                                                $("#confirm1").modal("show");
+                                            },
+                                            error: function (xhr) {
+                                            }
+                                        });
+                                    }
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        Fnon.Hint.Init({
+                                            zIndex: 9900,
+                                        });
+                                        // Hint
+                                        var message = "${message}";
+                                        var theme = "${theme}";
+                                        var title = "${title}";
+                                        var position = "right-top";
+                                        var animation = "slide-left";
+                                        Fnon.Hint[theme](message, {
+                                            title,
+                                            position,
+                                            animation,
+                                        })
+                                    });
             </script>
             <!-- Bootstrap core JavaScript-->
             <script src="vendor/jquery/jquery.min.js"></script>

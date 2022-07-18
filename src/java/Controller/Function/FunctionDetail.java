@@ -122,9 +122,10 @@ public class FunctionDetail extends HttpServlet {
                 int complexity_id = Integer.parseInt(request.getParameter("complexity_id"));
                 int status = Integer.parseInt(request.getParameter("status"));
                 int owner_id = Integer.parseInt(request.getParameter("owner_id"));
-                int priority = Integer.parseInt(request.getParameter("priority"));
+               // int priority = Integer.parseInt(request.getParameter("priority"));
+               String priority = request.getParameter("priority");
                 Function1 c = new Function1(team_id, function_name, feature_id, access_roles, des.trim(), complexity_id, owner_id, String.valueOf(priority), status);
-                if (priority > 0 && priority <= 5) {
+                if (priority.matches("^\\d+$") && Integer.parseInt(priority) >= 1 && Integer.parseInt(priority) <=5 ) {
                     int n = dao.addFunction(c);
                     if (n > 0) {
                         request.setAttribute("title", "Add thành công");
@@ -141,7 +142,7 @@ public class FunctionDetail extends HttpServlet {
                     request.setAttribute("txtRole", access_roles);
                     List<Function1> listClassId = dao.viewTeamClass(Loged.getUser_id());
                     List<Function1> listLevel = dao.getLevel();
-                    List<Function1> listFeature = dao.getFeature(Loged.getRole_id());
+                    List<Function1> listFeature = dao.getFeature(Loged.getUser_id());
                     List<Function1> listOwner = dao.getOwner();
                     request.setAttribute("LevelList", listLevel);
                     request.setAttribute("OwnerList", listOwner);
@@ -149,6 +150,7 @@ public class FunctionDetail extends HttpServlet {
                     request.setAttribute("FeatureList", listFeature);
                     request.getRequestDispatcher("jsp/Function/AddFunction.jsp").forward(request, response);
                 }
+               
             }
         }
     }

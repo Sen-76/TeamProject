@@ -74,8 +74,8 @@
 
 
 
-                            <div>Click <a href="MilestoneListServlet?go=addMilestone">here</a> to add Milestone</div>
-                            
+                            <div>Click <a class="btn btn-outline-primary" href="MilestoneListServlet?go=addMilestone">here</a> to add Milestone</div>
+
 
                             <div>All Of Classes: <c:forEach var="o" items="${listClassCode}">
                                     <a class="btn btn-outline-primary" href="MilestoneListServlet?go=EachClass&classId=${o.class_id}">${o.classCode} </a>
@@ -108,17 +108,17 @@
                                                             <td>${o.from_date}</td>
                                                             <td>${o.to_date}</td>
                                                             <td>
-                                                                <form action="MilestoneListServlet?go=updateStatus" method="Post">
+                                                                <form id="idS${o.milestone_id}" action="MilestoneListServlet?go=updateStatus" method="Post">
                                                                     <input type="hidden" name="mileId" value="${o.milestone_id}">
-                                                                    <select class="form-control form-control-user id" id ="status" name="status" onchange="this.form.submit()">
+                                                                    <select class="form-control form-control-user id" id ="status" name="status" onchange="submitForm(idS${o.milestone_id})">
                                                                         <option value="1" ${o.status == 1 ? "selected" : ""}>Open</option>
                                                                         <option value="2" ${o.status == 2 ? "selected" : ""}>Closed</option>
                                                                         <option value="3" ${o.status == 3 ? "selected" : ""}>Cancelled</option>
                                                                     </select>
                                                                 </form>
                                                             </td>                                                    
-                                                            <td><a class="btn btn-outline-primary" href="MilestoneListServlet?go=updateMilestone&mileId=${o.milestone_id}&iteId=${o.interation_id}&classId=${o.class_id}">Edit </a>
-                                                                <a class="btn btn-outline-danger" href="MilestoneListServlet?go=deleteMilestone&mileId=${o.milestone_id}&iteId=${o.interation_id}&classId=${o.class_id}"> Delete</a></td>
+                                                            <td><a class="text text-primary" href="MilestoneListServlet?go=updateMilestone&mileId=${o.milestone_id}&iteId=${o.interation_id}&classId=${o.class_id}"><ion-icon size="large" name="create"></ion-icon> </a>
+                                                                <a class="text text-danger" href="MilestoneListServlet?go=deleteMilestone&mileId=${o.milestone_id}&iteId=${o.interation_id}&classId=${o.class_id}"> <ion-icon size="large" name="trash"></ion-icon></a></a></td>
 
                                                         </tr> 
                                                     </c:forEach>
@@ -195,6 +195,23 @@
                                                                         }
                 </script>
 
+                <script>
+                    function submitForm(form) {
+                        swal({
+                            title: "Are you sure?",
+                            text: "This form will be submitted",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        })
+                                .then(function (isOkay) {
+                                    if (isOkay) {
+                                        form.submit();
+                                    }
+                                });
+                        return false;
+                    }
+                </script>
                 <!-- Bootstrap core JavaScript-->
                 <script src="vendor/jquery/jquery.min.js"></script>
                 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -212,7 +229,8 @@
                 <script src="js/demo/chart-area-demo.js"></script>
                 <script src="js/demo/chart-pie-demo.js"></script>
 
-
+                <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+                <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
 
                 <script src="js/sweetalert.min.js"></script>
 

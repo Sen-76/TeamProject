@@ -5,14 +5,14 @@
  */
 package Enitiy;
 
-import DAO.DAOTeamEvaluation;
+import DAO.TeamEvaluation.DAOTeamEvaluation;
 import DAO.DAOchangePass;
 
 /**
  *
  * @author tqbao
  */
-public class TeamEvaluation {
+public class TeamEvaluation extends Class_s{
     String trainer_name;
     int team_eva_id;
     int eva_id;

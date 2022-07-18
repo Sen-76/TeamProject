@@ -1,5 +1,4 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%-- 
     Document   : ClassByTrain
     Created on : Jun 13, 2022, 4:31:04 PM
@@ -92,7 +91,7 @@
                                             </ul>
 
                                             <input class="form-control mr-sm-2" type="text" name="searchClass" value="${search}" placeholder="Search" aria-label="Search">
-                                            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+                                            <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
 
 
 

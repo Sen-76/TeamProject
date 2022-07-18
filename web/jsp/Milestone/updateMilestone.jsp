@@ -53,49 +53,98 @@
                         <!-- Begin Page Content -->
                         <div class="container">
 
-                            <h1 class="h3 mb-4 text-gray-800">Update Milestone here</h1>
-                            <div class="InputForm">
-                                <form method="POST" action="MilestoneListServlet">
-                                    <input type="hidden" name="go" value="updateMilestone">
+
+                            <div class="row">
+                                <div class="col-lg-12 card" >
+                                    <div class="p-5 card-body">
+                                        <div>
+                                            <h5 style="font-weight: bold">Update Milestone</h5>
+                                        </div>
+                                        <br>
+                                        <form  action="MilestoneListServlet" method="POST">
+                                            <input type="hidden" name="go" value="updateMilestone" />
+                                            
+
+                                        <strong>Milestone Name:</strong>
+                                        <input class="form-control form-control-user id" type="hidden" value="${listMile.milestone_id}" name="mileId">${listMile.milestone_name}
+                                        <br> 
+                                        <br>
+                                        <strong>Iteration Name:</strong>
+                                        <input class="form-control form-control-user id" type="hidden" value="${listMile.interation_id}" name="iteId">${listMile.iterationName} 
+                                        <br> 
+                                        <br>
+                                        <strong> Class Code: </strong>
+                                        <input class="search" type="hidden" name="classId" value="${listMile.class_id}" >${listMile.classCode}
+                                        <br> 
+                                        <br>
+                                        <strong>From Date: </strong>
+                                        <input class="form-control form-control-user id" type="date" name="fromDate" value="${listMile.from_date}" required>
+                                        <br>
+                                        <strong>To Date: </strong>
+                                        <input class="form-control form-control-user id" type="date" name="toDate" value="${listMile.to_date}" required>
+                                        <br>
+                                        <strong>Status:</strong>
+                                        <input type="radio" name="status" value="1" ${listMile.status == 1 ? "checked" : ""} > Open
+                                        <input type="radio" name="status" value="2" ${listMile.status == 2 ? "checked" : ""}> Closed
+                                        <input type="radio" name="status" value="3" ${listMile.status == 3 ? "checked" : ""}> Cancelled
+                                        <br>
+                                        <br>                     
+
+                                        <input class="btn btn-primary" type="submit" value="Save" name="submit" >
+                                        <input class="btn btn-primary" type="reset" value="Reset">
+
+                                    </form>
+                                    <span style="color: red; font-weight: bold;">${thongbao}</span>
+                                </div> 
+                                <!-- /.container-fluid -->
+                            </div>
+                        </div>
 
 
-                                        <tbody>
-                                            <tr>
-                                                <td> Milestone Name:</td>                                           
-                                                <td> <input class="form-control form-control-user id" type="hidden" value="${listMile.milestone_id}" name="mileId">${listMile.milestone_name} </td><br>                                                                                                              
-                                        </tr>
-                                        <tr>
-                                            <td> Iteration Name: <td>                                          
-                                            <input class="form-control form-control-user id" type="hidden" value="${listMile.interation_id}" name="iteId">${listMile.iterationName}   <br>                                                                                                                            
-                                        </tr>
-                                        <tr>
-                                            <td> Class Code: </td>
-                                            <td><input class="search" type="hidden" name="classId" value="${listMile.class_id}" >${listMile.classCode}</td><br>
-                                        </tr>
-                                        <tr>
-                                            <td>From Date: </td>
-                                            <td><input class="form-control form-control-user id" type="date" name="fromDate" value="${listMile.from_date}" required></td>
-                                        </tr>    
-                                        <tr>
-                                            <td>To Date: </td>
-                                            <td><input class="form-control form-control-user id" type="date" name="toDate" value="${listMile.to_date}" required></td>
-                                        </tr> 
-                                        <tr>
-                                            <td>Status: </td>
-                                            <td><input type="radio" name="status" value="1" ${listMile.status == 1 ? "checked" : ""} > Open
-                                                <input type="radio" name="status" value="2" ${listMile.status == 2 ? "checked" : ""}> Closed
-                                                <input type="radio" name="status" value="3" ${listMile.status == 3 ? "checked" : ""}> Cancelled
-                                            </td>                                            
-                                        </tr>
-                                        <tr>
-                                            <td></td><br>
-                                            <td><input class="SubBut" type="submit" value="Update" name="submit"></td>
-                                        </tr>
-                                    </tbody>
-                                                    
+
+<!--                        <h1 class="h3 mb-4 text-gray-800">Update Milestone here</h1>
+                        <div class="InputForm">
+                            <form method="POST" action="MilestoneListServlet">
+                                <input type="hidden" name="go" value="updateMilestone">
+
+
+                                <tbody>
+                                    <tr>
+                                        <td> Milestone Name:</td>                                           
+                                        <td> <input class="form-control form-control-user id" type="hidden" value="${listMile.milestone_id}" name="mileId">${listMile.milestone_name} </td><br>                                                                                                              
+                                </tr>
+                                <tr>
+                                    <td> Iteration Name: <td>                                          
+                                        <input class="form-control form-control-user id" type="hidden" value="${listMile.interation_id}" name="iteId">${listMile.iterationName}   <br>                                                                                                                            
+                                </tr>
+                                <tr>
+                                    <td> Class Code: </td>
+                                    <td><input class="search" type="hidden" name="classId" value="${listMile.class_id}" >${listMile.classCode}</td><br>
+                                </tr>
+                                <tr>
+                                    <td>From Date: </td>
+                                    <td><input class="form-control form-control-user id" type="date" name="fromDate" value="${listMile.from_date}" required></td>
+                                </tr>    
+                                <tr>
+                                    <td>To Date: </td>
+                                    <td><input class="form-control form-control-user id" type="date" name="toDate" value="${listMile.to_date}" required></td>
+                                </tr> 
+                                <tr>
+                                    <td>Status: </td>
+                                    <td><input type="radio" name="status" value="1" ${listMile.status == 1 ? "checked" : ""} > Open
+                                        <input type="radio" name="status" value="2" ${listMile.status == 2 ? "checked" : ""}> Closed
+                                        <input type="radio" name="status" value="3" ${listMile.status == 3 ? "checked" : ""}> Cancelled
+                                    </td>                                            
+                                </tr>
+                                <tr>
+                                    <td></td><br>
+                                <td><input class="SubBut" type="submit" value="Update" name="submit"></td>
+                                </tr>
+                                </tbody>
+
                             </form>
                         </div>
-                                                <p style="color: red">${thongbao}</p>
+                        <p style="color: red">${thongbao}</p>-->
 
 
 

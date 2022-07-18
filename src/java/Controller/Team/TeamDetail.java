@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controller.TeamEvaluation;
+package Controller.Team;
 
-import DAO.TeamEvaluation.DAOTeamEvaluation;
-import Enitiy.TeamEvaluation;
+import DAO.Team.DAOTeam;
+import DAO.Team.DAOTeamDetail;
+import Enitiy.Team;
 import Enitiy.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,8 +23,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author tqbao
  */
-@WebServlet(name = "TeamEvaluationList", urlPatterns = {"/TeamEvaluationList"})
-public class TeamEvaluationList extends HttpServlet {
+@WebServlet(name = "TeamDetail", urlPatterns = {"/TeamDetail"})
+public class TeamDetail extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,59 +38,41 @@ public class TeamEvaluationList extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
-
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
             User Loged = (User) session.getAttribute("Loged");
             if (Loged == null) {
                 request.getRequestDispatcher("Login_sen").forward(request, response);
-            }
-            try {
-                if (Loged.getRole_id() > 2) {
-                    request.setAttribute("messE", "Seems like you don't have permission to do this");
-                    request.getRequestDispatcher("/jsp/Class/Error.jsp").forward(request, response);
-                    return;
-                }
-            } catch (Exception e) {
-            }
+            } 
             String service = request.getParameter("go");
-            DAOTeamEvaluation dao = new DAOTeamEvaluation();
+            DAOTeam dao = new DAOTeam();
+            DAOTeamDetail dao1 = new DAOTeamDetail();
             if (service == null) {
-                service = "listAllTeamEval";
+                service = "UpdateTeam";
             }
-            if (service.equals("addEval")) {
-                String submit = request.getParameter("submit");
-                if (submit == null) {
-                    List<TeamEvaluation> listTeam = dao.viewTeam();
-                    
-                    request.setAttribute("listTeam", listTeam);
-                    request.getRequestDispatcher("/jsp/TeamEvaluation/addTeamEvaluation.jsp").forward(request, response);
-                } else {
-                    
-                }
+            if (service.equals("UpdateTeam")) {
+                String TeamID = request.getParameter("team_id");
+                String classID = request.getParameter("Class");
+                Team list = dao.SearchSetID(TeamID);
+                request.setAttribute("Team", list);
+                List<Team> listClass = dao.viewClassId();
+                
+                request.setAttribute("classList", listClass);
+                request.setAttribute("class", classID);
+                request.getRequestDispatcher("jsp/Team/TeamDetail.jsp").forward(request, response);
+                
             }
-            if (service.equals("listAllTeamEval")) {
-                String submit = request.getParameter("submit");
-                if (submit == null) {
-                    int index = 0;
-                    List<TeamEvaluation> listTeam = dao.viewTeamId();
-                    int team = Integer.parseInt(request.getParameter("team"));
-                    List<TeamEvaluation> list = dao.viewTeamEvalList(team);
-                    List<TeamEvaluation> viewTeam = dao.viewTeam(team);
-                    
-                    request.setAttribute("viewTeam", viewTeam);
-                    request.setAttribute("TeamEvalList", list);
-                    request.setAttribute("teamList", listTeam);
-                    request.getRequestDispatcher("/jsp/TeamEvaluation/TeamEvaluationList.jsp").forward(request, response);
-                } else {
-                    int teamEvalId = Integer.parseInt(request.getParameter("teamEvalId"));
-                    
-                    List<TeamEvaluation> listTeam = dao.viewTeamId();
-                    request.setAttribute("teamList", listTeam);
-                    request.getRequestDispatcher("/jsp/TeamEvaluation/TeamEvaluationList.jsp").forward(request, response);
-                }
+            if (service.equals("TeamDetail")) {
+                String classID = request.getParameter("classID");
+                String topicCode = request.getParameter("topicCode");
+                String topicName = request.getParameter("topicName");
+                String gitlabURL = request.getParameter("gitlabURL");
+                int status = Integer.parseInt(request.getParameter("status"));
+                dao1.editTeam(status, classID, topicCode, topicName, gitlabURL, status);
+                response.sendRedirect("TeamList");
             }
+        } catch (Exception e) {
+            request.getRequestDispatcher("404.html").forward(request, response);
         }
     }
 

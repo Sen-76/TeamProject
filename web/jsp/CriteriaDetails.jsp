@@ -106,7 +106,7 @@
                                                 <input type="checkbox" name="evaluation" value="true" ${ct.team_evaluation == true?"checked":""}  />
                                                 <br>   Description:
                                                 <textarea  class="form-control" name="description">${ct.description}</textarea><br>
-                                                <input type="submit" name="submit" class="update" onclick="return confirm('Are you sure you want to update?')" value="Update" />
+                                                <input type="submit" name="submit" class="update" value="Update" />
 
                                             </form>
                                         </div>

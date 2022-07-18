@@ -53,9 +53,9 @@
                             <h1 style="font-weight: bold" class="h3 mb-2 text-gray-800"> Function List</h1>
 
                             <ul class="spbw" id="filtera" >  
-                                <li>  <form action="FunctionListTrainer" method="POST">
+                                <li>  <form style="display: flex !important;" action="FunctionListTrainer" method="POST">
                                         <label for="class_id"></label>
-                                        <select onchange="" class="SelectDrop" name="class" id="">
+                                        <select onchange="" class="form-control form-control-user" name="class" id="">
                                             <option value="all">All Class</option>
                                         <c:forEach var="o" items="${ClassList}">
                                             <option value="${o.feature_id}" ${Id==o.feature_id?"selected" : ""}>${o.feature_name}</option>
@@ -63,13 +63,13 @@
                                     </select>
 
                                     <label for="team_id"></label>
-                                    <select onchange="" class="SelectDrop" name="team" id="">
+                                    <select onchange="" class="form-control form-control-user" name="team" id="">
                                         <option value="all">All Team</option>
                                         <c:forEach var="o" items="${TeamList}">
                                             <option value="${o.feature_id}" ${Id==o.feature_id?"selected" : ""}>${o.feature_name}</option>
                                         </c:forEach>
                                     </select>
-                                    <select onchange="" class="SelectDrop" name="statusSearch" id="statusSearch">
+                                    <select onchange="" class="form-control form-control-user" name="statusSearch" id="statusSearch">
                                         <option ${o.status == 0 ? "selected" : ""} value="all">All Status</option>
                                         <option ${o.status == 1 ? "selected" : ""} value="1">Pending</option>
                                         <option ${o.status == 2 ? "selected" : ""} value="2">Planned</option>
@@ -77,11 +77,7 @@
                                         <option ${o.status == 4 ? "selected" : ""} value="4">Rejected</option>
                                     </select>
                                     <input  type="text" name="searchName"  placeholder="Search function name" value="${txtSearch}">
-                                    <input style="
-                                           background: #0073ca;
-                                           border-radius: .35rem;
-                                           color: white;
-                                           " type="submit" value="Search" name="submit" >
+                                    <input class="btn btn-primary" type="submit" value="Search" name="submit" >
                                 </form>
                         </ul>
                         <a id="add" type="submit"></a>
@@ -95,15 +91,11 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">                                      
                                         <thead>
                                             <tr>
-
                                                 <th>Function</th>
                                                 <th>Feature</th>
                                                 <th>Access roles</th>
                                                 <th>Level</th>
-
                                                 <th>Priority</th>                                                                       
-
-
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
@@ -119,8 +111,6 @@
                                                     <td>${o.access_roles}</td>
                                                     <td>${o.setting_value}</td>    
                                                     <td>${o.priority}</td>
-
-
                                                     <td>
                                                         <c:if test="${o.status == 1}">
                                                             <% out.print("Pending"); %>
@@ -139,11 +129,9 @@
                                                         <a class="EditLink" href="FunctionDetailTrainer?go=Detail&fid=${o.function_id}&Owner=${o.owner_id}&Fe=${o.feature_id}&Com=${o.complexity_id}"><span class="material-symbols-outlined">
                                                                 visibility
                                                             </span></a>
-
                                                     </td>
                                                 </tr>                    
                                             </c:forEach>
-
                                         </tbody>
                                     </table>
                                     <div class="paging">

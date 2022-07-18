@@ -88,9 +88,9 @@ public class MilestoneListServlet extends HttpServlet {
                             + "                                                    <td>" + o.getFrom_date() + "</td>\n"
                             + "                                                    <td>" + o.getTo_date() + "</td>\n"
                             + "                                                    <td>\n"
-                            + "<form action=\"MilestoneListServlet?go=updateStatus\" method=\"Post\">\n"
+                            + "<form id=\"idS"+o.getMilestone_id()+"\" action=\"MilestoneListServlet?go=updateStatus\" method=\"Post\">\n"
                             + "                                                            <input type=\"hidden\" name=\"mileId\" value=\"" + o.getMilestone_id() + "\">\n"
-                            + "                                                            <select class=\"form-control form-control-user id\" id =\"status\" name=\"status\" onchange=\"this.form.submit()\">\n"
+                            + "                                                            <select class=\"form-control form-control-user id\" id =\"status\" name=\"status\" onchange=\"submitForm(idS"+o.getMilestone_id()+")\">\n"
                             + "                                                                <option value=\"1\" " + (o.getStatus() == 1 ? "selected" : "") + ">Open</option>\n"
                             + "                                                                <option value=\"2\" " + (o.getStatus() == 2 ? "selected" : "") + ">Closed</option>\n"
                             + "                                                                <option value=\"3\" " + (o.getStatus() == 3 ? "selected" : "") + ">Cancelled</option>\n"
@@ -98,8 +98,8 @@ public class MilestoneListServlet extends HttpServlet {
                             + "                                                        </form>");
 
                     out.print("                                                    </td>                                                    \n"
-                            + "                                                    <td><a class=\"btn btn-outline-primary\" href=\"MilestoneListServlet?go=updateMilestone&mileId=" + o.getMilestone_id() + "&iteId=" + o.getInteration_id() + "&classId=" + o.getClass_id() + "\">Edit</a>\n"
-                            + "<a class=\"btn btn-outline-danger\" href=\"MilestoneListServlet?go=deleteMilestone&mileId=" + o.getMilestone_id() + "&iteId=" + o.getInteration_id() + "&classId=" + o.getClass_id() + "\"> Delete</a></td>\n"
+                            + "                                                    <td><a class=\"text text-primary\" href=\"MilestoneListServlet?go=updateMilestone&mileId=" + o.getMilestone_id() + "&iteId=" + o.getInteration_id() + "&classId=" + o.getClass_id() + "\"><ion-icon size=\"large\" name=\"create\"></ion-icon> </a>\n"
+                            + "<a class=\"text text-danger\" href=\"MilestoneListServlet?go=deleteMilestone&mileId=" + o.getMilestone_id() + "&iteId=" + o.getInteration_id() + "&classId=" + o.getClass_id() + "\"> <ion-icon size=\"large\" name=\"trash\"></ion-icon></a></td>\n"
                             + "                                                </tr> \n");
                 }
                 out.print("\n"
@@ -191,6 +191,12 @@ public class MilestoneListServlet extends HttpServlet {
 
                 List<Milestone> list = dao.viewAllMilestone(startFrom);
                 List<Milestone> listClassCode = dao.viewAllClassCode();
+                
+                for(Milestone temp: list){
+                    temp.setFrom_date(dao.ConvertDateFormat(temp.getFrom_date()));
+                    temp.setTo_date(dao.ConvertDateFormat(temp.getTo_date()));
+                }
+                
 
                 request.setAttribute("listClassCode", listClassCode);
                 request.setAttribute("list", list);
@@ -219,7 +225,7 @@ public class MilestoneListServlet extends HttpServlet {
 
                     Date fromDate = new SimpleDateFormat("yyyy-MM-dd").parse(from_date);
                     Date toDate = new SimpleDateFormat("yyyy-MM-dd").parse(to_date);
-                   
+
                     if (fromDate.compareTo(toDate) < 0) {
                         Milestone obj = new Milestone(milestone_id, iteration_id, class_id, from_date, to_date, status);
                         int n = dao.updateMilestone(obj);

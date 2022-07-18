@@ -1,7 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <%-- 
     Document   : LocStudent
     Created on : Jul 7, 2022, 6:06:53 PM
@@ -73,7 +71,7 @@
 
                                                             <label>
                                                                 Class:
-                                                                <select class="form-control form-control-sm" name="class" onchange="this.form.submit()">
+                                                                <select class="form-control form-control-user" name="class" onchange="this.form.submit()">
                                                                 <c:forEach var="o" items="${vectC}">
                                                                     <option value="${o.id}" ${o.id == class ? "selected" : ""}>${o.classCode}</option>
                                                                 </c:forEach>
@@ -81,7 +79,7 @@
                                                         </label>
                                                         <label>
                                                             Milestone:
-                                                            <select class="form-control form-control-sm" name="Iter" onchange="this.form.submit()">
+                                                            <select class="form-control form-control-user" name="Iter" onchange="this.form.submit()">
                                                                 <c:forEach var="o" items="${vectM}">
                                                                     <option value="${o}" ${o == mile ? "selected" : ""}>${o}</option>
                                                                 </c:forEach>
@@ -90,7 +88,7 @@
                                                         </label>
                                                         <label>
                                                             Function:
-                                                            <select class="form-control form-control-sm" name="Iter" onchange="this.form.submit()">
+                                                            <select class="form-control form-control-user" name="Iter" onchange="this.form.submit()">
                                                                 <c:forEach var="o" items="${vectF}">
                                                                     <option value="${o}" ${o == mile ? "selected" : ""}>${o}</option>
                                                                 </c:forEach>

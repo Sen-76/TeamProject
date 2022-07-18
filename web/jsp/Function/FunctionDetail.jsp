@@ -128,7 +128,7 @@
                                                 </select>
                                                 Description:
                                                 <textarea  class="form-control" name="description">${fu.description}</textarea>
-                                                <input type="submit" name="submit" class="update" onclick="return confirm('Are you sure you want to update?')" value="Update" />
+                                                <input type="submit" name="submit" class="update"  value="Update" />
 
                                                 <br>
                                                 <div>

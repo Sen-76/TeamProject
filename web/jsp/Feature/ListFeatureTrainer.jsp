@@ -23,7 +23,7 @@
         <link rel="icon" href="img/cai nay hoi la.png" type="image/gif" sizes="16x16">
         <link href="css/SenCss.css" rel="stylesheet">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-        <link href="css/PhanhCss.css" rel="stylesheet">
+       <link href="css/PhanhCss.css" rel="stylesheet">
         <!-- Need copy for use alert-->
         <link rel="stylesheet" href="fnon.min.css">
         <!-- End Need copy for use alert-->
@@ -54,27 +54,23 @@
                             <h1 style="font-weight: bold" class="h3 mb-2 text-gray-800"> Feature List</h1>
 
                             <ul class="spbw" id="filtera" > 
-                                <form action="FeatureListSearchTrainer" method="POST">  
+                                <form style="display: flex !important;" action="FeatureListSearchTrainer" method="POST">  
                                     <label for="class_id"></label>
-                                    <select class="SelectDrop" name="class" id="">
+                                    <select class="form-control form-control-user" name="class" id="">
                                         <option value="all">All Class</option>
                                     <c:forEach var="o" items="${ClassList}">
                                         <option value="${o.team_id}" ${Id==o.team_id ? "selected" : ""}>${o.team_name}</option>
                                     </c:forEach>
                                 </select>
                                 <label for="team_id"></label>
-                                <select class="SelectDrop" name="team" id="">
+                                <select class="form-control form-control-user" name="team" id="">
                                     <option value="all">All Team</option>
                                     <c:forEach var="o" items="${TeamList}">
                                         <option value="${o.team_id}" ${Id==o.team_id ? "selected" : ""}>${o.team_name}</option>
                                     </c:forEach>
                                 </select>
                                 <input style ="" type="text" name="searchName"  placeholder="Search feature name" value="${txtSearch}">
-                                <input style="
-                                       background: #0073ca;
-                                       border-radius: .35rem;
-                                       color: white;
-                                       "type="submit" value="Search" name="submit" >
+                                <input class="btn btn-primary" type="submit" value="Search" name="submit" >
                             </form>
                         </ul> 
                         <a id="add" type="submit"></a>

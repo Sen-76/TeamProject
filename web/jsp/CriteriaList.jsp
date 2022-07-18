@@ -20,12 +20,10 @@
         <link
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
-
         <!-- Custom styles for this template-->
         <link href="css/sb-admin-2.min.css" rel="stylesheet">
         <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
         <link rel="icon" href="img/cai nay hoi la.png" type="image/gif" sizes="16x16">
-        <link href="css/PhanhCss.css" rel="stylesheet">
         <link href="css/SenCss.css" rel="stylesheet">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
         <!-- Need copy for use alert-->
@@ -53,12 +51,10 @@
                         <div class="container-fluid">          
 
                             <h1 style="font-weight: bold" class="h3 mb-2 text-gray-800"> Criteria List</h1>
-                            <ul class="spbw" id="filtera" >  
-
-                                <li>  <form action="CriteriaSearch" method="POST">
-
-                                        <label for="subject_id"></label>
-                                        <select class="SelectDrop" name="subject" id="subject">
+                            <ul class="spbw" >  
+                                <li> <a id="add" style="" type="submit" href="CriteriaDetail?go=add" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"/>Add new criteria</a></li>
+                                <li>  <form style="display: flex !important;" action="CriteriaSearch" method="POST">                                      <label for="subject_id"></label>
+                                        <select class="form-control form-control-user" name="subject" id="subject">
                                             <option value="all">All Subject</option>
                                         <c:forEach var="o" items="${subjectList}">
                                             <option value="${o.subject_id}" ${Id==o.subject_id ? "selected" : ""}>${o.subject_name}</option>
@@ -66,13 +62,10 @@
 
                                     </select>
                                     <input  type="text" name="searchName"  placeholder="Search Iteration and Loc" value="${txtSearch}">
-                                    <input type="submit" value="Search" name="submit"  style="
-                                           background: #0073ca;
-                                           border-radius: .35rem;
-                                           " >
-                                </form>
+                                    <input type="submit" value="Search" name="submit" class="btn btn-primary" >
+                                </form></li>
                         </ul> 
-                        <a id="add" style="" type="submit" href="CriteriaDetail?go=add" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"/>Add new criteria</a>
+
                         <!-- DataTales Example -->
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">                           
@@ -131,11 +124,9 @@
                                                     </td>
                                                 </tr>                    
                                             </c:forEach>
-
-                                        </tbody>
-                                        
+                                        </tbody>                                      
                                     </table>
-                                    <div class="paging">
+                                    <div class="paging" >
 
                                         <c:forEach begin="1" end="${maxP}" var="i"  >    
                                             <a class ="active" href="Criteria?index=${i}">${i}</a>

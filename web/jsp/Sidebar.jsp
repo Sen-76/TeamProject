@@ -43,6 +43,7 @@
                     <a class="collapse-item" href="SettingListServlet">Setting</a>
                     <a class="collapse-item" href="UserController">User</a>
                     <a class="collapse-item" href="SubjectList">Subject</a>
+                    <a class="collapse-item" href="ShowAllClass">Class</a>
                 </div>
             </div>
         </li>
@@ -83,6 +84,8 @@
                     <a class="collapse-item"  href="ClassUser4Admin">Class Students</a>
                     <a class="collapse-item"  href="MilestoneListServlet">Milestone</a>
                     <a class="collapse-item"  href="TeamList">Team</a>
+                    <a class="collapse-item"  href="FeatureListTrainer">Feature</a>
+                    <a class="collapse-item"  href="FunctionListTrainer">Function</a>
                 </div>
             </div>
         </li>
@@ -99,10 +102,11 @@
              data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Student Setting:</h6>
-                <a class="collapse-item" href="SettingListServlet">Setting</a>
+               
                 <a class="collapse-item"  href="FeatureList">Feature</a>
                 <a class="collapse-item"  href="FunctionList">Function</a>
                 <a class="collapse-item"  href="#">Tracking</a>
+                <a class="collapse-item"  href="#">Loc</a>
             </div>
         </div>
     </li>

@@ -17,6 +17,7 @@ public class Iteration {
     private String iteration_name;
     private String duration;
     private int status;
+    private String note;
 
     public Iteration() {
     }
@@ -50,7 +51,26 @@ public class Iteration {
         this.duration = duration;
         this.status = status;
     }
-    
+
+    public Iteration(int iteration_id, int subject_id, String iteration_name, String duration, int status, String note) {
+        this.iteration_id = iteration_id;
+        this.subject_id = subject_id;
+        this.iteration_name = iteration_name;
+        this.duration = duration;
+        this.status = status;
+        this.note = note;
+    }
+
+    public Iteration(int iteration_id, int subject_id, String subject_code, String iteration_name, String duration, int status, String note) {
+        this.iteration_id = iteration_id;
+        this.subject_id = subject_id;
+        this.subject_code = subject_code;
+        this.iteration_name = iteration_name;
+        this.duration = duration;
+        this.status = status;
+        this.note = note;
+    }
+
     
 
     public Iteration(String iteration_name, String duration, int status) {
@@ -83,6 +103,14 @@ public class Iteration {
     public void setSubject_code(String subject_code) {
         this.subject_code = subject_code;
     }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }   
 
     public int getIteration_id() {
         return iteration_id;

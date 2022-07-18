@@ -109,8 +109,9 @@
                                                 </select>
 
                                                 <strong>Status:</strong>
-                                                <input type="radio" name="status" value="1" ${listUpdate.status == 1 ? "checked" : ""}>Activate
-                                                <input type="radio" name="status" value="0" ${listUpdate.status == 0 ? "checked" : ""}>Deactivate
+                                                <label for="nam">
+                                                <input id="nam" type="radio" name="status" value="1" ${listUpdate.status == 1 ? "checked" : ""}>Activate</label>
+                                               <label for="nu"> <input id="nu" type="radio" name="status" value="0" ${listUpdate.status == 0 ? "checked" : ""}>Deactivate</label>
                                                 <br>
                                                 <strong>Note: </strong>
                                                 <textarea class="form-control form-control-user" name="NOTE">${listUpdate.note}</textarea>

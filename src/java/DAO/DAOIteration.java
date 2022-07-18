@@ -25,14 +25,15 @@ public class DAOIteration extends ConnectJDBC {
 
     public int addIteration(Iteration it) {
         int n = 0;
-        String sql = "insert into iteration(subject_id, iteration_name, duration, status)\n"
-                + "values(?, ?, ?, ? )";
+        String sql = "insert into iteration(subject_id, iteration_name, duration, status, note)\n"
+                + "values(?, ?, ?, ?, ?)";
         try {
             ps = conn.prepareStatement(sql);
             ps.setInt(1, it.getSubject_id());
             ps.setString(2, it.getIteration_name());
             ps.setString(3, it.getDuration());
             ps.setInt(4, it.getStatus());
+            ps.setString(5, it.getNote());
             n = ps.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -49,7 +50,7 @@ public class DAOIteration extends ConnectJDBC {
         ResultSet rs = getData(sql);
         try {
             while (rs.next()) {
-                list.add(new Iteration(rs.getInt(1), rs.getInt(2), rs.getString(8), rs.getString(3), rs.getString(4), rs.getInt(5)));
+                list.add(new Iteration(rs.getInt(1), rs.getInt(2), rs.getString(8), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getString(6)));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -60,7 +61,7 @@ public class DAOIteration extends ConnectJDBC {
     public int updateIteration(Iteration it) {
         int n = 0;
         String sql = "update iteration \n"
-                + "set iteration_name = ?, duration = ?, status = ?\n"
+                + "set iteration_name = ?, duration = ?, status = ?, notes = ?\n"
                 + "where iteration_id = ? and subject_id = ?";
         try {
             ps = conn.prepareStatement(sql);
@@ -68,8 +69,9 @@ public class DAOIteration extends ConnectJDBC {
             ps.setString(1, it.getIteration_name());
             ps.setString(2, it.getDuration());
             ps.setInt(3, it.getStatus());
-            ps.setInt(4, it.getIteration_id());
-            ps.setInt(5, it.getSubject_id());
+            ps.setString(4, it.getNote());
+            ps.setInt(5, it.getIteration_id());
+            ps.setInt(6, it.getSubject_id());
 
             n = ps.executeUpdate();
         } catch (SQLException ex) {
@@ -105,7 +107,7 @@ public class DAOIteration extends ConnectJDBC {
         ResultSet rs = getData(sql);
         try {
             while (rs.next()) {
-                list.add(new Iteration(rs.getInt(1), rs.getInt(2), rs.getString(8), rs.getString(3), rs.getString(4), rs.getInt(5)));
+                list.add(new Iteration(rs.getInt(1), rs.getInt(2), rs.getString(8), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getString(6)));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -122,7 +124,7 @@ public class DAOIteration extends ConnectJDBC {
         ResultSet rs = getData(sql);
         try {
             while (rs.next()) {
-                list.add(new Iteration(rs.getInt(1), rs.getString(8), rs.getString(3), rs.getString(4), rs.getInt(5)));
+                list.add(new Iteration(rs.getInt(1), rs.getInt(2), rs.getString(8), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getString(6)));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -153,7 +155,7 @@ public class DAOIteration extends ConnectJDBC {
         ResultSet rs = getData(sql);
         try {
             while (rs.next()) {
-                list.add(new Iteration(rs.getInt(1), rs.getInt(2), rs.getString(8), rs.getString(3), rs.getString(4), rs.getInt(5)));
+                list.add(new Iteration(rs.getInt(1), rs.getInt(2), rs.getString(8), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getString(6)));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -167,7 +169,7 @@ public class DAOIteration extends ConnectJDBC {
         ResultSet rs = getData(sql);
         try {
             if (rs.next()) {
-                return new Iteration(rs.getInt(1), rs.getInt(2), rs.getString(8), rs.getString(3), rs.getString(4), rs.getInt(5));
+                return new Iteration(rs.getInt(1), rs.getInt(2), rs.getString(8), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getString(6));
 
             }
         } catch (SQLException ex) {

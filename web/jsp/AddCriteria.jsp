@@ -77,7 +77,7 @@
                                                 <input  type="checkbox" name="evaluation" value="true" />
                                                 <br>Description:
                                                 <textarea  class="form-control" name="description"></textarea><br>
-                                                <input type="submit" name="submit" class="update" onclick="return confirm('Are you sure you want to add?')" value="Add" />
+                                                <input type="submit" name="submit" class="update"  value="Add" />
 
 
                                             </form>

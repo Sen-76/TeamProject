@@ -22,8 +22,7 @@
         <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
         <link rel="icon" href="img/cai nay hoi la.png" type="image/gif" sizes="16x16">
         <link href="css/SenCss.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-        <link href="css/PhanhCss.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />      
         <!-- Need copy for use alert-->
         <link rel="stylesheet" href="fnon.min.css">
         <!-- End Need copy for use alert-->
@@ -62,40 +61,35 @@
                                    class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                         class="fas fa-download fa-sm text-white-50"></i>Download template</a>
                             </li>           
-                            <ul class="spbw" id="filtera" >  
-
-                                <li>  <form action="FunctionSearch" method="POST">
+                            <ul class="spbw"  >  
+                                <li> <a id="add" style="" type="submit" href="FunctionDetail?go=add" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"/>Add new function</a></li>
+                                <li>  <form style="display: flex !important;" action="FunctionSearch" method="POST">
                                         <label for="class_id"></label>
-                                        <select onchange="" class="SelectDrop" name="class" id="">
-                                            <option value="all">All Class</option>
+                                        <select onchange="" class="form-control form-control-user" name="class" id="">
+                                            <option value="all" >All Class</option>
                                         <c:forEach var="o" items="${ClassList}">
                                             <option value="${o.feature_id}" ${Id==o.feature_id?"selected" : ""}>${o.feature_name}</option>
                                         </c:forEach>
                                     </select>
                                     <label for="team_id"></label>
-                                    <select onchange="" class="SelectDrop" name="team" id="">
+                                    <select onchange="" class="form-control form-control-user" name="team" id="">
                                         <option value="all">All Team</option>
                                         <c:forEach var="o" items="${FeIDList}">
                                             <option value="${o.feature_id}" ${Id==o.feature_id?"selected" : ""}>${o.feature_name}</option>
                                         </c:forEach>
                                     </select>
-                                    <select onchange="" class="SelectDrop" name="statusSearch" id="statusSearch">
+                                    <select onchange="" class="form-control form-control-user" name="statusSearch" id="statusSearch">
                                         <option ${o.status == 0 ? "selected" : ""} value="all">All Status</option>
                                         <option ${o.status == 1 ? "selected" : ""} value="1">Pending</option>
                                         <option ${o.status == 2 ? "selected" : ""} value="2">Planned</option>
                                         <option ${o.status == 3 ? "selected" : ""} value="3">Evaluated</option>
                                         <option ${o.status == 4 ? "selected" : ""} value="4">Rejected</option>
                                     </select>
-                                    <input  type="text" name="searchName"  placeholder="Search function name" value="${txtSearch}">
-                                    <input type="submit" value="Search" name="submit" style="
-                                           background: #0073ca;
-                                           border-radius: .35rem;
-                                           color: white
-                                           " >
-                                </form>
+                                    <input class="form-control form-control-user" type="text" name="searchName"  placeholder="Search function name" value="${txtSearch}">
+                                    <input class="btn btn-primary" type="submit" value="Search" name="submit"  >
+                                </form></li>
                         </ul>
-                        <a id="add" style="" type="submit" href="FunctionDetail?go=add" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"/>Add new function</a>
-
+   
                         <!-- DataTales Example -->
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">                           
@@ -150,7 +144,7 @@
                                                                     edit
                                                                 </span>
                                                             </a>                                      
-                                                            <a class="" href="FunctionDetail?go=Delete&fid=${o.function_id}" onclick="return confirm('Do you sure want to remove?')"><span class="material-symbols-outlined">
+                                                            <a  data-toggle="modal" data-target="#test${o.function_id}" href="#" ><span class="material-symbols-outlined">
                                                                     delete
                                                                 </span></a></c:if>
                                                             <c:if test="${o.status == 3}">
@@ -179,7 +173,30 @@
 
                     </div>
                     <!-- /.container-fluid -->
+                    <c:forEach var="o" items="${FunctionList}">
+                        <!-- Button trigger modal -->
 
+                        <!-- Modal -->
+                        <div class="modal fade" id="test${o.function_id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure want to delete ?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <a type="button" class="btn btn-primary" href="FunctionDetail?go=Delete&fid=${o.function_id}">Save changes</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </c:forEach>
 
                 </div>
                 <!-- End of Main Content -->

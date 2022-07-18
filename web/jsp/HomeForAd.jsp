@@ -122,7 +122,7 @@
     </div>
     
     
-        <div class="col-xl-3 col-md-6 mb-4">
+<!--        <div class="col-xl-3 col-md-6 mb-4">
         <a href="TeamList">
             <div class="card border-left-primary shadow h-100 py-2">
 
@@ -139,7 +139,7 @@
 
             </div>
         </a>
-    </div>
+    </div>-->
     
 
     <!-- Pending Requests Card Example -->

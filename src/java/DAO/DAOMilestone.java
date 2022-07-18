@@ -13,7 +13,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -104,6 +107,23 @@ public class DAOMilestone extends ConnectJDBC {
         }
 
         return n;
+    }
+    
+    public String ConvertDateFormat(String s) {
+        //neu can this hay sua thang nay
+        final String temp = "yyyy-MM-dd";
+        Date date1 = new Date();
+        if (s.equals("") || s == null) {
+            s = "not yet";
+        }
+        try {
+            date1 = new SimpleDateFormat(temp).parse(s);
+            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            String strDate = dateFormat.format(date1);
+            return strDate;
+        } catch (java.text.ParseException ex) {
+            return s;
+        }
     }
 
     public List<Milestone> viewAllClassCode() {

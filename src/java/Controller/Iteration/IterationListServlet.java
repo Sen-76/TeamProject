@@ -168,6 +168,7 @@ public class IterationListServlet extends HttpServlet {
                     String iteName = request.getParameter("name");
                     String duration = request.getParameter("duration");
                     int status = Integer.parseInt(request.getParameter("status"));
+                    String note = request.getParameter("note");
 
                     boolean checkName = dao.checkExistIte(iteName);
                     if (checkName) {
@@ -179,7 +180,7 @@ public class IterationListServlet extends HttpServlet {
                         request.setAttribute("iteUpdate", ite);
                         request.getRequestDispatcher("/jsp/updateIteration.jsp").forward(request, response);
                     } else {
-                        Iteration obj = new Iteration(iteId, subId, iteName, duration, status);
+                        Iteration obj = new Iteration(iteId, subId, iteName, duration, status, note);
                         int n = dao.updateIteration(obj);
 
                         response.sendRedirect("IterationListServlet");

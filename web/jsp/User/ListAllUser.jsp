@@ -195,10 +195,10 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="phanTrang">
-                                    <a onclick="${page < numberPage ? "do_back()" : ""}" class="${page == k ? "collapse-item active":""}">Previous</a>
-                                    <a style="text-decoration: none;" class="collapse-item active">${page} of ${numberPage}</a>
-                                    <a onclick="${page < numberPage ? "do_next()" : ""}" class="${page == k ? "collapse-item active":""}">Next</a>
+                                <div >
+                                    <a class="btn btn-primary" onclick="${page < numberPage ? "do_back()" : ""}" class="${page == k ? "collapse-item active":""}">Previous</a>
+                                    <a class="btn btn-primary" style="text-decoration: none;" class="collapse-item active">${page} of ${numberPage}</a>
+                                    <a class="btn btn-primary" onclick="${page < numberPage ? "do_next()" : ""}" class="${page == k ? "collapse-item active":""}">Next</a>
                                 </div>
                             </div>
                             <!-- /.container-fluid -->

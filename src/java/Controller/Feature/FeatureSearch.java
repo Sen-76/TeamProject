@@ -75,8 +75,17 @@ public class FeatureSearch extends HttpServlet {
 //                 request.getRequestDispatcher("jsp/ListCriteria.jsp").forward(request, response);
                 request.getRequestDispatcher("FeatureList").forward(request, response);
             }
-
-            if (!class_code.equals("all")) {
+            if (search.equals("") && !team.equals("all")) {
+                List<Feature> list = dao.searchTeam(team, Loged.getUser_id());
+                //    out.print(list);
+                List<Feature> list1 = dao.viewClass(Loged.getUser_id());
+                List<Feature> listT = dao.viewTeam(Loged.getUser_id());
+                request.setAttribute("TeamList", listT);
+                request.setAttribute("ClassList", list1);
+                request.setAttribute("FeatureList", list);
+                request.getRequestDispatcher("jsp/Feature/ListFeature.jsp").forward(request, response);
+            }
+            if (search.equals("") && !class_code.equals("all")) {
                 List<Feature> list = dao.searchClass(class_code, Loged.getUser_id());
                 //  out.print(list);
                 List<Feature> list1 = dao.viewClass(Loged.getUser_id());
@@ -86,18 +95,7 @@ public class FeatureSearch extends HttpServlet {
                 request.setAttribute("FeatureList", list);
                 request.getRequestDispatcher("jsp/Feature/ListFeature.jsp").forward(request, response);
             }
-            
-              if (!team.equals("all")) {
-                List<Feature> list = dao.searchTeam(team, Loged.getUser_id());
-            //    out.print(list);
-                List<Feature> list1 = dao.viewClass(Loged.getUser_id());
-                List<Feature> listT = dao.viewTeam(Loged.getUser_id());
-                request.setAttribute("TeamList", listT);
-                request.setAttribute("ClassList", list1);
-                request.setAttribute("FeatureList", list);
-                request.getRequestDispatcher("jsp/Feature/ListFeature.jsp").forward(request, response);
-            }
-            if (!search.equals("")) {
+            if (!search.equals("") && team.equals("all")) {
                 List<Feature> list = dao.searchByFeature(search);
                 //  out.print(list);
                 List<Feature> list1 = dao.viewClass(Loged.getUser_id());
@@ -108,6 +106,17 @@ public class FeatureSearch extends HttpServlet {
                 request.setAttribute("FeatureList", list);
                 request.getRequestDispatcher("jsp/Feature/ListFeature.jsp").forward(request, response);
             }
+            if (!search.equals("") && !team.equals("all")) {
+                List<Feature> list = dao.searchTeam(team, Loged.getUser_id());
+                //    out.print(list);
+                List<Feature> list1 = dao.viewClass(Loged.getUser_id());
+                List<Feature> listT = dao.viewTeam(Loged.getUser_id());
+                request.setAttribute("TeamList", listT);
+                request.setAttribute("ClassList", list1);
+                request.setAttribute("FeatureList", list);
+                request.getRequestDispatcher("jsp/Feature/ListFeature.jsp").forward(request, response);
+            }
+
         }
 
     }

@@ -1,6 +1,5 @@
 package Controller;
 
-import Controller.Setting.SettingListServlet;
 import DAO.DAOSubjectSetting;
 import Enitiy.Setting;
 import Enitiy.User;
@@ -9,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,6 +32,17 @@ public class SubjectSettingList extends HttpServlet {
         }
         
         DAOSubjectSetting dao = new DAOSubjectSetting();
+        ArrayList<String> listAllIdType = dao.viewAllType();
+        ArrayList<String> listIdType = new ArrayList<>();
+        String nameType = "";
+        for (int i = 1; i < 7; i++) {
+            nameType = getServletConfig().getInitParameter(String.valueOf(i));
+            if (nameType != null) {
+                listIdType.add(nameType);
+            }
+        }
+        session.setAttribute("typeValue", listIdType);
+        
         String service = request.getParameter("go");
         if (service == null) {
             service = "listAllSubjectSetting";
@@ -47,7 +58,7 @@ public class SubjectSettingList extends HttpServlet {
                     request.getRequestDispatcher("jsp/addSubjectSetting.jsp").forward(request, response);
                 } else {
                     String subjectId = request.getParameter("subjectID");
-                    int subjectSettingType = Integer.parseInt(request.getParameter("subjectSettingType"));
+                    String subjectSettingType = request.getParameter("subjectSettingType");
                     String name = request.getParameter("name");
                     String order = request.getParameter("order");
                     String value = request.getParameter("value");
@@ -110,8 +121,6 @@ public class SubjectSettingList extends HttpServlet {
                     response.sendRedirect("SubjectSettingList");
                 }
             }
-        } catch (Exception e) {
-            request.getRequestDispatcher("404.html").forward(request, response);
         }
     }
 

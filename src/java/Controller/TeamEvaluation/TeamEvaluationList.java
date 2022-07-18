@@ -6,13 +6,11 @@
 package Controller.TeamEvaluation;
 
 import DAO.DAOTeamEvaluation;
-import DAO.DAOchangePass;
-import Enitiy.Class_s;
-import Enitiy.Team;
 import Enitiy.TeamEvaluation;
 import Enitiy.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,8 +22,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author tqbao
  */
-@WebServlet(name = "TeamEvaluationDetail", urlPatterns = {"/TeamEvaluationDetail"})
-public class TeamEvaluationDetail extends HttpServlet {
+@WebServlet(name = "TeamEvaluationList", urlPatterns = {"/TeamEvaluationList"})
+public class TeamEvaluationList extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,32 +45,50 @@ public class TeamEvaluationDetail extends HttpServlet {
             if (Loged == null) {
                 request.getRequestDispatcher("Login_sen").forward(request, response);
             }
+            try {
+                if (Loged.getRole_id() > 2) {
+                    request.setAttribute("messE", "Seems like you don't have permission to do this");
+                    request.getRequestDispatcher("/jsp/Class/Error.jsp").forward(request, response);
+                    return;
+                }
+            } catch (Exception e) {
+            }
             String service = request.getParameter("go");
             DAOTeamEvaluation dao = new DAOTeamEvaluation();
-            if (service.equals("UpdateEval")) {
-                String team_id = request.getParameter("team_id");
-                Team list = dao.viewTeam(team_id);
-                User user = list.getClassroom().getTrainer();
-                if (dao.getTeamBy(team_id).isEmpty()) {
-                    response.sendRedirect("TeamList?go=listAllTeam&cid="+list.getClass_id());
+            if (service == null) {
+                service = "listAllTeamEval";
+            }
+            if (service.equals("addEval")) {
+                String submit = request.getParameter("submit");
+                if (submit == null) {
+                    List<TeamEvaluation> listTeam = dao.viewTeam();
+                    
+                    request.setAttribute("listTeam", listTeam);
+                    request.getRequestDispatcher("/jsp/TeamEvaluation/addTeamEvaluation.jsp").forward(request, response);
                 } else {
-                    TeamEvaluation teameva = dao.getTeamBy(team_id).get(0);
-                    request.setAttribute("Team", list);
-                    request.setAttribute("User", user);
-                    request.setAttribute("Class_s", list.getClassroom());
-                    request.setAttribute("TeamEvaluation", teameva);
-                    request.getRequestDispatcher("jsp/TeamEvaluation/TeamEvaluationDetail.jsp").forward(request, response);
+                    
                 }
             }
-            if (service.equals("TeamEvalDetail")) {
-                int team_eval_id = Integer.parseInt(request.getParameter("team_eval_id"));
-                int eva_id = Integer.parseInt(request.getParameter("eva_id"));
-                int criteria_id = Integer.parseInt(request.getParameter("criteria_id"));
-                int teamID = Integer.parseInt(request.getParameter("teamID"));
-                int grade = Integer.parseInt(request.getParameter("grade"));
-                String note = request.getParameter("note");
-                dao.editTeamEval(team_eval_id, eva_id, criteria_id, teamID, grade, note);
-                response.sendRedirect("TeamEvaluationDetail");
+            if (service.equals("listAllTeamEval")) {
+                String submit = request.getParameter("submit");
+                if (submit == null) {
+                    int index = 0;
+                    List<TeamEvaluation> listTeam = dao.viewTeamId();
+                    int team = Integer.parseInt(request.getParameter("team"));
+                    List<TeamEvaluation> list = dao.viewTeamEvalList(team);
+                    List<TeamEvaluation> viewTeam = dao.viewTeam(team);
+                    
+                    request.setAttribute("viewTeam", viewTeam);
+                    request.setAttribute("TeamEvalList", list);
+                    request.setAttribute("teamList", listTeam);
+                    request.getRequestDispatcher("/jsp/TeamEvaluation/TeamEvaluationList.jsp").forward(request, response);
+                } else {
+                    int teamEvalId = Integer.parseInt(request.getParameter("teamEvalId"));
+                    
+                    List<TeamEvaluation> listTeam = dao.viewTeamId();
+                    request.setAttribute("teamList", listTeam);
+                    request.getRequestDispatcher("/jsp/TeamEvaluation/TeamEvaluationList.jsp").forward(request, response);
+                }
             }
         }
     }

@@ -40,9 +40,22 @@ public class DAOSubjectSetting extends ConnectJDBC{
         return "";
     }
     
+    public String getType(String s) {
+        String sql = "SELECT distinct b.setting_title FROM subject_setting a inner join setting b on a.type_id = b.type_id where a.type_id = " + s;
+        ResultSet rs = getData(sql);
+        try {
+            if (rs.next()){
+                return rs.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println("error");
+        }
+        return "";
+    }
+    
     public List<Setting> viewType(){
         List<Setting> list = new ArrayList<>();
-        String sql = "select distinct * from `swp391-project`.setting where type_id=2";
+        String sql = "select distinct * from `swp391-project`.setting where type_id";
         ResultSet rs = getData(sql);
         try {
             while(rs.next()){
@@ -61,7 +74,7 @@ public class DAOSubjectSetting extends ConnectJDBC{
         try {
             ps = conn.prepareStatement(sql);
             ps.setString(1, ss.getSubject_id());
-            ps.setInt(2, ss.getType_id());
+            ps.setString(2, ss.getType_id());
             ps.setString(3, ss.getSetting_title());
             ps.setString(4, ss.getSetting_value());
             ps.setString(5, ss.getDisplay_order());
@@ -80,7 +93,7 @@ public class DAOSubjectSetting extends ConnectJDBC{
         ResultSet rs = getData(sql);
         try {
             while (rs.next()) {
-                list.add(new SubjectSetting(rs.getInt(1)));
+                list.add(new SubjectSetting(rs.getString(1)));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -94,7 +107,7 @@ public class DAOSubjectSetting extends ConnectJDBC{
         ResultSet rs = getData(sql);
         try {
             while (rs.next()) {
-                list.add(new SubjectSetting(rs.getInt(1), getSubjectCode(rs.getString(2)), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7)));
+                list.add(new SubjectSetting(rs.getInt(1), getSubjectCode(rs.getString(2)), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7)));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -109,7 +122,7 @@ public class DAOSubjectSetting extends ConnectJDBC{
         ResultSet rs = getData(sql);
         try {
             while (rs.next()) {
-                list.add(new SubjectSetting(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7)));
+                list.add(new SubjectSetting(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7)));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -117,13 +130,13 @@ public class DAOSubjectSetting extends ConnectJDBC{
         return list;
     }
     
-    public Setting SearchSetID(String s) {
-        List<Setting> list = new ArrayList<>();
-        String sql = "select * from setting where setting_id = " + s;
+    public SubjectSetting SearchSetID(String s) {
+        List<SubjectSetting> list = new ArrayList<>();
+        String sql = "select * from subject_setting where setting_id = " + s;
         ResultSet rs = getData(sql);
         try {
             while (rs.next()) {
-                return new Setting(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7));
+                return new SubjectSetting(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -138,7 +151,7 @@ public class DAOSubjectSetting extends ConnectJDBC{
         ResultSet rs = getData(sql);
         try {
             while (rs.next()) {
-                list.add(new SubjectSetting(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7)));
+                list.add(new SubjectSetting(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7)));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -160,6 +173,22 @@ public class DAOSubjectSetting extends ConnectJDBC{
         }
 
         return n;
+    }
+    
+    public ArrayList<String> viewAllType(){
+        ArrayList<String> list = new ArrayList<>();
+        String sql = "select distinct type_id from subject_setting";
+        try {
+            ResultSet rs = getData(sql);
+            while(rs.next()){
+                String type = rs.getString(1);
+                list.add(type);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return list;
     }
     
     public static void main(String[] args) {

@@ -13,7 +13,7 @@ public class SubjectSetting {
 
     int setting_id;
     String subject_id;
-    int type_id;
+    String type_id;
     String setting_title;
     String setting_value;
     String display_order;
@@ -24,7 +24,7 @@ public class SubjectSetting {
         
     }
 
-    public SubjectSetting(int setting_id, String subject_id, int type_id, String setting_title, String setting_value, String display_order, String type, int status) {
+    public SubjectSetting(int setting_id, String subject_id, String type_id, String setting_title, String setting_value, String display_order, String type, int status) {
         this.setting_id = setting_id;
         this.subject_id = subject_id;
         this.type_id = type_id;
@@ -35,7 +35,7 @@ public class SubjectSetting {
         this.status = status;
     }
 
-    public SubjectSetting(String subject_id, int type_id, String setting_title, String setting_value, String display_order, String type, int status) {
+    public SubjectSetting(String subject_id, String type_id, String setting_title, String setting_value, String display_order, String type, int status) {
         this.subject_id = subject_id;
         this.type_id = type_id;
         this.setting_title = setting_title;
@@ -45,12 +45,12 @@ public class SubjectSetting {
         this.status = status;
     }
 
-    public SubjectSetting(int type_id, String type) {
+    public SubjectSetting(String type_id, String type) {
         this.type_id = type_id;
         this.type = type;
     }
 
-    public SubjectSetting(String subject_id, int type_id, String setting_title, String setting_value, String display_order, int status) {
+    public SubjectSetting(String subject_id, String type_id, String setting_title, String setting_value, String display_order, int status) {
         this.subject_id = subject_id;
         this.type_id = type_id;
         this.setting_title = setting_title;
@@ -59,7 +59,7 @@ public class SubjectSetting {
         this.status = status;
     }
     
-    public SubjectSetting(int setting_id, String subject_id, int type_id, String setting_title, String setting_value, String display_order, int status) {
+    public SubjectSetting(int setting_id, String subject_id, String type_id, String setting_title, String setting_value, String display_order, int status) {
         this.setting_id = setting_id;
         this.subject_id = subject_id;
         this.type_id = type_id;
@@ -69,7 +69,7 @@ public class SubjectSetting {
         this.status = status;
     }
 
-    public SubjectSetting(int type_id) {
+    public SubjectSetting(String type_id) {
         this.type_id = type_id;
     }
 
@@ -89,11 +89,11 @@ public class SubjectSetting {
         this.subject_id = subject_id;
     }
 
-    public int getType_id() {
+    public String getType_id() {
         return type_id;
     }
 
-    public void setType_id(int type_id) {
+    public void setType_id(String type_id) {
         this.type_id = type_id;
     }
 

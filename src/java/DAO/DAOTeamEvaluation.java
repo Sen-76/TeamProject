@@ -151,4 +151,65 @@ public class DAOTeamEvaluation extends ConnectJDBC {
         }
         return null;
     }
+    
+    public List<TeamEvaluation> viewTeam(){
+        List<TeamEvaluation> list = new ArrayList<>();
+        String sql = "Select * from team";
+        ResultSet rs = getData(sql);
+        try {
+            while(rs.next()){
+                list.add(new TeamEvaluation(rs.getInt(1)));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+    
+    public List<TeamEvaluation> viewTeamId() {
+        List<TeamEvaluation> list = new ArrayList<>();
+        String sql = "SELECt distinct team_id FROM team order by team_id";
+        ResultSet rs = getData(sql);
+        try {
+            while (rs.next()) {
+                list.add(new TeamEvaluation(rs.getInt(1)));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+    
+    public List<TeamEvaluation> viewTeamEvalList(int s) {
+        List<TeamEvaluation> list = new ArrayList<>();
+        String sql = "SELECt * FROM `team-evaluation` where team_id = " + s;
+        ResultSet rs = getData(sql);
+        try {
+            while (rs.next()) {
+                list.add(new TeamEvaluation(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getString(6)));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+    
+    public List<TeamEvaluation> viewTeam (int team) {
+        List<TeamEvaluation> list = new ArrayList<>();
+        String sql = "select * from `team-evaluation` \n"
+                + "where team_id like '%" + team + "%';";
+        ResultSet rs = getData(sql);
+        try {
+            while (rs.next()) {
+                list.add(new TeamEvaluation(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getString(6)));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+    
+    public static void main(String[] args) {
+        DAOTeamEvaluation dao = new DAOTeamEvaluation();
+    }
 }

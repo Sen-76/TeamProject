@@ -50,7 +50,7 @@ public class SubjectSettingDetail extends HttpServlet {
             if (service.equals("UpdateSubjectSetting")) {
                 String SetID = request.getParameter("setting_id");
                 String typeID = request.getParameter("Type");
-                Setting list = dao.SearchSetID(SetID);
+                SubjectSetting list = dao.SearchSetID(SetID);
                 request.setAttribute("SubjectSetting", list);
                 List<SubjectSetting> listType = dao.viewTypeId();
                 
@@ -59,17 +59,13 @@ public class SubjectSettingDetail extends HttpServlet {
                 request.getRequestDispatcher("/jsp/SubjectSettingDetails.jsp").forward(request, response);
             }
             if (service.equals("UpdateDetail")) {
-                int group = Integer.parseInt(request.getParameter("group"));
-                String set_order = request.getParameter("order");
-                String set_title = request.getParameter("lessontype");
-                String set_value = request.getParameter("value");
+                String settingTitle = request.getParameter("setting_title");
+                String setValue = request.getParameter("value");
+                String setOrder = request.getParameter("order");
                 int status = Integer.parseInt(request.getParameter("status"));
-                int subject_id = Integer.parseInt(request.getParameter("subject_id"));
-                dao1.editSubjectSetting(subject_id, subject_id, subject_id, set_title, set_value, set_order, status);
+                dao1.editSubjectSetting(settingTitle, setValue, setOrder, status, status);
                 response.sendRedirect("SubjectSettingList");
             }
-        } catch (Exception e) {
-            request.getRequestDispatcher("404.html").forward(request, response);
         }
     }
 

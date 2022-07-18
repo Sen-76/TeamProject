@@ -21,9 +21,15 @@
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
 
-        <!-- Custom styles for this template-->
+        <!-- Custom styles for this template -->
         <link href="css/sb-admin-2.min.css" rel="stylesheet">
+        <link href="css/SenCss.css" rel="stylesheet">
+        <link rel="stylesheet" href="fnon.min.css">
         <link rel="icon" href="img/cai nay hoi la.png" type="image/gif" sizes="16x16">
+
+        <!-- Custom styles for this page -->
+        <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+        <link href="css/CaiNayCuaThanh.css" rel="stylesheet">
 
     </head>
 
@@ -51,53 +57,40 @@
                     %>
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
-
-                        <!-- 404 Error Text -->
-                        <h1>Team Details</h1>
-                        <form action="TeamDetail">
-                            <input type="hidden" name="go" value="UpdateDetail" />
-                            <table border="0">
-                                <tbody>
-                                    <tr>
-                                        <td>Class Name
-                                            <br><input type="text" name="order" value="<%= team.getClass_id()%>" required/></td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
-                            Topic Code
-                            <br> <input type="text" name="lessontype" value="<%= team.getTopic_code()%>" style="width: 400px" required /></td>
-                            <br>
-                            Topic Name
-                            <br> <input type="text" name="lessontype" value="<%= team.getTopic_name()%>" style="width: 400px" required /></td>
-                            <br>                        
-                            GitLab URL
-                            <br> <input type="text" name="lessontype" value="<%= team.getGitlab_url()%>" style="width: 400px" required /></td>
-                            <table border="0">
-                                <tbody>
-                                    <tr>
-                                        <td>Leader Name
-                                            <br><select name="group" style="width: 230px" required>
-                                                <option><%= team.getTeam_name()%></option>
-                                            </select></td>
-                                        <td>Status 
-                                            <br>
-                                            <input type="radio" name="status" value="1" style="margin-left: 20px" /><a style="font-size: 13px">Active</a>
-                                            <input type="radio" name="status" value="2" style="margin-left: 30px" /><a style="font-size: 13px">Deactive</a>
-                                        </td>
-                                    </tr>           
-                                </tbody>
-                            </table>
-                            <br> <br> <input name="submit" type="submit" value="Submit" style="width: 80px" />
-                        </form>  
-
-
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Team Details</h1>
+                                    </div>
+                                    <form action="TeamDetail">
+                                        <input type="hidden" name="go" value="UpdateDetail" />
+                                        <table style="width:100%;max-width: 700px; border: 0;" cellpadding="4" cellspacing="0">
+                                            <td style="width:50%">
+                                                <label for="className">Class Name:</label><br />
+                                                <input type="text" name="classID" value="<%= team.getClass_id()%>" class="form-control" style="width:100%;max-width: 300px;" required/>
+                                                <label for="topicCode">Topic Code:</label><br />
+                                                <input type="text" name="topicCode" value="<%= team.getTopic_code()%>" class="form-control" style="width:100%;max-width: 300px;" required/>
+                                                <label for="topicName">Topic Name:</label><br />
+                                                <input type="text" name="topicName" value="<%= team.getTopic_name()%>" class="form-control" style="width:100%;max-width: 300px;" required/>
+                                                <label for="gitlabURL">GitLab URL:</label><br />
+                                                <input type="text" name="gitlabURL" value="<%= team.getGitlab_url()%>" class="form-control" style="width:100%;max-width: 300px;" required/>
+                                                <label for="status">Status:</label><br />
+                                            <tr>
+                                                <td>
+                                                    <br><input type="radio" name="status" value="1" <%=team.getStatus() == 1 ? "checked" : "" %> style="margin-left: 20px" /><a style="font-size: 13px">Active</a>
+                                                    <input type="radio" name="status" value="2" <%=team.getStatus() == 2 ? "checked" : "" %> style="margin-left: 30px" /><a style="font-size: 13px">Deactive</a>
+                                                </td>
+                                            </tr>
+                                            </td>
+                                        </table>
+                                        <br> <br> <input name="submit" type="submit" value="Update" style="width: 80px" />
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <!-- /.container-fluid -->
-
                 </div>
-                <!-- End of Main Content -->
-
                 <!-- Footer -->
                 <footer class="sticky-footer bg-white">
                     <div class="container my-auto">
@@ -107,13 +100,10 @@
                     </div>
                 </footer>
                 <!-- End of Footer -->
-
             </div>
             <!-- End of Content Wrapper -->
-
         </div>
         <!-- End of Page Wrapper -->
-
         <!-- Scroll to Top Button-->
         <a class="scroll-to-top rounded" href="#page-top">
             <i class="fas fa-angle-up"></i>

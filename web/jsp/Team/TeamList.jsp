@@ -12,6 +12,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="">
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css">
 
         <title>Group 1 - Team list</title>
 
@@ -27,7 +29,10 @@
 
         <!-- Custom styles for this page -->
         <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-        <link href="css/CaiNayCuaThanh.css" rel="stylesheet">
+        <link href="css/css379.css" rel="stylesheet">
+        
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
     </head>
     <body id="page-top">
@@ -98,6 +103,7 @@
                                                  <c:if test="${Loged.role_id == 1}">
                                                  <th>Feature</th></c:if>
                                                 <th>Action</th>
+                                                <th>Update Status</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
@@ -113,6 +119,7 @@
                                                  <c:if test="${Loged.role_id == 1}">
                                                  <th>Feature</th></c:if>
                                                 <th>Action</th>
+                                                <th>Update Status</th>
                                             </tr>
                                         </tfoot>
                                         <tbody>
@@ -140,12 +147,12 @@
                                                         <td><a href="FeatureList">View Feature</a></td></c:if>
                                                     <td>
                                                         <c:if test="${Loged.role_id == 2}">
-                                                            <a class="" href="TeamDetail?go=UpdateTeam&team_id=${o.team_id}">Edit</a>
-                                                            <br>
+                                                            <a class="" href="TeamDetail?go=UpdateTeam&team_id=${o.team_id}"><ion-icon name="create-outline"></ion-icon>Edit</a>
                                                         </c:if>
-                                                            <a class="" href="TeamEvaluationDetail?go=UpdateEval&team_id=${o.team_id}">View Evaluation</a>
-
-                                                        <br>
+                                                            <br>
+                                                            <a class="" href="TeamEvaluationList?go=listAllTeamEval&team=${o.team_id}"><ion-icon name="document-text-outline"></ion-icon>View evaluation list</a>
+                                                    </td>
+                                                    <td>
                                                         <form method="POST" action="TeamList?go=listAllTeam&cid=${o.team_id}">
                                                             <input type="hidden" name="go" value="updateStatus">
                                                             <c:if test="${o.status == 2}">
@@ -160,11 +167,10 @@
                                                                 <input type="hidden" name="status" value="${o.team_id}" readonly>
                                                                 <input type="submit" name="submit" value="Deactivate">
                                                             </c:if>
-                                                        </form>        
+                                                        </form>    
                                                     </td>
                                                 </tr>                    
                                             </c:forEach>
-
                                         </tbody>
                                     </table>
                                 </div>

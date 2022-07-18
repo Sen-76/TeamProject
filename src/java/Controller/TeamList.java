@@ -1,6 +1,5 @@
 package Controller;
 
-import Controller.Setting.SettingListServlet;
 import DAO.DAOSen;
 import DAO.DAOTeam;
 import DAO.DAOchangePass;
@@ -138,8 +137,9 @@ public class TeamList extends HttpServlet {
                 String submit = request.getParameter("submit");
                 if (submit == null) {
                     int index = 0;
-                    List<User> listMember = dao.viewMemberOfTeam();
+                    
                     String team_id = request.getParameter("team_id");
+                    List<User> listMember = dao.viewMemberOfTeam(team_id);
                     List list = dao.getTeamId(team_id);
                     request.setAttribute("listMember", listMember);
                     request.setAttribute("team_id", list);

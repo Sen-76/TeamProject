@@ -1,6 +1,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="java.util.List"%>
 <%@page import="Enitiy.SubjectSetting"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.Vector"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,9 +22,15 @@
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
 
-        <!-- Custom styles for this template-->
+        <!-- Custom styles for this template -->
         <link href="css/sb-admin-2.min.css" rel="stylesheet">
+        <link href="css/SenCss.css" rel="stylesheet">
+        <link rel="stylesheet" href="fnon.min.css">
         <link rel="icon" href="img/cai nay hoi la.png" type="image/gif" sizes="16x16">
+
+        <!-- Custom styles for this page -->
+        <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+        <link href="css/CaiNayCuaThanh.css" rel="stylesheet">
 
     </head>
 
@@ -45,64 +53,51 @@
                     <jsp:include page="Header.jsp"></jsp:include>
                         <!-- End of Topbar -->
                     <%
-                    SubjectSetting set = (SubjectSetting)request.getAttribute("Setting");
+                    SubjectSetting sset = (SubjectSetting)request.getAttribute("SubjectSetting");
                     List<SubjectSetting> vect = (List<SubjectSetting>) request.getAttribute("typeList");
                     int type = Integer.parseInt((String) request.getAttribute("type"));
-                  
                     %>
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
-
-                        <!-- 404 Error Text -->
-                        <h1>Subject Setting Details</h1>
-                        <form action="SubjectSettingDetail">
-                            <input type="hidden" name="go" value="UpdateDetail" />
-                            <table border="0">
-                                <tbody>
-                                    <tr>
-                                        <td>Group*
-                                            <br><select name="group" style="width: 200px" required>
-                                                <%
-                                                    for (Setting o : vect) { %>
-                                                <option value="<%=o.getType_id() %>" <%=o.getType_id() == type ? "selected" : "" %>><%=o.getType_id() %></option>>  
-                                                <%       }
-                                                %>
-                                            </select></td>
-                                        <td>Order*
-                                            <br><input type="text" name="order" value="<%=set.getDisplay_order() %>" required/></td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
-                            Name*
-                            <br> <input type="text" name="lessontype" value="<%=set.getSetting_title() %>" style="width: 400px" required /></td>
-                            <table border="0">
-                                <tbody>
-                                    <tr>
-                                        <td>Value
-                                            <br><input type="text" name="value" value="<%=set.getSetting_value()%>" style="width: 230px"/></td>
-                                        <td>Status 
-                                            <br><input type="radio" name="status" value="1" <%=set.getStatus() == 1 ? "checked" : "" %> style="margin-left: 20px" /><a style="font-size: 13px">Active</a>
-                                            <input type="radio" name="status" value="2" <%=set.getStatus() == 2 ? "checked" : "" %> style="margin-left: 30px" /><a style="font-size: 13px">Deactive</a>
-                                        </td>
-                                    </tr>           
-                                </tbody>
-                            </table>
-                            Description
-                            <br>
-                            <textarea name="scription" style="width: 400px;"><%if (set.getNote() == null) {
-                                    set.setNote("");
-                                }else set.setNote(set.getNote().trim());
-                            out.print(set.getNote());
-                                %>
-                            </textarea>
-                            <br> <br> <input name= "submit"type="submit" value="Submit" style="width: 80px" />
-                        </form>  
-
-
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Subject Setting Details</h1>
+                                    </div>
+                                    <form action="SubjectSettingDetail">
+                                        <input type="hidden" name="go" value="UpdateDetail" />
+                                        <table style="width:100%;max-width: 700px; border: 0;" cellpadding="4" cellspacing="0">
+                                            <td style="width:50%">
+                                                <input type="setting_id" class="form-control" value="<%=sset.getSetting_id() %>" style="width:100%;max-width: 300px;" name="order" hidden>
+                                                
+                                                <label for="subjectCode">Subject Code:</label><br />
+                                                <input type="text" pattern="\d*" title="You must input a number" class="form-control" value="<%=sset.getSetting_id() %>" style="width:100%;max-width: 300px;" name="subject_id">
+                                                
+                                                <label for="settingTitle">Setting Title:</label><br />
+                                                <input type="text" class="form-control" value="<%=sset.getSetting_title() %>" style="width:100%;max-width: 300px;" name="setting_title">
+                                                
+                                                <label for="Value">Value:</label><br />
+                                                <input type="text" pattern="\d*" title="You must input a number" class="form-control" value="<%=sset.getSetting_value() %>" style="width:100%;max-width: 300px;" name="value">
+                                                
+                                                <label for="Order">Order:</label><br />
+                                                <input type="text" pattern="\d*" title="You must input a number" class="form-control" value="<%=sset.getDisplay_order() %>" style="width:100%;max-width: 300px;" name="order">
+                                                <label for="status">Status:</label><br />
+                                                <tr>
+                                                    <td>
+                                                        <br><input type="radio" name="status" value="1" <%=sset.getStatus() == 1 ? "checked" : "" %> style="margin-left: 20px" /><a style="font-size: 13px">Active</a>
+                                                        <input type="radio" name="status" value="2" <%=sset.getStatus() == 2 ? "checked" : "" %> style="margin-left: 30px" /><a style="font-size: 13px">Deactive</a>
+                                                    </td>
+                                                </tr>
+                                            </td>
+                                            <br>
+                                        </table>
+                                        <br> <br> <input name="submit" type="submit" value="Update" style="width: 80px" />
+                                    </form> 
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <!-- /.container-fluid -->
-
                 </div>
                 <!-- End of Main Content -->
 

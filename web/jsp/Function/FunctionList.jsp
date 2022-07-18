@@ -105,7 +105,7 @@
 
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">                         
                                         <thead>
-                                             <tr>                           
+                                            <tr>                           
                                                 <th>Function</th>
                                                 <th>Feature</th>
                                                 <th>Access_roles</th>
@@ -121,8 +121,6 @@
                                                 <tr>
                                                     <td visibility: hidden>${o.function_id}</td>
                                                     <td visibility: hidden>${o.feature_id}</td>
-
-                                                    <td>${o.team_name}</td>
                                                     <td>${o.function_name}</td>
                                                     <td>${o.feature_name}</td>
                                                     <td visibility: hidden>${o.team_id}</td>  
@@ -147,15 +145,24 @@
                                                         </c:if>
                                                     </td>
                                                     <td>
-                                                        <a class="EditLink" href="FunctionDetail?go=Update&fid=${o.function_id}&Owner=${o.owner_id}&Fe=${o.feature_id}&Com=${o.complexity_id}"><span class="material-symbols-outlined">
-                                                                edit
-                                                            </span>
-                                                        </a>
-                                                        <a class="" href="FunctionDetail?go=Delete&fid=${o.function_id}" onclick="return confirm('Do you sure want to remove?')"><span class="material-symbols-outlined">
-                                                                delete
-                                                            </span></a>
-                                                    </td>
-                                                </tr>                    
+                                                        <c:if test="${o.status != 3}">
+                                                            <a class="EditLink" href="FunctionDetail?go=Update&fid=${o.function_id}&Owner=${o.owner_id}&Fe=${o.feature_id}&Com=${o.complexity_id}"><span class="material-symbols-outlined">
+                                                                    edit
+                                                                </span>
+                                                            </a>                                      
+                                                            <a class="" href="FunctionDetail?go=Delete&fid=${o.function_id}" onclick="return confirm('Do you sure want to remove?')"><span class="material-symbols-outlined">
+                                                                    delete
+                                                                </span></a></c:if>
+                                                            <c:if test="${o.status == 3}">
+                                                            <a class="EditLink" onclick="myAlert()"><span class="material-symbols-outlined">
+                                                                    edit
+                                                                </span>
+                                                            </a>                                      
+                                                            <a class="" onclick="myAlert1()" ><span class="material-symbols-outlined">
+                                                                    delete
+                                                                </span></a></c:if>
+                                                        </td>
+                                                    </tr>                    
                                             </c:forEach>
 
                                         </tbody>
@@ -221,22 +228,32 @@
             <script src="js/SenJS.js"></script>
             <script src="js/fnon.min.js"></script>
             <script>
-                                                            document.addEventListener('DOMContentLoaded', function () {
-                                                                Fnon.Hint.Init({
-                                                                    zIndex: 9900,
-                                                                });
-                                                                // Hint
-                                                                var message = "${message}";
-                                                                var theme = "${theme}";
-                                                                var title = "${title}";
-                                                                var position = "right-top";
-                                                                var animation = "slide-left";
-                                                                Fnon.Hint[theme](message, {
-                                                                    title,
-                                                                    position,
-                                                                    animation,
-                                                                })
-                                                            });
+                                                                function myAlert() {
+                                                                    alert("Evaluated, can not edit!");
+                                                                }
+            </script>
+            <script>
+                function myAlert1() {
+                    alert("Evaluated, can not remove!");
+                }
+            </script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    Fnon.Hint.Init({
+                        zIndex: 9900,
+                    });
+                    // Hint
+                    var message = "${message}";
+                    var theme = "${theme}";
+                    var title = "${title}";
+                    var position = "right-top";
+                    var animation = "slide-left";
+                    Fnon.Hint[theme](message, {
+                        title,
+                        position,
+                        animation,
+                    })
+                });
         </script>
 
         <script src="js/sweetalert.min.js"></script>

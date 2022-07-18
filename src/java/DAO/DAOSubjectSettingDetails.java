@@ -16,23 +16,22 @@ public class DAOSubjectSettingDetails extends ConnectJDBC {
     ResultSet rs = null;
     PreparedStatement ps = null;
     
-    public void editSubjectSetting(int setting_id, int subject_id, int type_id, String setting_title, String setting_value, String display_order, int status) {
-        String sql = "update subject_setting set subject_id = ?, type_id = ?, setting_title = ?, setting_value = ?, display_order=?, status=?\n"
+    public void editSubjectSetting(String setting_title, String setting_value, String display_order, int status, int setting_id) {
+        String sql = "update subject_setting set setting_title = ?, setting_value = ?, display_order=?, status=?\n"
                 + "where setting_id = ?";
         try {
             ps = conn.prepareStatement(sql);
-            ps.setInt(1, subject_id);
-            ps.setInt(2, type_id);
-            ps.setString(3, setting_title);
-            ps.setString(4, setting_value);
-            ps.setString(5, display_order);
-            ps.setInt(6, status);
-            ps.setInt(7, setting_id);
+            ps.setString(1, setting_title);
+            ps.setString(2, setting_value);
+            ps.setString(3, display_order);
+            ps.setInt(4, status);
+            ps.setInt(5, setting_id);
             ps.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
+   
     
     public SubjectSetting SearchSetID(String s) {
         List<SubjectSetting> list = new ArrayList<>();
@@ -41,7 +40,7 @@ public class DAOSubjectSettingDetails extends ConnectJDBC {
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                return new SubjectSetting(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8));
+                return new SubjectSetting(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();

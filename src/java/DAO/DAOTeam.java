@@ -133,9 +133,9 @@ public class DAOTeam extends ConnectJDBC {
         return list;
     }
     
-    public List<User> viewMemberOfTeam() {
+    public List<User> viewMemberOfTeam(String s) {
         List<User> list = new ArrayList<>();
-        String sql = "SELECT * FROM user a inner join classuser b on a.user_id = b.user_id where a.user_id";
+        String sql = "SELECT * FROM user a inner join classuser b on a.user_id = b.user_id where a.user_id and b.team_id = " + s;
         ResultSet rs = getData(sql);
         try {
             while (rs.next()) {

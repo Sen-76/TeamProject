@@ -66,14 +66,14 @@
                                 <li>  <form style="display: flex !important;" action="FunctionSearch" method="POST">
                                         <label for="class_id"></label>
                                         <select onchange="" class="form-control form-control-user" name="class" id="">
-                                            <option value="all" >All Class</option>
+                                           
                                         <c:forEach var="o" items="${ClassList}">
                                             <option value="${o.feature_id}" ${Id==o.feature_id?"selected" : ""}>${o.feature_name}</option>
                                         </c:forEach>
                                     </select>
                                     <label for="team_id"></label>
                                     <select onchange="" class="form-control form-control-user" name="team" id="">
-                                        <option value="all">All Team</option>
+                                       
                                         <c:forEach var="o" items="${FeIDList}">
                                             <option value="${o.feature_id}" ${Id==o.feature_id?"selected" : ""}>${o.feature_name}</option>
                                         </c:forEach>
@@ -148,9 +148,9 @@
                                                                     delete
                                                                 </span></a></c:if>
                                                             <c:if test="${o.status == 3}">
-                                                            <a class="EditLink" onclick="myAlert()"><span class="material-symbols-outlined">
-                                                                    edit
-                                                                </span>
+                                                            <a class="EditLink" href="FunctionDetail?go=Update&fid=${o.function_id}&Owner=${o.owner_id}&Fe=${o.feature_id}&Com=${o.complexity_id}" ><span class="material-symbols-outlined">
+                                                                visibility
+                                                            </span>
                                                             </a>                                      
                                                             <a class="" onclick="myAlert1()" ><span class="material-symbols-outlined">
                                                                     delete

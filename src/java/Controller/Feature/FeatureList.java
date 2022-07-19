@@ -75,10 +75,10 @@ public class FeatureList extends HttpServlet {
             }
             List<Feature> list = dao.viewFeatureList(Loged.getUser_id(), index);
             request.setAttribute("maxP", maxPage);
-            List<Feature> listT = dao.viewTeam(Loged.getUser_id());
+           List<Feature> listT = dao.viewTeam(Loged.getUser_id());
             List<Feature> list1 = dao.viewClass(Loged.getUser_id());
             request.setAttribute("ClassList", list1);
-            request.setAttribute("TeamList", listT);
+           request.setAttribute("TeamList", listT);
             request.setAttribute("FeatureList", list);
             request.getRequestDispatcher("jsp/Feature/ListFeature.jsp").forward(request, response);
 

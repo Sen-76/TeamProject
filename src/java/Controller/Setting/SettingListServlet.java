@@ -40,6 +40,8 @@ public class SettingListServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
+        
         HttpSession session = request.getSession();
         User Loged = (User) session.getAttribute("Loged");
         if (Loged == null) {
@@ -64,6 +66,7 @@ public class SettingListServlet extends HttpServlet {
         }
 
         try (PrintWriter out = response.getWriter()) {
+            
             if (service.equals("addSetting")) {
                 String submit = request.getParameter("submit");
                 if (submit == null) {

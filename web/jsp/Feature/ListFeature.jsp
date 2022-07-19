@@ -57,14 +57,14 @@
 
                                         <label for="class_id"></label>
                                         <select class="form-control form-control-user" name="class" id="">
-                                            <option value="all" >All Class</option>
+                                           
                                         <c:forEach var="o" items="${ClassList}">
                                             <option value="${o.team_id}" ${Id==o.team_id ? "selected" : ""}>${o.team_name}</option>
                                         </c:forEach>
                                     </select>
                                     <label for="team_id"></label>
                                     <select class="form-control form-control-user" name="team" id="">
-                                        <option value="all">All Team</option>
+                                      
                                         <c:forEach var="o" items="${TeamList}">
                                             <option value="${o.team_id}" ${Id==o.team_id ? "selected" : ""}>${o.team_name}</option>
                                         </c:forEach>

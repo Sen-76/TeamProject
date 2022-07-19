@@ -59,15 +59,15 @@
                                                         <option value="${o.iteration_id}">${o.subject_code}-${o.iteration_name}</option>
                                                     </c:forEach>
                                                 </select> 
-                                                Title:
+                                                Title(*):
                                                 <input class="form-control"  maxlength="140" type="text" name="title" value="${txtTitle}" required/>
-                                                Weight:
+                                                Weight(*):
                                                 <br> <input style="width:350px" type="text" name="weight" value="${txtWeight}" required/>%
                                                 <div style="color: red">${errW}</div>
-                                                LOC:
+                                                LOC(*):
                                                 <input class="form-control" type="text" name="loc" value="${txtLoc}" required />
                                                 <div style="color: red">${errL}</div>
-                                                 Order: 
+                                                 Order(*): 
                                                 <br>  <input style="width:350px" type="text" name="order" value="${txtOrder}" required/>
                                                 <div style="color: red">${errO}</div>
                                                  Status:</br>

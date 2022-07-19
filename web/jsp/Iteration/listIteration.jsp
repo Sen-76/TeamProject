@@ -20,7 +20,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Group 1 - List Setting</title>
+        <title>Group 1 - List Iteration</title>
 
         <!-- Custom fonts for this template -->
         <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -43,7 +43,7 @@
         <div id="wrapper">
 
             <!-- Sidebar -->
-            <jsp:include page="Sidebar.jsp"></jsp:include>
+            <jsp:include page="../Sidebar.jsp"></jsp:include>
                 <!-- End of Sidebar -->
 
                 <!-- Content Wrapper -->
@@ -53,7 +53,7 @@
                     <div id="content">
 
                         <!-- Topbar -->
-                    <jsp:include page="Header.jsp"></jsp:include>
+                    <jsp:include page="../Header.jsp"></jsp:include>
                         <!-- End of Topbar -->
 
                         <!-- Begin Page Content -->
@@ -104,8 +104,8 @@
                                                 <th>iteration_name</th>                                                                                           
                                                 <th>duration</th>
                                                 <th>Status</th>
-                                                <th>Note</th>
-                                                <th>Action</th>
+                                                
+                                                <th class="text-center">Action</th>
 
                                             </tr>
                                         </thead>                                   
@@ -123,7 +123,7 @@
                                                                 <option value="2" ${o.status == 2 ? "selected" : ""}>Deactive</option>                  
                                                             </select>
                                                         </form></td> 
-                                                        <td>${o.note}</td>    
+                                                           
                                                     <td class="text-center"><a class="text text-primary"  href="IterationListServlet?go=updateIteration&iteId=${o.iteration_id}&subjectId=${o.subject_id}"><ion-icon size="large" name="create"></ion-icon></a>
 
                                                         <a class="text text-danger" href="IterationListServlet?go=deleteIteration&iteId=${o.iteration_id}&subjectId=${o.subject_id}"><ion-icon size="large" name="trash"></ion-icon></a></td>
@@ -176,7 +176,7 @@
         </a>
 
         <!-- Logout Modal-->
-        <jsp:include page="LogOut.jsp"></jsp:include>
+        <jsp:include page="../LogOut.jsp"></jsp:include>
         
         <script>
                                                                 function submitForm(form) {

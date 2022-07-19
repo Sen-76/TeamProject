@@ -36,7 +36,7 @@
         <div id="wrapper">
 
             <!-- Sidebar -->
-            <jsp:include page="Sidebar.jsp"></jsp:include>
+            <jsp:include page="../Sidebar.jsp"></jsp:include>
             <!-- End of Sidebar -->
 
             <!-- Content Wrapper -->
@@ -46,7 +46,7 @@
                 <div id="content">
 
                     <!-- Topbar -->
-                <jsp:include page="Header.jsp"></jsp:include>
+                <jsp:include page="../Header.jsp"></jsp:include>
                     <!-- End of Topbar -->
 
                     <!-- Begin Page Content -->
@@ -119,7 +119,7 @@
         </a>
 
         <!-- Logout Modal-->
-        <jsp:include page="LogOut.jsp"></jsp:include>
+        <jsp:include page="../LogOut.jsp"></jsp:include>
 
         <!-- Bootstrap core JavaScript-->
         <script src="vendor/jquery/jquery.min.js"></script>

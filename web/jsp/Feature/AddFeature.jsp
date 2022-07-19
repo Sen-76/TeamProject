@@ -72,7 +72,7 @@
                                                         <option value="${o.team_id}">${o.class_code}-${o.team_name}</option>
                                                     </c:forEach>
                                                 </select> 
-                                                Feature Name:
+                                                Feature Name(*):
                                                 <input class="form-control" maxlength="140" type="text" name="feature_name" value="" required/>
                                                 Status:
                                                 <br><input  type="radio" name="status" value="1" checked="">Active

@@ -81,7 +81,7 @@
                                                         <option value="${o.team_id}">${o.class_code}-${o.team_name}</option>
                                                     </c:forEach>
                                                 </select> 
-                                                <br>   Function Name:
+                                                <br>   Function Name(*):
                                                 <input class="form-control" type="text" name="function_name" value="${txtName}" required/>
                                                 Feature Name:
                                                 <select class="form-control"  name="feature_id" >
@@ -101,9 +101,9 @@
                                                         <option value="${o.owner_id}">${o.fullname}</option>
                                                     </c:forEach>
                                                 </select> 
-                                                Access Roles:
+                                                Access Roles(*):
                                                 <input  class="form-control" type="text" name="access_roles" value="${txtRole}" required/>
-                                                Priority:
+                                                Priority(*):
                                                 <input  class="form-control" type="text" name="priority" value="${txtPri}" required/>
                                                 <div style="color: red">${errP}</div>
                                                 Status:</br>

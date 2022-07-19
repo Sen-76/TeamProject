@@ -14,7 +14,7 @@
     </servlet>
     <servlet>
         <servlet-name>SettingListServlet</servlet-name>
-        <servlet-class>Controller.SettingListServlet</servlet-class>
+        <servlet-class>Controller.Setting.SettingListServlet</servlet-class>
         <init-param>
             <param-name>1</param-name>
             <param-value>Setting_Role</param-value>

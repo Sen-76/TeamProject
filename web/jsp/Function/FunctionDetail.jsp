@@ -128,8 +128,12 @@
                                                 </select>
                                                 Description:
                                                 <textarea  class="form-control" name="description">${fu.description}</textarea>
+                                                <c:if test="${fu.status != 3}">
                                                 <input type="submit" name="submit" class="update"  value="Update" />
-
+                                                </c:if>
+                                                <c:if test="${fu.status == 3}">
+                                                <a  href="FunctionList"  /> BACK
+                                                </c:if>
                                                 <br>
                                                 <div>
 
